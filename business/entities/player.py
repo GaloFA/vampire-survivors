@@ -13,7 +13,8 @@ from presentation.sprite import Sprite
 class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     """Player entity.
 
-    The player is the main character of the game. It can move around the game world and shoot at monsters.
+    The player is the main character of the game. 
+    It can move around the game world and shoot at monsters.
     """
 
     BASE_DAMAGE = 5
@@ -29,7 +30,11 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self._logger.debug("Created %s", self)
 
     def __str__(self):
-        return f"Player(hp={self.__health}, xp={self.__experience}, lvl={self.__level}, pos=({self._pos_x}, {self._pos_y}))"
+        hp = self.__health
+        xp = self.__experience
+        lvl = self.__level
+        pos = str(self._pos_x) + str(self._pos_y)
+        return f"Player(hp={hp}, xp={xp}, lvl={lvl}, pos=({pos}))"
 
     @property
     def experience(self):

@@ -14,16 +14,16 @@ class InputHandler(IInputHandler):
 
     def __example_method(self, keys):
         if keys[pygame.K_w]:
-            print("Key W")
+            self.__world.player.move(0, -1)
 
         if keys[pygame.K_s]:
-            print("Key S")
+            self.__world.player.move(0, 1)
 
         if keys[pygame.K_a]:
-            print("Key A")
-            
+            self.__world.player.move    (-1, 0)
+
         if keys[pygame.K_d]:
-            print("Key D")
+            self.__world.player.move(1, 0)
 
     def process_input(self):
         keys = pygame.key.get_pressed()

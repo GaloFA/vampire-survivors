@@ -1,3 +1,4 @@
+#pylint: skip-file
 # Display
 GAME_TITLE = "Generic Game"
 FPS = 60

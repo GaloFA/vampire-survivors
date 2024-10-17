@@ -56,7 +56,7 @@ class Display(IDisplay):
     def __draw_player_health_bar(self):
         # Get the player's health
         player = self.__world.player
-        
+
         # Define the health bar dimensions
         bar_width = settings.TILE_WIDTH
         bar_height = 5

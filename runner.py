@@ -32,7 +32,7 @@ def initialize_game_world():
 def main():
     """Main function to run the game"""
     # Initialize pygame
-    pygame.init()
+    pygame.init() #pylint: disable=E1101
 
     # Logging configuration
     logging.basicConfig(
@@ -51,7 +51,7 @@ def main():
     game.run()
 
     # Properly quit Pygame
-    pygame.quit()
+    pygame.quit() #pylint: disable=E1101
 
 
 if __name__ == "__main__":

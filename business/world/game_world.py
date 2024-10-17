@@ -35,16 +35,16 @@ class GameWorld(IGameWorld):
         self.__monsters.remove(monster)
 
     def add_experience_gem(self, gem: IExperienceGem):
-        pass
+        self.__experience_gems.append(gem)
 
     def remove_experience_gem(self, gem: IExperienceGem):
-        pass
+        self.__experience_gems.remove(gem)
 
     def add_bullet(self, bullet: IBullet):
-        pass
+        self.__bullets.append(bullet)
 
     def remove_bullet(self, bullet: IBullet):
-        pass
+        self.__bullets.remove(bullet)
 
     @property
     def player(self) -> IPlayer:

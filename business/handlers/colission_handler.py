@@ -28,7 +28,7 @@ class CollisionHandler:
     @staticmethod
     def __handle_gems(gems: List[IExperienceGem], player: IPlayer, world: IGameWorld):
         pass
-        
+
     @staticmethod
     def handle_collisions(world: IGameWorld):
         """Handles collisions between entities in the game world.

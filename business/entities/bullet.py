@@ -15,6 +15,7 @@ class Bullet(MovableEntity, IBullet):
         super().__init__(src_x, src_y, speed, BulletSprite(src_x, src_y))
         self.__dir_x, self.__dir_y = self.__calculate_direction(dst_x - src_x, dst_y - src_y)
         self._logger.debug("Created %s", self)
+        self.__health: int = 1
 
     def __calculate_direction(self, dx, dy):
         distance = math.hypot(dx, dy)
@@ -24,10 +25,11 @@ class Bullet(MovableEntity, IBullet):
 
     @property
     def health(self) -> int:
-        pass
+        return self.__health
 
     def take_damage(self, amount):
-        pass
+        self.__health = max(0, self.__health - amount)
+        self.sprite.take_damage()
 
     def update(self, _: IGameWorld):
         # Move bullet towards the target direction

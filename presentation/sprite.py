@@ -30,7 +30,8 @@ class Sprite(pygame.sprite.Sprite):
         """The rect of the sprite.
 
         Returns:
-            pygame.Rect: The rect of the sprite. A rect is a rectangle that defines the position and size of the sprite.
+            pygame.Rect: The rect of the sprite. A rect is a rectangle
+            that defines the position and size of the sprite.
         """
         return self._rect
 
