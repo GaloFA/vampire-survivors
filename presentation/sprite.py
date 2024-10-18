@@ -49,7 +49,7 @@ class Sprite(pygame.sprite.Sprite):
 
     def __change_color(self, color: tuple[int, int, int]):
         self._image = self.__original_image.copy()  # Make a copy of the original image
-        self._image.fill(color, special_flags=pygame.BLEND_MULT)  # Change color
+        self._image.fill(color, special_flags=pygame.BLEND_MULT)  # Change color pylint: disable=E1101
         self._image.set_colorkey((0, 0, 0))  # Set transparency if necessary
 
     def __decrease_damage_countdown(self):
@@ -91,7 +91,7 @@ class MonsterSprite(Sprite):
     def __init__(self, pos_x: float, pos_y: float):
         image: pygame.Surface = pygame.image.load(MonsterSprite.ASSET).convert_alpha()
         image = pygame.transform.scale(image, settings.TILE_DIMENSION)
-        rect: pygame.rect = image.get_rect(center=(int(pos_x), int(pos_y)))
+        rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
         super().__init__(image, rect)
 
@@ -102,7 +102,7 @@ class BulletSprite(Sprite):
     def __init__(self, pos_x: float, pos_y: float):
         image = pygame.Surface((5, 5), pygame.SRCALPHA)  # pylint: disable=E1101
         pygame.draw.circle(image, (255, 255, 0), (2, 2), 5)
-        rect: pygame.rect = image.get_rect(center=(int(pos_x), int(pos_y)))
+        rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
         super().__init__(image, rect)
 

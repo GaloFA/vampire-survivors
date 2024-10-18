@@ -6,7 +6,7 @@ import pygame
 
 import settings
 from business.exceptions import DeadPlayerException
-from business.handlers.colission_handler import CollisionHandler
+from business.handlers.collision_handler import CollisionHandler
 from business.handlers.death_handler import DeathHandler
 from business.world.interfaces import IGameWorld
 from presentation.interfaces import IDisplay, IInputHandler

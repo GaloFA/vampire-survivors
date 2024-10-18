@@ -16,6 +16,7 @@ class Bullet(MovableEntity, IBullet):
         self.__dir_x, self.__dir_y = self.__calculate_direction(dst_x - src_x, dst_y - src_y)
         self._logger.debug("Created %s", self)
         self.__health: int = 1
+        self.__damage_amount: int = 5
 
     def __calculate_direction(self, dx, dy):
         distance = math.hypot(dx, dy)
@@ -37,7 +38,7 @@ class Bullet(MovableEntity, IBullet):
 
     @property
     def damage_amount(self):
-        pass
+        return self.__damage_amount
 
     def __str__(self):
         return f"Bullet(pos=({self._pos_x, self._pos_y}), dir=({self.__dir_x, self.__dir_y}))"

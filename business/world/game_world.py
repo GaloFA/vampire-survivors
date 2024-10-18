@@ -25,8 +25,11 @@ class GameWorld(IGameWorld):
     def update(self):
         self.player.update(self)
 
-        for monster in self.monsters:
+        for monster in self.__monsters:
             monster.update(self)
+
+        for bullet in self.__bullets:
+            bullet.update(self)
 
         self.__monster_spawner.update(self)
 
