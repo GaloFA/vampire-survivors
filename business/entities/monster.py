@@ -5,7 +5,7 @@ from typing import List
 from business.entities.entity import MovableEntity
 from business.entities.interfaces import IDamageable, IHasPosition, IHasSprite, IMonster
 from business.handlers.cooldown_handler import CooldownHandler
-from business.world.interfaces import IGameWorld
+from business.world.interfaces import IGameWorld, IPlayer
 from presentation.sprite import Sprite
 
 
@@ -20,7 +20,7 @@ class Monster(MovableEntity, IMonster):
         self.__attack_cooldown = CooldownHandler(1000)
         self._logger.debug("Created %s", self)
 
-    def attack(self, target: IDamageable):
+    def attack(self, target: IPlayer):
         """Attacks the target."""
         if not self.__attack_cooldown.is_action_ready():
             return
@@ -72,5 +72,5 @@ class Monster(MovableEntity, IMonster):
         return self.__health
 
     def take_damage(self, amount):
-        self.__health = max(0, self.__health - amount)
+        self.__health = max(0, self.__health - 1)
         self.sprite.take_damage()

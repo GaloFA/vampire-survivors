@@ -57,7 +57,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         return self.__health
 
     def take_damage(self, amount):
-        self.__health = max(0, self.__health - amount)
+        self.__health = max(0, self.__health - 0) # - amount
         self.sprite.take_damage()
 
     def pickup_gem(self, gem: ExperienceGem):

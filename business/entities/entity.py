@@ -45,7 +45,6 @@ class Entity(IHasPosition, IHasSprite):
         """Updates the entity."""
         self.sprite.update()
 
-
 class MovableEntity(Entity, ICanMove):
     """Base class for all entities that can move."""
 
@@ -70,3 +69,13 @@ class MovableEntity(Entity, ICanMove):
     @property
     def speed(self) -> float:
         return self._speed
+
+class DamageableEntity(Entity, IDamageable):
+    """ Base class for all entities that can be damaged. """
+    def __init__(self, pos_x: float, pos_y: float, sprite: Sprite, health: int):
+        super().__init__(pos_x, pos_y, sprite)
+        self.__health = health
+
+    def take_damage(self, amount: int):
+        self.__health = max(0, self.__health - amount)
+        self.sprite.take_damage()

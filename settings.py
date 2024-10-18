@@ -1,6 +1,6 @@
 #pylint: skip-file
 # Display
-GAME_TITLE = "Dop Game"
+GAME_TITLE = "VA Game"
 FPS = 60
 
 # Tile dimensions

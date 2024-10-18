@@ -19,15 +19,19 @@ class CollisionHandler:
             for monster in monsters:
                 if CollisionHandler.__collides_with(bullet, monster):
                     monster.take_damage(bullet.damage_amount)
-                    bullet.take_damage(bullet.damage_amount)
+                    bullet.take_damage(int(bullet.damage_amount))
 
     @staticmethod
     def __handle_monsters(monsters: List[IMonster], player: IPlayer):
-        pass
+        for monster in monsters:
+            if CollisionHandler.__collides_with(monster, player):
+                player.take_damage(monster.damage_amount)
 
     @staticmethod
     def __handle_gems(gems: List[IExperienceGem], player: IPlayer, world: IGameWorld):
-        pass
+        for gem in gems:
+            if CollisionHandler.__collides_with(gem, player):
+                world.remove_experience_gem(gem)
 
     @staticmethod
     def handle_collisions(world: IGameWorld):

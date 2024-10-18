@@ -29,7 +29,7 @@ class Display(IDisplay):
         return Tileset(
             "./assets/ground_tileset.png", settings.TILE_WIDTH, settings.TILE_HEIGHT, 2, 3
         )
-
+        
     def __render_ground_tiles(self):
         # Calculate the range of tiles to render based on the camera position
         start_col = max(0, self.camera.camera_rect.left // settings.TILE_WIDTH)
