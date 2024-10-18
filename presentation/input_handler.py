@@ -4,7 +4,7 @@ import pygame
 import settings
 
 from business.world.game_world import GameWorld
-from business.handlers.collision_handler import CollisionHandler
+from business.handlers.death_handler import DeathHandler
 from presentation.interfaces import IInputHandler
 
 
@@ -13,11 +13,9 @@ class InputHandler(IInputHandler):
 
     def __init__(self, world: GameWorld):
         self.__world = world
-        self.__collision_handler = CollisionHandler()
+        self.__death_handler = DeathHandler()
 
     def __example_method(self, keys):
-
-        self.__collision_handler.__collides_with_wall(self.__world.player, 0)
 
         if keys[pygame.K_w]:
             self.__world.player.move(0, -1)

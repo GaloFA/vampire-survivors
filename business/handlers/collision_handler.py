@@ -12,11 +12,6 @@ class CollisionHandler:
     @staticmethod
     def __collides_with(an_entity: IHasSprite, another_entity: IHasSprite):
         return an_entity.sprite.rect.colliderect(another_entity.sprite.rect)
-    
-    @staticmethod
-    def __collides_with_wall(entity: IHasSprite, hitbox):
-        """Check if an entity collides with a wall hitbox."""
-        return entity.sprite.rect.colliderect(hitbox)
 
     @staticmethod
     def __handle_bullets(bullets: List[IBullet], monsters: List[IMonster]):
