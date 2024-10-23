@@ -5,6 +5,7 @@ from typing import List
 from business.entities.entity import MovableEntity
 from business.entities.interfaces import IDamageable, IHasPosition, IHasSprite, IMonster
 from business.handlers.cooldown_handler import CooldownHandler
+from business.handlers.collision_handler import CollisionHandler
 from business.world.interfaces import IGameWorld, IPlayer
 from presentation.sprite import Sprite
 
@@ -62,21 +63,31 @@ class Monster(MovableEntity, IMonster):
             return
 
         monsters = [m for m in world.monsters if m != self]
-        dx, dy = direction_x * self.speed, direction_y * self.speed
+        colliding_pairs = CollisionHandler.detect_monster_collisions(world.monsters)
         
-        for monster in monsters:
-            if not self.__movement_collides_with_entity(dx, dy, monster):
+        dx, dy = direction_x * self.speed, direction_y * self.speed
+
+        colliding_monsters = {monster for pair in colliding_pairs for monster in pair}
+        
+        if self not in colliding_monsters:
+            self.move(direction_x, direction_y)
+
+        if self in colliding_monsters:
+            # Move only if this monster is part of a colliding pair
+            if not self.__movement_collides_with_entities(dx, dy, colliding_monsters):
                 self.move(direction_x, direction_y)
 
-            if self.__movement_collides_with_entity(dx, dy, monster):
-                closest_monster = min(
-                    world.monsters,
-                    key=lambda m: (
-                        (m.pos_x - world.player.pos_x) ** 2 + (m.pos_y - world.player.pos_y) ** 2
-                    ),
-                )
+            # Handle movement for colliding monsters
+            for monster_a, monster_b in colliding_pairs:
+                if self == monster_a or self == monster_b:
+                    closest_monster = min(
+                        colliding_monsters,
+                        key=lambda m: (
+                            (m.pos_x - world.player.pos_x) ** 2 + (m.pos_y - world.player.pos_y) ** 2
+                        ),
+                    )
+                    closest_monster.move(direction_x, direction_y)
 
-                closest_monster.move(direction_x, direction_y)
 
 
         if self.__health <= 0:
