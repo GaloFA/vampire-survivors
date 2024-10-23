@@ -18,7 +18,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     """
 
     BASE_DAMAGE = 5
-    BASE_SHOOT_COOLDOWN = 2000
+    BASE_SHOOT_COOLDOWN = 1000
 
     def __init__(self, pos_x: int, pos_y: int, sprite: Sprite):
         super().__init__(pos_x, pos_y, 5, sprite)

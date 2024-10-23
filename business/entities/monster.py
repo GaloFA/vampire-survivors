@@ -49,6 +49,12 @@ class Monster(MovableEntity, IMonster):
     ) -> bool:
         new_position = self.sprite.rect.move(dx, dy).inflate(-10, -10)
         return any(e.sprite.rect.colliderect(new_position) for e in entities)
+    
+    def __movement_collides_with_entity(
+        self, dx: float, dy: float, entity: IMonster
+    ) -> bool:
+        new_position = self.sprite.rect.move(dx, dy).inflate(-10, -10)
+        return entity.sprite.rect.colliderect(new_position)
 
     def update(self, world: IGameWorld):
         direction_x, direction_y = self.__get_direction_towards_the_player(world)
@@ -57,8 +63,24 @@ class Monster(MovableEntity, IMonster):
 
         monsters = [m for m in world.monsters if m != self]
         dx, dy = direction_x * self.speed, direction_y * self.speed
-        if not self.__movement_collides_with_entities(dx, dy, monsters):
-            self.move(direction_x, direction_y)
+        
+        for monster in monsters:
+            if not self.__movement_collides_with_entity(dx, dy, monster):
+                self.move(direction_x, direction_y)
+
+            if self.__movement_collides_with_entity(dx, dy, monster):
+                closest_monster = min(
+                    world.monsters,
+                    key=lambda m: (
+                        (m.pos_x - world.player.pos_x) ** 2 + (m.pos_y - world.player.pos_y) ** 2
+                    ),
+                )
+
+                closest_monster.move(direction_x, direction_y)
+
+
+        if self.__health <= 0:
+            world.remove_monster(self)
 
         self.attack(world.player)
 
@@ -72,5 +94,6 @@ class Monster(MovableEntity, IMonster):
         return self.__health
 
     def take_damage(self, amount):
-        self.__health = max(0, self.__health - 1)
+        self.__health = max(0, self.__health - amount)
+        print(f"HEALTH:{self.__health}")
         self.sprite.take_damage()

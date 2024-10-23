@@ -11,8 +11,8 @@ from business.world.interfaces import IGameWorld, IMonsterSpawner
 from business.handlers.cooldown_handler import CooldownHandler
 from presentation.sprite import MonsterSprite
 
-BASE_COOLDOWN = 250
-class MonsterSpawner(IMonsterSpawner): #
+BASE_COOLDOWN = 100
+class MonsterSpawner(IMonsterSpawner):
     """Spawns monsters in the game world."""
 
     def __init__(self):
