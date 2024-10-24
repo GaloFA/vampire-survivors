@@ -18,7 +18,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     """
 
     BASE_DAMAGE = 5
-    BASE_SHOOT_COOLDOWN = 1000
+    BASE_SHOOT_COOLDOWN = 200
 
     def __init__(self, pos_x: int, pos_y: int, sprite: Sprite):
         super().__init__(pos_x, pos_y, 5, sprite)
@@ -71,9 +71,8 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
     def __shoot_at_nearest_enemy(self, world: IGameWorld):
         if not world.monsters:
-            return  # No monsters to shoot at
+            return
 
-        # Find the nearest monster
         monster = min(
             world.monsters,
             key=lambda monster: (
@@ -81,7 +80,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             ),
         )
 
-        # Create a bullet towards the nearest monster
         bullet = Bullet(self.pos_x, self.pos_y, monster.pos_x, monster.pos_y, 10)
         world.add_bullet(bullet)
 

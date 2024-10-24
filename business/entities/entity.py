@@ -1,6 +1,7 @@
 """Contains the base classes for all entities in the game."""
 
 import logging
+from math import sqrt
 from abc import abstractmethod
 
 from business.entities.interfaces import ICanMove, IDamageable, IHasPosition, IHasSprite
@@ -56,14 +57,25 @@ class MovableEntity(Entity, ICanMove):
         self._sprite: Sprite = sprite
 
     def move(self, direction_x: float, direction_y: float):
+        # Calculate the length (magnitude) of the movement vector
+        magnitude = sqrt(direction_x ** 2 + direction_y ** 2)
+
+        # If the magnitude is greater than zero (i.e., not stationary), normalize the vector
+        if magnitude > 0:
+            direction_x /= magnitude
+            direction_y /= magnitude
+
+        # Apply the normalized direction with the monster's speed
         self._pos_x += direction_x * self._speed
         self._pos_y += direction_y * self._speed
-        self._logger.debug(
-            "Moving in direction (%.2f, %.2f) with speed %.2f",
-            direction_x,
-            direction_y,
-            self._speed,
-        )
+        print(f"Current speed: {self._speed:.2f}")
+
+        #self._logger.debug(
+        #    "Moving in direction (%.2f, %.2f) with speed %.2f",
+        #    direction_x,
+        #    direction_y,
+        #    self._speed,
+        #)
         self.sprite.update_pos(self._pos_x, self._pos_y)
 
     @property
