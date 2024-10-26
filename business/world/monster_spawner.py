@@ -2,8 +2,9 @@
 
 import logging
 import random
+import settings
 
-#import pygame
+# import pygame
 
 import settings
 from business.entities.monster import Monster
@@ -12,6 +13,8 @@ from business.handlers.cooldown_handler import CooldownHandler
 from presentation.sprite import MonsterSprite
 
 BASE_COOLDOWN = 400
+
+
 class MonsterSpawner(IMonsterSpawner):
     """Spawns monsters in the game world."""
 
@@ -20,6 +23,9 @@ class MonsterSpawner(IMonsterSpawner):
         self.__spawn_cooldown = CooldownHandler(BASE_COOLDOWN)
 
     def update(self, world: IGameWorld):
+        if settings.PAUSE:
+            return
+
         if not self.__spawn_cooldown.is_action_ready():
             return
 

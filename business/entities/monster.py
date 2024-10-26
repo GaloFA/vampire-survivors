@@ -1,5 +1,6 @@
 """This module contains the Monster class, which represents a monster entity in the game."""
 
+import settings
 from typing import List
 
 from business.entities.entity import MovableEntity
@@ -23,6 +24,10 @@ class Monster(MovableEntity, IMonster):
 
     def attack(self, target: IPlayer):
         """Attacks the target."""
+
+        if settings.PAUSE:
+            return
+
         if not self.__attack_cooldown.is_action_ready():
             return
 
@@ -45,9 +50,9 @@ class Monster(MovableEntity, IMonster):
 
         return direction_x, direction_y
 
-    #def __movement_collides_with_entities(
+    # def __movement_collides_with_entities(
     #    self, dx: float, dy: float, entities: List[IHasSprite]
-    #) -> bool:
+    # ) -> bool:
     #    new_position = self.sprite.rect.move(dx, dy).inflate(-10, -10)
     #    return any(e.sprite.rect.colliderect(new_position) for e in entities)
     #
@@ -59,15 +64,22 @@ class Monster(MovableEntity, IMonster):
     #
 
     def update(self, world: IGameWorld):
-        direction_x, direction_y = self.__get_direction_towards_the_player(world)
+
+        if settings.PAUSE:
+            return
+
+        direction_x, direction_y = self.__get_direction_towards_the_player(
+            world)
         if (direction_x, direction_y) == (0, 0):
             return
 
-        colliding_pairs = CollisionHandler.detect_monster_collisions(world.monsters)
+        colliding_pairs = CollisionHandler.detect_monster_collisions(
+            world.monsters)
 
-        #dx, dy = direction_x * self.speed, direction_y * self.speed
-        
-        colliding_monsters = {monster for pair in colliding_pairs for monster in pair}
+        # dx, dy = direction_x * self.speed, direction_y * self.speed
+
+        colliding_monsters = {
+            monster for pair in colliding_pairs for monster in pair}
 
         if self not in colliding_monsters:
             self.move(direction_x, direction_y)
@@ -78,7 +90,8 @@ class Monster(MovableEntity, IMonster):
                     closest_monster = min(
                         [monster_a, monster_b],
                         key=lambda m: (
-                            (m.pos_x - world.player.pos_x) ** 2 + (m.pos_y - world.player.pos_y) ** 2
+                            (m.pos_x - world.player.pos_x) ** 2 +
+                            (m.pos_y - world.player.pos_y) ** 2
                         ),
                     )
 

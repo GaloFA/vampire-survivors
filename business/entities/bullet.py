@@ -1,7 +1,7 @@
 """Module for a bullet entity that moves towards a target direction."""
 
 import math
-
+import settings
 from business.entities.entity import MovableEntity
 from business.entities.interfaces import IBullet
 from business.world.interfaces import IGameWorld
@@ -13,7 +13,8 @@ class Bullet(MovableEntity, IBullet):
 
     def __init__(self, src_x, src_y, dst_x, dst_y, speed):
         super().__init__(src_x, src_y, speed, BulletSprite(src_x, src_y))
-        self.__dir_x, self.__dir_y = self.__calculate_direction(dst_x - src_x, dst_y - src_y)
+        self.__dir_x, self.__dir_y = self.__calculate_direction(
+            dst_x - src_x, dst_y - src_y)
         self._logger.debug("Created %s", self)
         self.__health: int = 1
         self.__damage_amount: int = 5
@@ -29,10 +30,13 @@ class Bullet(MovableEntity, IBullet):
         return self.__health
 
     def take_damage(self, amount):
-        self.__health = max(0, self.__health - amount)
-        self.sprite.take_damage()
+        if settings.PAUSE:
+            self.__health = max(0, self.__health - amount)
+            self.sprite.take_damage()
 
     def update(self, _: IGameWorld):
+        if settings.PAUSE:
+            return
         # Move bullet towards the target direction
         self.move(self.__dir_x, self.__dir_y)
 

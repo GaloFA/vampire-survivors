@@ -1,7 +1,7 @@
 """Player entity module."""
 
 import pygame
-
+import settings
 from business.entities.bullet import Bullet
 from business.entities.entity import MovableEntity
 from business.entities.experience_gem import ExperienceGem
@@ -57,40 +57,47 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         return self.__health
 
     def take_damage(self, amount):
-        self.__health = max(0, self.__health - 0) # - amount
-        self.sprite.take_damage()
+        if not settings.PAUSE:
+            self.__health = max(0, self.__health - 0)  # - amount
+            self.sprite.take_damage()
 
     def pickup_gem(self, gem: ExperienceGem):
-        self.__gain_experience(gem.amount)
+        if not settings.PAUSE:
+            self.__gain_experience(gem.amount)
 
     def __gain_experience(self, amount: int):
-        self.__experience += amount
-        while self.__experience >= self.experience_to_next_level:
-            self.__experience -= self.experience_to_next_level
-            self.__level += 1
+        if not settings.PAUSE:
+            self.__experience += amount
+            while self.__experience >= self.experience_to_next_level:
+                self.__experience -= self.experience_to_next_level
+                self.__level += 1
 
     def __shoot_at_nearest_enemy(self, world: IGameWorld):
-        if not world.monsters:
-            return
+        if not settings.PAUSE:
+            if not world.monsters:
+                return
 
-        monster = min(
-            world.monsters,
-            key=lambda monster: (
-                (monster.pos_x - self.pos_x) ** 2 + (monster.pos_y - self.pos_y) ** 2
-            ),
-        )
+            monster = min(
+                world.monsters,
+                key=lambda monster: (
+                    (monster.pos_x - self.pos_x) ** 2 +
+                    (monster.pos_y - self.pos_y) ** 2
+                ),
+            )
 
-        bullet = Bullet(self.pos_x, self.pos_y, monster.pos_x, monster.pos_y, 10)
-        world.add_bullet(bullet)
+            bullet = Bullet(self.pos_x, self.pos_y,
+                            monster.pos_x, monster.pos_y, 10)
+            world.add_bullet(bullet)
 
     @property
     def __shoot_cooldown(self):
         return Player.BASE_SHOOT_COOLDOWN
 
     def update(self, world: IGameWorld):
-        super().update(world)
+        if not settings.PAUSE:
+            super().update(world)
 
-        current_time = pygame.time.get_ticks()
-        if current_time - self.__last_shot_time >= self.__shoot_cooldown:
-            self.__shoot_at_nearest_enemy(world)
-            self.__last_shot_time = current_time
+            current_time = pygame.time.get_ticks()
+            if current_time - self.__last_shot_time >= self.__shoot_cooldown:
+                self.__shoot_at_nearest_enemy(world)
+                self.__last_shot_time = current_time
