@@ -1,4 +1,4 @@
-#pylint: skip-file
+# pylint: skip-file
 # Display
 GAME_TITLE = "VA Game"
 FPS = 60
@@ -27,3 +27,6 @@ BG_COLOR = (0, 0, 0)  # Black
 GRID_COLOR = (150, 150, 150)  # Grey
 PLAYER_BG_COLOR = (0, 255, 0)  # Green
 MONSTER_BG_COLOR = (255, 0, 0)  # Red
+
+# Game state
+PAUSE = False

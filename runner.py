@@ -20,6 +20,7 @@ def initialize_player():
     x, y = settings.WORLD_WIDTH//2, settings.WORLD_HEIGHT//2
     return Player(x, y, PlayerSprite(x, y))
 
+
 def initialize_game_world():
     """Initializes the game world"""
     monster_spawner = MonsterSpawner()
@@ -31,7 +32,7 @@ def initialize_game_world():
 def main():
     """Main function to run the game"""
     # Initialize pygame
-    pygame.init() #pylint: disable=E1101
+    pygame.init()  # pylint: disable=E1101
 
     # Logging configuration
     logging.basicConfig(
@@ -50,7 +51,7 @@ def main():
     game.run()
 
     # Properly quit Pygame
-    pygame.quit() #pylint: disable=E1101
+    pygame.quit()  # pylint: disable=E1101
 
 
 if __name__ == "__main__":
