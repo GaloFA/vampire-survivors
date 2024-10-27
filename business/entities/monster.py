@@ -50,13 +50,6 @@ class Monster(MovableEntity, IMonster):
     #) -> bool:
     #    new_position = self.sprite.rect.move(dx, dy).inflate(-10, -10)
     #    return any(e.sprite.rect.colliderect(new_position) for e in entities)
-    #
-    #
-    #
-    #
-    #
-    #
-    #
 
     def update(self, world: IGameWorld):
         direction_x, direction_y = self.__get_direction_towards_the_player(world)
@@ -64,9 +57,6 @@ class Monster(MovableEntity, IMonster):
             return
 
         colliding_pairs = CollisionHandler.detect_monster_collisions(world.monsters)
-
-        #dx, dy = direction_x * self.speed, direction_y * self.speed
-        
         colliding_monsters = {monster for pair in colliding_pairs for monster in pair}
 
         if self not in colliding_monsters:

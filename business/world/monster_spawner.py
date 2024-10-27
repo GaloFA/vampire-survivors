@@ -20,7 +20,7 @@ class MonsterSpawner(IMonsterSpawner):
         self.__spawn_cooldown = CooldownHandler(BASE_COOLDOWN)
 
     def update(self, world: IGameWorld):
-        if not self.__spawn_cooldown.is_action_ready():
+        if not self.__spawn_cooldown.is_action_ready() or world.simulation_speed != 1:
             return
 
         self.spawn_monster(world)

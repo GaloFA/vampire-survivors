@@ -3,6 +3,7 @@
 from business.entities.interfaces import IBullet, IExperienceGem, IMonster, IPlayer
 from business.world.interfaces import IGameWorld, IMonsterSpawner, ITileMap
 from business.handlers.cooldown_handler import CooldownHandler
+from business.entities.experience_gem import ExperienceGem
 
 
 class GameWorld(IGameWorld):
@@ -15,6 +16,7 @@ class GameWorld(IGameWorld):
         self.__bullets: list[IBullet] = []
         self.__experience_gems: list[IExperienceGem] = []
         self.__spawn_cooldown = CooldownHandler(2500)
+        self.__simulation_speed = 1
 
         # Initialize the tile map
         self.tile_map: ITileMap = tile_map
@@ -41,6 +43,8 @@ class GameWorld(IGameWorld):
 
     def remove_monster(self, monster: IMonster):
         self.__monsters.remove(monster)
+
+        self.add_experience_gem(ExperienceGem(monster.pos_x, monster.pos_y, 1))
 
     def add_experience_gem(self, gem: IExperienceGem):
         self.__experience_gems.append(gem)
@@ -69,3 +73,7 @@ class GameWorld(IGameWorld):
     @property
     def experience_gems(self) -> list[IExperienceGem]:
         return self.__experience_gems[:]
+
+    @property
+    def simulation_speed(self) -> int:
+        return self.__simulation_speed

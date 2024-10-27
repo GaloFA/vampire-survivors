@@ -99,6 +99,15 @@ class IGameWorld(ABC):
             list[IExperienceGem]: A copy of the list of experience gems in the world.
         """
 
+    @property
+    @abstractmethod
+    def simulation_speed(self) -> int:
+        """Gets the speed of the simulation.
+
+        Returns:
+            int: Simulation speed.
+        """
+
 
 class IUpdatable(ABC):
     """Interface for entities that can be updated."""

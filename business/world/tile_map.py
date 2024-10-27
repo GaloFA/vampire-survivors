@@ -11,18 +11,16 @@ class TileMap(ITileMap):
         self.map_data = self.__generate_tile_map()
 
     def __generate_tile_map(self):
-        # Create a 2D array of tile indices
         tile_map = []
 
-        for row in range(settings.WORLD_ROWS):
-            current_row = []
-            for col in range(settings.WORLD_COLUMNS):
-                if row == 0 or row == settings.WORLD_ROWS - 1 or col == 0 or col == settings.WORLD_COLUMNS - 1:
-                    current_row.append(0)
-                else:
-                    current_row.append(1)
-            tile_map.append(current_row)
+        tile_map = [[1 for _ in range(settings.WORLD_COLUMNS)] for _ in range(settings.WORLD_ROWS)]
 
+        for x in range(settings.WORLD_ROWS):
+            tile_map[x][0] = 0
+            tile_map[0][x] = 0
+            tile_map[settings.WORLD_COLUMNS - 1][x] = 0
+            tile_map[x][settings.WORLD_COLUMNS - 1] = 0
+        
         return tile_map
 
     def get(self, row, col) -> int:
