@@ -35,8 +35,8 @@ class Bullet(MovableEntity, IBullet):
             self.sprite.take_damage()
 
     def update(self, _: IGameWorld):
-        if settings.PAUSE:
-            return
+        #if settings.PAUSE:
+        #    return
         # Move bullet towards the target direction
         self.move(self.__dir_x, self.__dir_y)
 

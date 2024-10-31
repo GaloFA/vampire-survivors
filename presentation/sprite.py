@@ -95,6 +95,19 @@ class MonsterSprite(Sprite):
 
         super().__init__(image, rect)
 
+class OrcSprite(Sprite):
+    """A class representing the monster sprite."""
+
+    TILESET_ASSET = "./assets/entities/monsters/Orc-Walk.png"
+    TILE_WIDTH = 100
+    TILE_HEIGHT = 100
+
+    def __init__(self, pos_x: float, pos_y: float):
+        image: pygame.Surface = pygame.image.load(MonsterSprite.ASSET).convert_alpha()
+        image = pygame.transform.scale(image, settings.TILE_DIMENSION)
+        rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
+
+        super().__init__(image, rect)
 
 class BulletSprite(Sprite):
     """A class representing the bullet sprite."""

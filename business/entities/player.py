@@ -17,8 +17,8 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     It can move around the game world and shoot at monsters.
     """
 
-    BASE_DAMAGE = 5
-    BASE_SHOOT_COOLDOWN = 200
+    BASE_DAMAGE = 10
+    BASE_SHOOT_COOLDOWN = 50
 
     def __init__(self, pos_x: int, pos_y: int, sprite: Sprite):
         super().__init__(pos_x, pos_y, 5, sprite)
@@ -42,7 +42,12 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
     @property
     def experience_to_next_level(self):
-        return 1
+        base_xp = 2
+
+        if self.__level == 1:
+            return base_xp
+
+        return base_xp * (2 ** (self.__level - 1))
 
     @property
     def level(self):

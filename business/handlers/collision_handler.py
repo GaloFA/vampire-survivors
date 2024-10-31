@@ -31,6 +31,7 @@ class CollisionHandler:
     def __handle_gems(gems: List[IExperienceGem], player: IPlayer, world: IGameWorld):
         for gem in gems:
             if CollisionHandler.__collides_with(gem, player):
+                player.pickup_gem(gem)
                 world.remove_experience_gem(gem)
 
     @staticmethod

@@ -25,8 +25,8 @@ class Monster(MovableEntity, IMonster):
     def attack(self, target: IPlayer):
         """Attacks the target."""
 
-        if settings.PAUSE:
-            return
+        #if settings.PAUSE:
+        #    return
 
         if not self.__attack_cooldown.is_action_ready():
             return
@@ -58,8 +58,8 @@ class Monster(MovableEntity, IMonster):
 
     def update(self, world: IGameWorld):
 
-        if settings.PAUSE:
-            return
+        #if settings.PAUSE:
+        #    return
 
         direction_x, direction_y = self.__get_direction_towards_the_player(
             world)

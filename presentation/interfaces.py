@@ -20,6 +20,10 @@ class IDisplay(ABC):
     def render_frame(self):
         """Render the current frame."""
 
+    @property
+    def screen(self):
+        """screen property"""
+
 
 class IInputHandler(ABC):
     """Interface for handling user input."""
