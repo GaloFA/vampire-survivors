@@ -80,18 +80,7 @@ class Display(IDisplay):
 
         self.__draw_player_health_bar()
 
-        font = pygame.font.SysFont(None, 20)
-        time_text = font.render(
-            f"Tiempo: {self.__world.elapsed_time:.2f} segs",
-            True,
-            (255, 209, 92),
-        )
-
-        # Crear un rectángulo para el tiempo transcurrido
-        time_rect = pygame.Rect(0, 0, 150, 30)  # Ajusta el tamaño según sea necesario
-        pygame.draw.rect(self.__screen, (0, 0, 0, 128), time_rect)  # Rectángulo negro con opacidad
-        self.__screen.blit(time_text, (time_rect.x + 5, time_rect.y + 5))  # Añadir un poco de margen
-
+        
 
         # Draw the experience text
         font = pygame.font.SysFont(None, 30)

@@ -46,7 +46,7 @@ class CollisionHandler:
         CollisionHandler.__handle_gems(world.experience_gems, world.player, world)
 
     @staticmethod
-    def detect_monster_collisions(monsters: List[IMonster]) -> List[tuple[IMonster, IMonster]]:
+    def detect_monster_collisions(aMonster: IMonster, monsters: List[IMonster]):
         """Detect collisions between monsters and return a list of colliding pairs.
 
         Args:
@@ -57,9 +57,10 @@ class CollisionHandler:
         """
         colliding_pairs = []
         for i in range(len(monsters)):
-            for j in range(i + 1, len(monsters)):
-                monster_a = monsters[i]
-                monster_b = monsters[j]
+            if monsters[i] == aMonster:
+                monster_a = aMonster
+                monster_b = monsters[i]
                 if CollisionHandler.__collides_with(monster_a, monster_b):
-                    colliding_pairs.append((monster_a, monster_b))
-        return colliding_pairs
+                    colliding_pairs.append((monster_b))
+                    colliding_monsters = {monster for monster in colliding_pairs}
+        return colliding_monsters

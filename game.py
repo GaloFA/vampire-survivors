@@ -50,7 +50,7 @@ class Game:
                 
 
                 if self.__is_paused:
-                    self.__pause_menu.draw()  # Draw the pause menu
+                    self.__pause_menu.draw()  # Draw the pause menu----
                     pygame.display.flip()
                     # Detect click in the menu
                     if pygame.mouse.get_pressed()[0]:

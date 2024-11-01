@@ -66,15 +66,14 @@ class Monster(MovableEntity, IMonster):
         if (direction_x, direction_y) == (0, 0):
             return
 
-        colliding_pairs = CollisionHandler.detect_monster_collisions(world.monsters)
-        colliding_monsters = {monster for pair in colliding_pairs for monster in pair}
+        colliding_monsters = CollisionHandler.detect_monster_collisions(self, world.monsters)
 
         if self not in colliding_monsters:
             self.move(direction_x, direction_y)
 
         if self in colliding_monsters:
-            for monster_a, monster_b in colliding_pairs:
-                if self == monster_a or self == monster_b:
+            for monster_b in colliding_monsters:
+                if -self == monster_b:
                     closest_monster = min(
                         [monster_a, monster_b],
                         key=lambda m: (
