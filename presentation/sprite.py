@@ -82,7 +82,6 @@ class PlayerSprite(Sprite):
 
         super().__init__(image, rect)
 
-
 class MonsterSprite(Sprite):
     """A class representing the monster sprite."""
 
@@ -98,13 +97,15 @@ class MonsterSprite(Sprite):
 class OrcSprite(Sprite):
     """A class representing the monster sprite."""
 
-    TILESET_ASSET = "./assets/entities/monsters/Orc-Walk.png"
-    TILE_WIDTH = 100
-    TILE_HEIGHT = 100
+    ASSET = "./assets/entities/monsters/Orc-Walk.png"
+    TILE_WIDTH = 23
+    TILE_HEIGHT = 19
+    SIZE_MULTIPLIER = 4
 
     def __init__(self, pos_x: float, pos_y: float):
-        image: pygame.Surface = pygame.image.load(MonsterSprite.ASSET).convert_alpha()
-        image = pygame.transform.scale(image, settings.TILE_DIMENSION)
+        tileset = Tileset(OrcSprite.ASSET, OrcSprite.TILE_WIDTH * OrcSprite.SIZE_MULTIPLIER, OrcSprite.TILE_HEIGHT * OrcSprite.SIZE_MULTIPLIER, 8, 1)
+
+        image: pygame.Surface = tileset.get_tile(1)
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
         super().__init__(image, rect)
@@ -113,12 +114,11 @@ class BulletSprite(Sprite):
     """A class representing the bullet sprite."""
 
     def __init__(self, pos_x: float, pos_y: float):
-        image = pygame.Surface((5, 5), pygame.SRCALPHA)  # pylint: disable=E1101
+        image = pygame.Surface((5, 5), pygame.SRCALPHA) # pylint: disable=E1101
         pygame.draw.circle(image, (255, 255, 0), (2, 2), 5)
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
         super().__init__(image, rect)
-
 
 class ExperienceGemSprite(Sprite):
     """A class representing the experience gem sprite."""

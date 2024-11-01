@@ -47,20 +47,17 @@ class CollisionHandler:
 
     @staticmethod
     def detect_monster_collisions(aMonster: IMonster, monsters: List[IMonster]):
-        """Detect collisions between monsters and return a list of colliding pairs.
+        """Detect collisions between monsters and return a dict of colliding monsters to self.
 
         Args:
+            aMonster (IMonster): The monster to check collisions.
             monsters (List[IMonster]): The list of monsters to check for collisions.
 
         Returns:
-            List[Tuple[IMonster, IMonster]]: A list of tuples containing colliding monsters.
+            Dict[IMonster]: A dict of monsters that collide with self.
         """
-        colliding_pairs = []
-        for i in range(len(monsters)):
-            if monsters[i] == aMonster:
-                monster_a = aMonster
-                monster_b = monsters[i]
-                if CollisionHandler.__collides_with(monster_a, monster_b):
-                    colliding_pairs.append((monster_b))
-                    colliding_monsters = {monster for monster in colliding_pairs}
+        colliding_monsters = []
+        for monster in monsters:
+            if monster != aMonster and CollisionHandler.__collides_with(aMonster, monster):
+                colliding_monsters.append(monster)
         return colliding_monsters

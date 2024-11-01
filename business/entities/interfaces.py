@@ -164,3 +164,12 @@ class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
         Returns:
             int: The experience required to reach the next level.
         """
+
+    @property
+    @abstractmethod
+    def max_health(self) -> int:
+        """The maximum amount of health a player can have.
+
+        Returns:
+            int: The max health.
+        """

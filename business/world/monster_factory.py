@@ -1,4 +1,3 @@
-# factory.py
 """This module contains the MonsterFactory class, which creates Monster instances."""
 
 from business.entities.monster import Monster
@@ -15,11 +14,11 @@ class MonsterFactory:
     def create_monster(self, src_x: int, src_y: int, sprite: Sprite) -> Monster:
         """Creates a Monster with predefined or default attributes."""
         monster = Monster(src_x, src_y, sprite)
-        
+
         monster.__health = self.default_health
         monster.__damage = self.default_damage
         monster.__attack_range = self.default_attack_range
-        
+
         return monster
 
     def create_orc(self, src_x: int, src_y: int, sprite: Sprite) -> Monster:

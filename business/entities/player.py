@@ -18,12 +18,13 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     """
 
     BASE_DAMAGE = 10
-    BASE_SHOOT_COOLDOWN = 200
+    BASE_SHOOT_COOLDOWN = 1000
 
     def __init__(self, pos_x: int, pos_y: int, sprite: Sprite):
         super().__init__(pos_x, pos_y, 5, sprite)
 
         self.__health: int = 100
+        self.__max_health: int = 100
         self.__last_shot_time = pygame.time.get_ticks()
         self.__experience = 0
         self.__level = 1
@@ -35,31 +36,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         lvl = self.__level
         pos = str(self._pos_x) + str(self._pos_y)
         return f"Player(hp={hp}, xp={xp}, lvl={lvl}, pos=({pos}))"
-
-    @property
-    def experience(self):
-        return self.__experience
-
-    @property
-    def experience_to_next_level(self):
-        base_xp = 2
-
-        if self.__level == 1:
-            return base_xp
-
-        return base_xp * (2 ** (self.__level - 1))
-
-    @property
-    def level(self):
-        return self.__level
-
-    @property
-    def damage_amount(self):
-        return Player.BASE_DAMAGE
-
-    @property
-    def health(self) -> int:
-        return self.__health
 
     def take_damage(self, amount):
         if not settings.PAUSE:
@@ -94,10 +70,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
                             monster.pos_x, monster.pos_y, 10)
             world.add_bullet(bullet)
 
-    @property
-    def __shoot_cooldown(self):
-        return Player.BASE_SHOOT_COOLDOWN
-
     def update(self, world: IGameWorld):
         if not settings.PAUSE:
             super().update(world)
@@ -106,3 +78,34 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             if current_time - self.__last_shot_time >= self.__shoot_cooldown:
                 self.__shoot_at_nearest_enemy(world)
                 self.__last_shot_time = current_time
+
+    @property
+    def experience(self):
+        return self.__experience
+
+    @property
+    def experience_to_next_level(self):
+        base_xp = 2
+        if self.__level == 1:
+            return base_xp
+        return base_xp * (2 ** (self.__level - 1))
+
+    @property
+    def level(self):
+        return self.__level
+
+    @property
+    def damage_amount(self):
+        return Player.BASE_DAMAGE
+
+    @property
+    def health(self) -> int:
+        return self.__health
+
+    @property
+    def max_health(self):
+        return self.__max_health
+
+    @property
+    def __shoot_cooldown(self):
+        return Player.BASE_SHOOT_COOLDOWN

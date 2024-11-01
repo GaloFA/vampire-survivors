@@ -25,9 +25,6 @@ class MonsterSpawner(IMonsterSpawner):
         self.__monster_factory = MonsterFactory()
 
     def update(self, world: IGameWorld):
-        #if settings.PAUSE:
-        #    return
-
         if not self.__spawn_cooldown.is_action_ready():
             return
 
