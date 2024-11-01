@@ -25,7 +25,7 @@ class Monster(MovableEntity, IMonster):
     def attack(self, target: IPlayer):
         """Attacks the target."""
 
-        #if settings.PAUSE:
+        # if settings.PAUSE:
         #    return
 
         if not self.__attack_cooldown.is_action_ready():
@@ -58,7 +58,7 @@ class Monster(MovableEntity, IMonster):
 
     def update(self, world: IGameWorld):
 
-        #if settings.PAUSE:
+        # if settings.PAUSE:
         #    return
 
         direction_x, direction_y = self.__get_direction_towards_the_player(
@@ -66,23 +66,24 @@ class Monster(MovableEntity, IMonster):
         if (direction_x, direction_y) == (0, 0):
             return
 
-        colliding_monsters = CollisionHandler.detect_monster_collisions(self, world.monsters)
+        colliding_monsters = CollisionHandler.detect_monster_collisions(
+            self, world.monsters)
 
         if self not in colliding_monsters:
             self.move(direction_x, direction_y)
 
-        if self in colliding_monsters:
-            for monster_b in colliding_monsters:
-                if -self == monster_b:
-                    closest_monster = min(
-                        [monster_a, monster_b],
-                        key=lambda m: (
-                            (m.pos_x - world.player.pos_x) ** 2 +
-                            (m.pos_y - world.player.pos_y) ** 2
-                        ),
-                    )
+        # if self in colliding_monsters:
+        #    for monster_b in colliding_monsters:
+        #        if -self == monster_b:
+        #            closest_monster = min(
+        #                [monster_a, monster_b],
+        #                key=lambda m: (
+        #                    (m.pos_x - world.player.pos_x) ** 2 +
+        #                    (m.pos_y - world.player.pos_y) ** 2
+        #                ),
+        #            )
 
-                    closest_monster.move(direction_x, direction_y)
+        #            closest_monster.move(direction_x, direction_y)
 
         if self.__health <= 0:
             world.remove_monster(self)
