@@ -2,10 +2,11 @@
 
 import pygame
 import settings
-
+from presentation.tileset import Tileset
 from business.world.game_world import GameWorld
 from business.handlers.death_handler import DeathHandler
 from presentation.interfaces import IInputHandler
+from presentation.sprite import PlayerSprite
 
 
 class InputHandler(IInputHandler):
@@ -32,6 +33,9 @@ class InputHandler(IInputHandler):
 
             if keys[pygame.K_d] and posx < settings.WORLD_WIDTH:
                 self.__world.player.move(1, 0)
+
+            else:
+                pass
 
     def process_input(self):
         posx = self.__world.player.pos_x

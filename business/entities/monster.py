@@ -58,7 +58,8 @@ class Monster(MovableEntity, IMonster):
         if (direction_x, direction_y) == (0, 0):
             return
 
-        colliding_monsters = CollisionHandler.detect_monster_collisions(self, world.monsters)
+        colliding_monsters = CollisionHandler.detect_monster_collisions(
+            self, world.monsters)
 
         self.move(direction_x, direction_y)
 
