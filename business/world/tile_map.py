@@ -20,7 +20,7 @@ class TileMap(ITileMap):
             tile_map[0][x] = 0
             tile_map[settings.WORLD_COLUMNS - 1][x] = 0
             tile_map[x][settings.WORLD_COLUMNS - 1] = 0
-        
+
         return tile_map
 
     def get(self, row, col) -> int:

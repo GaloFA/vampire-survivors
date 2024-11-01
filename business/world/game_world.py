@@ -16,7 +16,6 @@ class GameWorld(IGameWorld):
         self.__bullets: list[IBullet] = []
         self.__experience_gems: list[IExperienceGem] = []
         self.__spawn_cooldown = CooldownHandler(2500)
-        self.__simulation_speed = 1
 
         # Initialize the tile map
         self.tile_map: ITileMap = tile_map

@@ -1,7 +1,7 @@
 """This module defines the Game class."""
 
 import logging
-
+import time
 import pygame
 import settings
 from business.exceptions import DeadPlayerException
@@ -28,6 +28,8 @@ class Game:
         self.__running = True
         self.__pause_menu = PauseMenu(display.screen)
         self.__is_paused = False
+        self.start_ticks = pygame.time.get_ticks()  # Tiempo de inicio
+        self.elapsed_time = 0  # Tiempo transcurrido en segundos
 
     def __process_game_events(self):
         for event in pygame.event.get():
@@ -58,8 +60,9 @@ class Game:
                             self.__is_paused = False  # Resume the game
                         elif action == "quit":
                             self.__running = False  # Exit the game
-                    continue  # Skip the rest of the updates when paused
+                    continue
 
+                self.elapsed_time = (pygame.time.get_ticks() - self.start_ticks) / 1000
                 self.__input_handler.process_input()
                 self.__world.update()
                 CollisionHandler.handle_collisions(self.__world)

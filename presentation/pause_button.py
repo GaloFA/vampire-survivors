@@ -1,12 +1,12 @@
 """ Module that contains representation of buttons in the pause menu. """
 import pygame
-
+import settings
 
 class Button():
     """Class that represents buttons in the pause menu."""
 
     def __init__(self, x, y, width, height, text, color, text_color):
-        self.rect = pygame.Rect(x, y, width, height)
+        self.rect = pygame.Rect(settings.SCREEN_WIDTH//2-100, y, width, height)
         self.text = text
         self.color = color
         self.text_color = text_color

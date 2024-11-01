@@ -101,5 +101,4 @@ class Monster(MovableEntity, IMonster):
 
     def take_damage(self, amount):
         self.__health = max(0, self.__health - amount)
-        print(f"HEALTH:{self.__health}")
         self.sprite.take_damage()

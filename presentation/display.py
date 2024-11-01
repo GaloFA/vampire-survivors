@@ -1,7 +1,7 @@
 """Module for displaying the game world."""
 
 import pygame
-
+from game import Game
 import settings
 from business.world.game_world import GameWorld
 from presentation.camera import Camera
@@ -80,14 +80,37 @@ class Display(IDisplay):
 
         self.__draw_player_health_bar()
 
-        # Draw the experience text
-        font = pygame.font.SysFont(None, 48)
-        experience_text = font.render(
-            f"XP: {self.__world.player.experience}/{self.__world.player.experience_to_next_level}",
+        font = pygame.font.SysFont(None, 20)
+        time_text = font.render(
+            f"Tiempo: {self.__world.elapsed_time:.2f} segs",
             True,
-            (255, 255, 255),
+            (255, 209, 92),
         )
-        self.__screen.blit(experience_text, (10, 10))
+
+        # Crear un rectángulo para el tiempo transcurrido
+        time_rect = pygame.Rect(0, 0, 150, 30)  # Ajusta el tamaño según sea necesario
+        pygame.draw.rect(self.__screen, (0, 0, 0, 128), time_rect)  # Rectángulo negro con opacidad
+        self.__screen.blit(time_text, (time_rect.x + 5, time_rect.y + 5))  # Añadir un poco de margen
+
+
+        # Draw the experience text
+        font = pygame.font.SysFont(None, 30)
+        experience_text = font.render(
+            f"LEVEL: {self.__world.player.level}",
+            True,
+            (255, 209, 92),
+        )
+
+        #Esto agregue Prueba, Se borra o modifica
+        bar_width=settings.SCREEN_WIDTH//2
+        bar_height= 10
+        xp_ratio = self.__world.player.experience / self.__world.player.experience_to_next_level
+        current_xp_width = int(bar_width * xp_ratio)
+
+        pygame.draw.rect(self.__screen, (161,157,155), (settings.SCREEN_WIDTH//4, settings.SCREEN_HEIGHT - 50, bar_width, bar_height))
+        pygame.draw.rect(self.__screen, (255, 209, 92), (settings.SCREEN_WIDTH//4, settings.SCREEN_HEIGHT - 50, current_xp_width, bar_height))
+
+        self.__screen.blit(experience_text, (settings.SCREEN_WIDTH//2-45, settings.SCREEN_HEIGHT-80))
 
     def load_world(self, world: GameWorld):
         self.__world = world
