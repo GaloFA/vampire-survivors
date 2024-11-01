@@ -49,7 +49,8 @@ class Sprite(pygame.sprite.Sprite):
 
     def __change_color(self, color: tuple[int, int, int]):
         self._image = self.__original_image.copy()  # Make a copy of the original image
-        self._image.fill(color, special_flags=pygame.BLEND_MULT)  # Change color pylint: disable=E1101
+        # Change color pylint: disable=E1101
+        self._image.fill(color, special_flags=pygame.BLEND_MULT)
         self._image.set_colorkey((0, 0, 0))  # Set transparency if necessary
 
     def __decrease_damage_countdown(self):
@@ -73,10 +74,18 @@ class Sprite(pygame.sprite.Sprite):
 class PlayerSprite(Sprite):
     """A class representing the player sprite."""
 
-    ASSET = "./assets/adventurer-idle-00.png"
+    ASSET_IDLE = "./assets/character/Idle.png"
+    # A new asset for the running animation
+    ASSET_RUN = "./assets/character/Run.png"
+
+    TILE_WIDTH = 64
+    TILE_HEIGHT = 64
+    IDLE_COLUMNS = 4
+    RUN_COLUMNS = 6
 
     def __init__(self, pos_x: float, pos_y: float):
-        image: pygame.Surface = pygame.image.load(PlayerSprite.ASSET).convert_alpha()
+        image: pygame.Surface = pygame.image.load(
+            PlayerSprite.ASSET_IDLE).convert_alpha()
         image = pygame.transform.scale(image, settings.TILE_DIMENSION)
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
@@ -89,11 +98,13 @@ class MonsterSprite(Sprite):
     ASSET = "./assets/monster.png"
 
     def __init__(self, pos_x: float, pos_y: float):
-        image: pygame.Surface = pygame.image.load(MonsterSprite.ASSET).convert_alpha()
+        image: pygame.Surface = pygame.image.load(
+            MonsterSprite.ASSET).convert_alpha()
         image = pygame.transform.scale(image, settings.TILE_DIMENSION)
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
         super().__init__(image, rect)
+
 
 class OrcSprite(Sprite):
     """A class representing the monster sprite."""
@@ -103,17 +114,20 @@ class OrcSprite(Sprite):
     TILE_HEIGHT = 100
 
     def __init__(self, pos_x: float, pos_y: float):
-        image: pygame.Surface = pygame.image.load(MonsterSprite.ASSET).convert_alpha()
+        image: pygame.Surface = pygame.image.load(
+            MonsterSprite.ASSET).convert_alpha()
         image = pygame.transform.scale(image, settings.TILE_DIMENSION)
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
         super().__init__(image, rect)
 
+
 class BulletSprite(Sprite):
     """A class representing the bullet sprite."""
 
     def __init__(self, pos_x: float, pos_y: float):
-        image = pygame.Surface((5, 5), pygame.SRCALPHA)  # pylint: disable=E1101
+        image = pygame.Surface(
+            (5, 5), pygame.SRCALPHA)  # pylint: disable=E1101
         pygame.draw.circle(image, (255, 255, 0), (2, 2), 5)
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 

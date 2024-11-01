@@ -30,16 +30,17 @@ class Display(IDisplay):
             "./assets/ground_tileset.png", settings.TILE_WIDTH, settings.TILE_HEIGHT, 2, 3
         )
 
-        
     def __render_ground_tiles(self):
         # Calculate the range of tiles to render based on the camera position
         start_col = max(0, self.camera.camera_rect.left // settings.TILE_WIDTH)
         end_col = min(
-            settings.WORLD_COLUMNS, (self.camera.camera_rect.right // settings.TILE_WIDTH) + 1
+            settings.WORLD_COLUMNS, (self.camera.camera_rect.right //
+                                     settings.TILE_WIDTH) + 1
         )
         start_row = max(0, self.camera.camera_rect.top // settings.TILE_HEIGHT)
         end_row = min(
-            settings.WORLD_ROWS, (self.camera.camera_rect.bottom // settings.TILE_HEIGHT) + 1
+            settings.WORLD_ROWS, (self.camera.camera_rect.bottom //
+                                  settings.TILE_HEIGHT) + 1
         )
 
         for row in range(start_row, end_row):
@@ -69,7 +70,8 @@ class Display(IDisplay):
         pygame.draw.rect(self.__screen, (255, 0, 0), bg_rect)
 
         # Draw the health bar (green)
-        health_percentage = player.health / 100  # Assuming max health is 100 (code smell?)
+        # Assuming max health is 100 (code smell?)
+        health_percentage = player.health / 100
         health_width = int(bar_width * health_percentage)
         health_rect = pygame.Rect(bar_x, bar_y, health_width, bar_height)
         pygame.draw.rect(self.__screen, (0, 255, 0), health_rect)
@@ -80,8 +82,6 @@ class Display(IDisplay):
 
         self.__draw_player_health_bar()
 
-        
-
         # Draw the experience text
         font = pygame.font.SysFont(None, 30)
         experience_text = font.render(
@@ -90,16 +90,20 @@ class Display(IDisplay):
             (255, 209, 92),
         )
 
-        #Esto agregue Prueba, Se borra o modifica
-        bar_width=settings.SCREEN_WIDTH//2
-        bar_height= 10
-        xp_ratio = self.__world.player.experience / self.__world.player.experience_to_next_level
+        # Esto agregue Prueba, Se borra o modifica
+        bar_width = settings.SCREEN_WIDTH//2
+        bar_height = 10
+        xp_ratio = self.__world.player.experience / \
+            self.__world.player.experience_to_next_level
         current_xp_width = int(bar_width * xp_ratio)
 
-        pygame.draw.rect(self.__screen, (161,157,155), (settings.SCREEN_WIDTH//4, settings.SCREEN_HEIGHT - 50, bar_width, bar_height))
-        pygame.draw.rect(self.__screen, (255, 209, 92), (settings.SCREEN_WIDTH//4, settings.SCREEN_HEIGHT - 50, current_xp_width, bar_height))
+        pygame.draw.rect(self.__screen, (161, 157, 155), (settings.SCREEN_WIDTH //
+                         4, settings.SCREEN_HEIGHT - 50, bar_width, bar_height))
+        pygame.draw.rect(self.__screen, (255, 209, 92), (settings.SCREEN_WIDTH //
+                         4, settings.SCREEN_HEIGHT - 50, current_xp_width, bar_height))
 
-        self.__screen.blit(experience_text, (settings.SCREEN_WIDTH//2-45, settings.SCREEN_HEIGHT-80))
+        self.__screen.blit(
+            experience_text, (settings.SCREEN_WIDTH//2-45, settings.SCREEN_HEIGHT-80))
 
     def load_world(self, world: GameWorld):
         self.__world = world
