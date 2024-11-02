@@ -14,11 +14,12 @@ from presentation.sprite import Sprite
 class Monster(MovableEntity, IMonster):
     """A monster entity in the game."""
 
-    def __init__(self, src_x: int, src_y: int, sprite: Sprite):
+    def __init__(self, src_x: int, src_y: int, sprite: Sprite, health: int, max_health: int, damage: int, attack_range: int):
         super().__init__(src_x, src_y, 2, sprite)
-        self.__health: int = 10
-        self.__damage = 10
-        self.__attack_range = 50
+        self.__health: int = health
+        self.__max_health: int = max_health
+        self.__damage = damage
+        self.__attack_range = attack_range
         self.__attack_cooldown = CooldownHandler(1000)
 
     def attack(self, target: IPlayer):
@@ -31,10 +32,6 @@ class Monster(MovableEntity, IMonster):
             target.take_damage(self.damage_amount)
             self.__attack_cooldown.put_on_cooldown()
 
-    @property
-    def damage_amount(self):
-        return self.__damage
-
     def __get_direction_towards_the_player(self, world: IGameWorld):
         direction_x = world.player.pos_x - self.pos_x
         if direction_x != 0:
@@ -45,12 +42,6 @@ class Monster(MovableEntity, IMonster):
             direction_y = direction_y // abs(direction_y)
 
         return direction_x, direction_y
-
-    # def __movement_collides_with_entities(
-    #    self, dx: float, dy: float, entities: List[IHasSprite]
-    # ) -> bool:
-    #    new_position = self.sprite.rect.move(dx, dy).inflate(-10, -10)
-    #    return any(e.sprite.rect.colliderect(new_position) for e in entities)
 
     def update(self, world: IGameWorld):
         direction_x, direction_y = self.__get_direction_towards_the_player(
@@ -84,10 +75,18 @@ class Monster(MovableEntity, IMonster):
     def __str__(self):
         return f"Monster(hp={self.health}, pos={self.pos_x, self.pos_y})"
 
+    def take_damage(self, amount):
+        self.__health = max(0, self.__health - amount)
+        self.sprite.take_damage()
+
+    @property
+    def damage_amount(self):
+        return self.__damage
+
     @property
     def health(self) -> int:
         return self.__health
 
-    def take_damage(self, amount):
-        self.__health = max(0, self.__health - amount)
-        self.sprite.take_damage()
+    @property
+    def max_health(self) -> int:
+        return self.__max_health

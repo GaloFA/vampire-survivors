@@ -75,6 +75,26 @@ class Display(IDisplay):
         health_rect = pygame.Rect(bar_x, bar_y, health_width, bar_height)
         pygame.draw.rect(self.__screen, (0, 255, 0), health_rect)
 
+    def __draw_monster_health_bar(self):
+        # Get the player's health
+        for monster in self.__world.monsters:
+
+            # Define the health bar dimensions
+            bar_width = settings.TILE_WIDTH
+            bar_height = 5
+            bar_x = monster.sprite.rect.centerx - bar_width // 2 - self.camera.camera_rect.left
+            bar_y = monster.sprite.rect.bottom + 5 - self.camera.camera_rect.top
+
+            # Draw the background bar (red)
+            bg_rect = pygame.Rect(bar_x, bar_y, bar_width, bar_height)
+            pygame.draw.rect(self.__screen, (255, 0, 0), bg_rect)
+
+            # Draw the health bar (green)
+            health_percentage = monster.health / monster.max_health
+            health_width = int(bar_width * health_percentage)
+            health_rect = pygame.Rect(bar_x, bar_y, health_width, bar_height)
+            pygame.draw.rect(self.__screen, (0, 255, 0), health_rect)
+
     def __draw_player(self):
         adjusted_rect = self.camera.apply(self.__world.player.sprite.rect)
         self.__screen.blit(self.__world.player.sprite.image, adjusted_rect)
@@ -123,6 +143,7 @@ class Display(IDisplay):
         # Draw all monsters
         for monster in self.__world.monsters:
             if self.camera.camera_rect.colliderect(monster.sprite.rect):
+                self.__draw_monster_health_bar()
                 adjusted_rect = self.camera.apply(monster.sprite.rect)
                 self.__screen.blit(monster.sprite.image, adjusted_rect)
 

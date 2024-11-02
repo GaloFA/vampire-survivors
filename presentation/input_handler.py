@@ -18,21 +18,20 @@ class InputHandler(IInputHandler):
 
     def __example_method(self, keys, posx, posy):
 
-        if not settings.PAUSE:
-            if keys[pygame.K_w] and posy > 0:
-                self.__world.player.move(0, -1)
+        if keys[pygame.K_w] and posy > 0:
+            self.__world.player.move(0, -1)
 
-            if keys[pygame.K_s] and posy < settings.WORLD_HEIGHT:
-                self.__world.player.move(0, 1)
+        if keys[pygame.K_s] and posy < settings.WORLD_HEIGHT:
+            self.__world.player.move(0, 1)
 
-            if keys[pygame.K_a] and posx > 0:
-                self.__world.player.move(-1, 0)
+        if keys[pygame.K_a] and posx > 0:
+            self.__world.player.move(-1, 0)
 
-            if keys[pygame.K_d] and posx < settings.WORLD_WIDTH:
-                self.__world.player.move(1, 0)
+        if keys[pygame.K_d] and posx < settings.WORLD_WIDTH:
+            self.__world.player.move(1, 0)
 
-            else:
-                pass
+        else:
+            pass
 
     def process_input(self):
         posx = self.__world.player.pos_x

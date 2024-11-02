@@ -91,38 +91,73 @@ class PlayerSprite(Sprite):
 
         super().__init__(image, rect)
 
+class ZombieSprite(Sprite):
+    """A class representing the zombie sprite."""
 
-class MonsterSprite(Sprite):
-    """A class representing the monster sprite."""
-
-    ASSET = "./assets/monster.png"
-
-    def __init__(self, pos_x: float, pos_y: float):
-        image: pygame.Surface = pygame.image.load(
-            MonsterSprite.ASSET).convert_alpha()
-        image = pygame.transform.scale(image, settings.TILE_DIMENSION)
-        rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
-
-        super().__init__(image, rect)
-
-
-class OrcSprite(Sprite):
-    """A class representing the monster sprite."""
-
-    ASSET = "./assets/entities/monsters/Orc-Walk.png"
-    TILE_WIDTH = 23
-    TILE_HEIGHT = 19
+    ASSET = "./assets/entities/monsters/zombie/zombie.png"
+    TILE_WIDTH = 20
+    TILE_HEIGHT = 26
     SIZE_MULTIPLIER = 4
 
     def __init__(self, pos_x: float, pos_y: float):
-        tileset = Tileset(OrcSprite.ASSET, OrcSprite.TILE_WIDTH * OrcSprite.SIZE_MULTIPLIER,
-                          OrcSprite.TILE_HEIGHT * OrcSprite.SIZE_MULTIPLIER, 8, 1)
+        tileset = Tileset(ZombieSprite.ASSET, ZombieSprite.TILE_WIDTH * ZombieSprite.SIZE_MULTIPLIER,
+                          ZombieSprite.TILE_HEIGHT * ZombieSprite.SIZE_MULTIPLIER, 1, 1)
 
-        image: pygame.Surface = tileset.get_tile(1)
+        image: pygame.Surface = tileset.get_tile(0)
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
         super().__init__(image, rect)
 
+class SkeletonSprite(Sprite):
+    """A class representing the skeleton sprite."""
+
+    ASSET = "./assets/entities/monsters/skeleton/skeleton.png"
+    TILE_WIDTH = 22
+    TILE_HEIGHT = 32
+    SIZE_MULTIPLIER = 4
+
+    def __init__(self, pos_x: float, pos_y: float):
+        tileset = Tileset(SkeletonSprite.ASSET, SkeletonSprite.TILE_WIDTH * SkeletonSprite.SIZE_MULTIPLIER,
+                          SkeletonSprite.TILE_HEIGHT * SkeletonSprite.SIZE_MULTIPLIER, 1, 1)
+
+        image: pygame.Surface = tileset.get_tile(0)
+        rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
+
+        super().__init__(image, rect)
+
+class OrcSprite(Sprite):
+    """A class representing the orc sprite."""
+
+    ASSET = "./assets/entities/monsters/orc/orc.png"
+    TILE_WIDTH = 22
+    TILE_HEIGHT = 16
+    SIZE_MULTIPLIER = 5
+
+    def __init__(self, pos_x: float, pos_y: float):
+        tileset = Tileset(OrcSprite.ASSET, OrcSprite.TILE_WIDTH * OrcSprite.SIZE_MULTIPLIER,
+                          OrcSprite.TILE_HEIGHT * OrcSprite.SIZE_MULTIPLIER, 1, 1)
+
+        image: pygame.Surface = tileset.get_tile(0)
+        rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
+
+        super().__init__(image, rect)
+
+class WerewolfSprite(Sprite):
+    """A class representing the werewolf sprite."""
+
+    ASSET = "./assets/entities/monsters/werewolf/werewolf.png"
+    TILE_WIDTH = 36
+    TILE_HEIGHT = 32
+    SIZE_MULTIPLIER = 3
+
+    def __init__(self, pos_x: float, pos_y: float):
+        tileset = Tileset(WerewolfSprite.ASSET, WerewolfSprite.TILE_WIDTH * WerewolfSprite.SIZE_MULTIPLIER,
+                          WerewolfSprite.TILE_HEIGHT * WerewolfSprite.SIZE_MULTIPLIER, 1, 1)
+
+        image: pygame.Surface = tileset.get_tile(0)
+        rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
+
+        super().__init__(image, rect)
 
 class BulletSprite(Sprite):
     """A class representing the bullet sprite."""
