@@ -23,18 +23,37 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     def __init__(self, pos_x: int, pos_y: int, sprite: Sprite):
         super().__init__(pos_x, pos_y, 5, sprite)
 
-        self.__health: int = 100
-        self.__max_health: int = 100
-        self.__last_shot_time = pygame.time.get_ticks()
-        self.__experience = 0
-        self.__level = 1
+        self.__health: int = 100                 # Salud actual
+        self.__max_health: int = 100             # Salud máxima
+        self.__last_shot_time = pygame.time.get_ticks()  # Tiempo del último disparo
+        self.__experience = 0                     # Experiencia acumulada
+        self.__level = 1                          # Nivel del jugador
+        self.__velocidad: int = 5                 # Velocidad de movimiento del jugador
+        self.__daño: int = 10                    # Daño infligido por el jugador
+        self.__defensa: int = 0                   # Defensa del jugador
+        self.__autocuracion: int = 0              # Mejora de autocuración del jugador
+        # Probabilidad de infligir daño crítico
+        self.__probabilidad_critico: int = 0
+        self.__velocidad_ataque: int = 1
 
     def __str__(self):
         hp = self.__health
         xp = self.__experience
         lvl = self.__level
         pos = str(self._pos_x) + str(self._pos_y)
-        return f"Player(hp={hp}, xp={xp}, lvl={lvl}, pos=({pos}))"
+        vel = self.__velocidad
+        dañ = self.__daño
+        defe = self.__defensa
+        autoc = self.__autocuracion
+        pcrit = self.__probabilidad_critico
+        velata = self.__velocidad_ataque
+        return (f"Player(hp={hp}, xp={xp}, lvl={lvl}, pos=({pos}), "
+                f"vel={vel}, daño={dañ}, defensa={defe}, "
+                f"autocuración={autoc}, critico={pcrit}, "
+                f"vel_ataque={velata})")
+
+    def mostrar_estadisticas(self):
+        pass
 
     def take_damage(self, amount):
         if not settings.PAUSE:
