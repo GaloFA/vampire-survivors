@@ -14,12 +14,12 @@ from presentation.sprite import Sprite
 class Monster(MovableEntity, IMonster):
     """A monster entity in the game."""
 
-    def __init__(self, src_x: int, src_y: int, sprite: Sprite):
+    def __init__(self, src_x: int, src_y: int, sprite: Sprite, health: int, max_health: int, damage: int, attack_range: int):
         super().__init__(src_x, src_y, 2, sprite)
-        self.__health: int = 10
-        self.__max_health: int = 10
-        self.__damage = 10
-        self.__attack_range = 50
+        self.__health: int = health
+        self.__max_health: int = max_health
+        self.__damage = damage
+        self.__attack_range = attack_range
         self.__attack_cooldown = CooldownHandler(1000)
 
     def attack(self, target: IPlayer):

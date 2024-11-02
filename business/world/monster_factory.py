@@ -6,27 +6,32 @@ from presentation.sprite import Sprite
 class MonsterFactory:
     """Factory for creating Monster instances with custom configurations."""
 
-    def __init__(self, default_health=10, default_damage=10, default_attack_range=50):
+    def __init__(self, default_health=10, default_damage=5, default_attack_range=50, default_max_health = 10):
         self.default_health = default_health
         self.default_damage = default_damage
         self.default_attack_range = default_attack_range
+        self.default_max_health = default_max_health
 
-    def create_monster(self, src_x: int, src_y: int, sprite: Sprite) -> Monster:
-        """Creates a Monster default attributes."""
-        monster = Monster(src_x, src_y, sprite)
+    def create_zombie(self, src_x: int, src_y: int, sprite: Sprite) -> Monster:
+        """Creates zombie monster."""
+        monster = Monster(src_x, src_y, sprite, self.default_health, self.default_max_health, self.default_damage, self.default_attack_range)
 
-        monster.__health = self.default_health
-        monster.__damage = self.default_damage
-        monster.__attack_range = self.default_attack_range
+        return monster
+    
+    def create_skeleton(self, src_x: int, src_y: int, sprite: Sprite) -> Monster:
+        """Creates orc monster."""
+        monster = Monster(src_x, src_y, sprite, 15, 15, 10, 50)
 
         return monster
 
     def create_orc(self, src_x: int, src_y: int, sprite: Sprite) -> Monster:
-        """Creates an Orc monster."""
-        orc = Monster(src_x, src_y, sprite)
+        """Creates orc monster."""
+        monster = Monster(src_x, src_y, sprite, 20, 20, 15, 60)
 
-        orc.__health = 20
-        orc.__damage = 15
-        orc.__attack_range = 60
+        return monster
+    
+    def create_werewolf(self, src_x: int, src_y: int, sprite: Sprite) -> Monster:
+        """Creates werewolf monster."""
+        monster = Monster(src_x, src_y, sprite, 25, 25, 20, 60)
 
-        return orc
+        return monster

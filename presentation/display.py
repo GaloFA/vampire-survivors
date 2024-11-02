@@ -143,6 +143,7 @@ class Display(IDisplay):
         # Draw all monsters
         for monster in self.__world.monsters:
             if self.camera.camera_rect.colliderect(monster.sprite.rect):
+                self.__draw_monster_health_bar()
                 adjusted_rect = self.camera.apply(monster.sprite.rect)
                 self.__screen.blit(monster.sprite.image, adjusted_rect)
 
