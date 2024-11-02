@@ -37,7 +37,7 @@ class Game:
             if event.type == pygame.QUIT:  # pylint: disable=E1101
                 self.__logger.debug("QUIT event detected")
                 self.__running = False
-            
+
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 self.__is_paused = not self.__is_paused
 
@@ -47,7 +47,6 @@ class Game:
         while self.__running:
             try:
                 self.__process_game_events()
-                
 
                 if self.__is_paused:
                     self.__pause_menu.draw()
@@ -60,9 +59,12 @@ class Game:
                             self.__is_paused = False  # Resume the game
                         elif action == "quit":
                             self.__running = False  # Exit the game
+                        else:
+                            self.__is_paused = False
                     continue
 
-                self.elapsed_time = (pygame.time.get_ticks() - self.start_ticks) / 1000
+                self.elapsed_time = (
+                    pygame.time.get_ticks() - self.start_ticks) / 1000
                 self.__input_handler.process_input()
                 self.__world.update()
                 CollisionHandler.handle_collisions(self.__world)
