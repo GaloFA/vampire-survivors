@@ -74,7 +74,7 @@ class Sprite(pygame.sprite.Sprite):
 class PlayerSprite(Sprite):
     """A class representing the player sprite."""
 
-    ASSET_IDLE = "./assets/character/Idle.png"
+    ASSET_IDLE = "./assets/adventurer-idle-00.png"
     # A new asset for the running animation
     ASSET_RUN = "./assets/character/Run.png"
 
@@ -90,6 +90,7 @@ class PlayerSprite(Sprite):
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
         super().__init__(image, rect)
+
 
 class MonsterSprite(Sprite):
     """A class representing the monster sprite."""
@@ -114,7 +115,8 @@ class OrcSprite(Sprite):
     SIZE_MULTIPLIER = 4
 
     def __init__(self, pos_x: float, pos_y: float):
-        tileset = Tileset(OrcSprite.ASSET, OrcSprite.TILE_WIDTH * OrcSprite.SIZE_MULTIPLIER, OrcSprite.TILE_HEIGHT * OrcSprite.SIZE_MULTIPLIER, 8, 1)
+        tileset = Tileset(OrcSprite.ASSET, OrcSprite.TILE_WIDTH * OrcSprite.SIZE_MULTIPLIER,
+                          OrcSprite.TILE_HEIGHT * OrcSprite.SIZE_MULTIPLIER, 8, 1)
 
         image: pygame.Surface = tileset.get_tile(1)
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
@@ -132,6 +134,7 @@ class BulletSprite(Sprite):
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
         super().__init__(image, rect)
+
 
 class ExperienceGemSprite(Sprite):
     """A class representing the experience gem sprite."""

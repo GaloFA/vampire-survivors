@@ -18,9 +18,6 @@ class InputHandler(IInputHandler):
 
     def __example_method(self, keys, posx, posy):
 
-        if keys[pygame.K_ESCAPE]:
-            settings.PAUSE = not settings.PAUSE
-
         if not settings.PAUSE:
             if keys[pygame.K_w] and posy > 0:
                 self.__world.player.move(0, -1)

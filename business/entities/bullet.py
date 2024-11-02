@@ -13,8 +13,8 @@ class Bullet(MovableEntity, IBullet):
 
     def __init__(self, src_x, src_y, dst_x, dst_y, speed):
         super().__init__(src_x, src_y, speed, BulletSprite(src_x, src_y))
-        self.__dir_x, self.__dir_y = self.__calculate_direction(dst_x - src_x, dst_y - src_y)
-        self._logger.debug("Created %s", self)
+        self.__dir_x, self.__dir_y = self.__calculate_direction(
+            dst_x - src_x, dst_y - src_y)
         self.__health: int = 1
         self.__damage_amount: int = 5
 
