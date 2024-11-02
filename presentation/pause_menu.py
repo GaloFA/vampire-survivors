@@ -10,9 +10,10 @@ class PauseMenu:
         self.resume_button = Button(200,settings.SCREEN_HEIGHT//2-100 , 200, 50, "Reanudar", (0, 200, 0), (255, 255, 255))
         self.quit_button = Button(200,settings.SCREEN_HEIGHT//2+100, 200, 50, "Salir", (200, 0, 0), (255, 255, 255))
         self.buttons = [self.resume_button, self.quit_button]
-        #Este es un rectangulo que tiene el mismo tamaño que la pantalla
-        self.overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
-        self.overlay.fill((0, 0, 0, 5))
+        
+        self.overlay = pygame.Surface((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+        self.overlay.set_alpha(128)
+        self.overlay.fill((0, 0, 0))
 
     def draw(self):
         # Dibujar la superposición negra

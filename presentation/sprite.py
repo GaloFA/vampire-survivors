@@ -116,7 +116,7 @@ class OrcSprite(Sprite):
     def __init__(self, pos_x: float, pos_y: float):
         tileset = Tileset(OrcSprite.ASSET, OrcSprite.TILE_WIDTH * OrcSprite.SIZE_MULTIPLIER, OrcSprite.TILE_HEIGHT * OrcSprite.SIZE_MULTIPLIER, 8, 1)
 
-        image: pygame.Surface = tileset.get_tile(1)
+        image: pygame.Surface = tileset.get_tile(0)
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
         super().__init__(image, rect)

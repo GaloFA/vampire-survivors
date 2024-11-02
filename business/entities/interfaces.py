@@ -108,6 +108,14 @@ class ICanMove(IHasPosition):
 
 class IMonster(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
     """Interface for monster entities."""
+    @property
+    @abstractmethod
+    def max_health(self) -> int:
+        """The maximum amount of health a player can have.
+
+        Returns:
+            int: The max health.
+        """
 
 
 class IBullet(IUpdatable, ICanMove, IDamageable, ICanDealDamage):

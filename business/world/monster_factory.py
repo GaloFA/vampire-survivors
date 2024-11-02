@@ -12,7 +12,7 @@ class MonsterFactory:
         self.default_attack_range = default_attack_range
 
     def create_monster(self, src_x: int, src_y: int, sprite: Sprite) -> Monster:
-        """Creates a Monster with predefined or default attributes."""
+        """Creates a Monster default attributes."""
         monster = Monster(src_x, src_y, sprite)
 
         monster.__health = self.default_health

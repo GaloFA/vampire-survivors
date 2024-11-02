@@ -15,7 +15,6 @@ from business.world.monster_factory import MonsterFactory
 
 BASE_COOLDOWN = 400
 
-
 class MonsterSpawner(IMonsterSpawner):
     """Spawns monsters in the game world."""
 
@@ -34,12 +33,20 @@ class MonsterSpawner(IMonsterSpawner):
     def spawn_monster(self, world: IGameWorld):
         pos_x = random.randint(0, settings.WORLD_WIDTH)
         pos_y = random.randint(0, settings.WORLD_HEIGHT)
+        monster_type = random.randint(0, 3)
 
-        sprite = MonsterSprite(pos_x, pos_y)
+        if monster_type == 0:
+            sprite = MonsterSprite(pos_x, pos_y)
+            monster = self.__monster_factory.create_monster(pos_x, pos_y, sprite)
+        if monster_type == 1:
+            sprite = OrcSprite(pos_x, pos_y)
+            monster = self.__monster_factory.create_orc(pos_x, pos_y, sprite)
+        if monster_type == 2:
+            sprite = MonsterSprite(pos_x, pos_y)
+            monster = self.__monster_factory.create_orc(pos_x, pos_y, sprite)
+        if monster_type == 3:
+            sprite = MonsterSprite(pos_x, pos_y)
+            monster = self.__monster_factory.create_orc(pos_x, pos_y, sprite)
 
-        orc_sprite = OrcSprite(pos_x, pos_y)
-        
-        orc = self.__monster_factory.create_orc(pos_x, pos_y, orc_sprite)
-        
-        world.add_monster(orc)
-        self.__logger.debug("Spawning Orc at (%d, %d)", pos_x, pos_y)
+        world.add_monster(monster)
+        self.__logger.debug("Spawning Monster at (%d, %d)", pos_x, pos_y)
