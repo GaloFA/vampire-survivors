@@ -15,7 +15,6 @@ class Entity(IHasPosition, IHasSprite):
         self._pos_x: float = pos_x
         self._pos_y: float = pos_y
         self._sprite: Sprite = sprite
-        self._logger = logging.getLogger(self.__class__.__name__)
 
     def _get_distance_to(self, an_entity: IHasPosition) -> float:
         """Returns the distance to another entity using the Euclidean distance formula.
@@ -45,6 +44,7 @@ class Entity(IHasPosition, IHasSprite):
         """Updates the entity."""
         self.sprite.update()
 
+
 class MovableEntity(Entity, ICanMove):
     """Base class for all entities that can move."""
 
@@ -65,20 +65,16 @@ class MovableEntity(Entity, ICanMove):
         self._pos_x += direction_x * self._speed
         self._pos_y += direction_y * self._speed
 
-        self._logger.debug(
-            "Moving in direction (%.2f, %.2f) with speed %.2f",
-            direction_x,
-            direction_y,
-            self._speed,
-        )
         self.sprite.update_pos(self._pos_x, self._pos_y)
 
     @property
     def speed(self) -> float:
         return self._speed
 
+
 class DamageableEntity(Entity, IDamageable):
     """ Base class for all entities that can be damaged. """
+
     def __init__(self, pos_x: float, pos_y: float, sprite: Sprite, health: int):
         super().__init__(pos_x, pos_y, sprite)
         self.__health = health

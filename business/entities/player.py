@@ -28,7 +28,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__last_shot_time = pygame.time.get_ticks()
         self.__experience = 0
         self.__level = 1
-        self._logger.debug("Created %s", self)
 
     def __str__(self):
         hp = self.__health

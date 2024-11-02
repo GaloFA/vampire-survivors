@@ -10,7 +10,6 @@ class ExperienceGem(Entity, IExperienceGem):
 
     def __init__(self, pos_x: float, pos_y: float, amount: int):
         super().__init__(pos_x, pos_y, ExperienceGemSprite(pos_x, pos_y))
-        self._logger.debug("Created %s", self)
         self.__amount = amount
 
     @property

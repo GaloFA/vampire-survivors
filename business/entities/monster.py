@@ -21,7 +21,6 @@ class Monster(MovableEntity, IMonster):
         self.__damage = 10
         self.__attack_range = 50
         self.__attack_cooldown = CooldownHandler(1000)
-        self._logger.debug("Created %s", self)
 
     def attack(self, target: IPlayer):
         """Attacks the target."""
@@ -45,7 +44,8 @@ class Monster(MovableEntity, IMonster):
         return direction_x, direction_y
 
     def update(self, world: IGameWorld):
-        direction_x, direction_y = self.__get_direction_towards_the_player(world)
+        direction_x, direction_y = self.__get_direction_towards_the_player(
+            world)
         if (direction_x, direction_y) == (0, 0):
             return
 
