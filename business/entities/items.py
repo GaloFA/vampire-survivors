@@ -41,11 +41,11 @@ class ItemSalud(Item):
 
     def __init__(self):
         super().__init__(
-            nombre="Elixir de Salud",
+            nombre="Amuleto de Salud",
             descripcion="Aumenta la salud del jugador.",
             tipo_efecto="salud",
             mejoras=[20, 40, 60, 80, 100],
-            imagen_path="./assets/items/sprite-items/item4.png"
+            imagen_path="./assets/items/sprite-items/item2.png"
         )
 
     def aplicar_efecto(self, jugador):
@@ -73,7 +73,7 @@ class ItemDaño(Item):
 
     def __init__(self):
         super().__init__(
-            nombre="Furia del Guerrero",
+            nombre="Espada del Guerrero",
             descripcion="Aumenta el daño infligido por el jugador.",
             tipo_efecto="daño",
             mejoras=[5, 10, 15, 20, 25],
@@ -93,7 +93,7 @@ class ItemDefensa(Item):
             descripcion="Aumenta la defensa del jugador.",
             tipo_efecto="defensa",
             mejoras=[3, 6, 9, 12, 15],
-            imagen_path="./assets/items/sprite-items/item6.png"
+            imagen_path="./assets/items/sprite-items/item8.png"
         )
 
     def aplicar_efecto(self, jugador):
@@ -105,7 +105,7 @@ class ItemExperiencia(Item):
 
     def __init__(self):
         super().__init__(
-            nombre="Amuleto de Sabiduría",
+            nombre="Libro de Sabiduría",
             descripcion="Aumenta la experiencia ganada por el jugador.",
             tipo_efecto="experiencia",
             mejoras=[50, 100, 150, 200, 250],
@@ -121,7 +121,7 @@ class ItemAutocuracion(Item):
 
     def __init__(self):
         super().__init__(
-            nombre="Anillo de Autocuración",
+            nombre="Petalos de Luz",
             descripcion="Aumenta la cantidad de salud recuperada automáticamente.",
             tipo_efecto="autocuracion",
             mejoras=[1, 2, 3, 4, 5],
@@ -137,7 +137,7 @@ class ItemCriticos(Item):
 
     def __init__(self):
         super().__init__(
-            nombre="Capa de Sombra",
+            nombre="Talismán de Juicio",
             descripcion="Aumenta la probabilidad de infligir daño crítico.",
             tipo_efecto="critico",
             mejoras=[1, 2, 3, 4, 5],  # Porcentaje o puntos de probabilidad
@@ -153,7 +153,7 @@ class ItemVelocidadAtaque(Item):
 
     def __init__(self):
         super().__init__(
-            nombre="Guantes de Agilidad",
+            nombre="Elixir de Asalto Rápido",
             descripcion="Aumenta la velocidad de ataque del jugador.",
             tipo_efecto="velocidad_ataque",
             mejoras=[1, 2, 3, 4, 5],

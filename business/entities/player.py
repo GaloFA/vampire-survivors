@@ -87,7 +87,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             self.__experience -= self.experience_to_next_level
             self.__level += 1
             self.__levelup_perks()
-            input("maria")
 
     def __shoot_at_nearest_enemy(self, world: IGameWorld):
         if not world.monsters:
@@ -101,7 +100,8 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             ),
         )
 
-        bullet = Bullet(self.pos_x, self.pos_y, monster.pos_x, monster.pos_y, 10)
+        bullet = Bullet(self.pos_x, self.pos_y,
+                        monster.pos_x, monster.pos_y, 10)
         world.add_bullet(bullet)
 
     def update(self, world: IGameWorld):

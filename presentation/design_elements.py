@@ -113,7 +113,7 @@ class ItemCard:
         # Dibujar el texto "New!" si es un ítem nuevo
         if self.is_new:
             new_surface = self.font_new.render("New!", True, self.new_color)
-            screen.blit(new_surface, (self.x + self.width - 60, self.y + 10))
+            screen.blit(new_surface, (self.x + self.width - 45, self.y + 10))
 
     def is_clicked(self, mouse_pos):
         """Determines if the button is clicked based on the mouse position."""
