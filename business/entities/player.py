@@ -109,7 +109,8 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             ),
         )
 
-        bullet = Bullet(self.pos_x, self.pos_y, monster.pos_x, monster.pos_y, 10)
+        bullet = Bullet(self.pos_x, self.pos_y,
+                        monster.pos_x, monster.pos_y, 10)
         world.add_bullet(bullet)
 
     def update(self, world: IGameWorld):
