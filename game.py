@@ -57,32 +57,33 @@ class Game:
                 self.__is_paused = False
 
     def __handle_level_up_menu(self):
-        if not self.__items_inicializados:  # ESTO EXISTE PARA QUE SI NO SE ELIJE UNA OPCION ESTO NO SE VUELVA A REPETIR POR QUE SE VUELVE LOCO
-            Diccionario_Clases = DiccionarioClass()
-            diccionario_items = Diccionario_Clases.select_random_items()
-            item_cards = self.__level_menu.colocar_items(diccionario_items)
-            self.__level_menu.draw(item_cards)
-            pygame.display.flip()
-            self.__items_inicializados = True  # Marcar como inicializado
+        if not self.__items_inicializados:  # Verifica si los ítems no han sido inicializados
+            self.initialize_items()
 
         if pygame.mouse.get_pressed()[0]:
             action = self.__level_menu.check_click(pygame.mouse.get_pos())
             if action == "item1":
                 self.__items_inicializados = False
-                pass
             if action == "item2":
                 self.__items_inicializados = False
-                pass
             if action == "item3":
                 self.__items_inicializados = False
-                pass
             if action == "skip":
                 self.__items_inicializados = False
-                pass
             if action == "reroll":
-                self.__items_inicializados = False
-                pass
+                self.reroll_items()
             self.__is_level_up_menu_active = False  # Cerrar menú de nivel
+
+    def initialize_items(self):
+        Diccionario_Clases = DiccionarioClass()
+        diccionario_items = Diccionario_Clases.select_random_items()
+        item_cards = self.__level_menu.colocar_items(diccionario_items)
+        self.__level_menu.draw(item_cards)
+        pygame.display.flip()
+        self.__items_inicializados = True  # Marcar como inicializado
+
+    def reroll_items(self):
+        self.__items_inicializados = False  # Asegúrate de reinicializar los ítems
 
     def run(self):
         """Starts the game loop."""
