@@ -16,6 +16,7 @@ class GameWorld(IGameWorld):
         self.__bullets: list[IBullet] = []
         self.__experience_gems: list[IExperienceGem] = []
         self.__spawn_cooldown = CooldownHandler(2500)
+        self.__monster_levelup_cooldown = CooldownHandler(10000)
 
         # Initialize the tile map
         self.tile_map: ITileMap = tile_map
@@ -32,6 +33,7 @@ class GameWorld(IGameWorld):
 
         for monster in self.__monsters:
             monster.update(self)
+            monster.levelup(self, self.__monster_levelup_cooldown)
 
         for bullet in self.__bullets:
             bullet.update(self)
