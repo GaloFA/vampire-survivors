@@ -47,7 +47,6 @@ class Game:
     def __handle_pause_menu(self):
         self.__pause_menu.draw()
         pygame.display.flip()
-        # Detectar clics con el ratón
         if pygame.mouse.get_pressed()[0]:
             keys = pygame.key.get_pressed()
             action = self.__pause_menu.check_click(pygame.mouse.get_pos())
@@ -61,7 +60,7 @@ class Game:
                 self.__is_paused = False
 
     def __handle_level_up_menu(self):
-        if not self.__items_inicializados:  # Verifica si los ítems no han sido inicializados
+        if not self.__items_inicializados:
             self.initialize_items()
 
         if pygame.mouse.get_pressed()[0]:
@@ -76,7 +75,7 @@ class Game:
                 self.__items_inicializados = False
             if action == "reroll":
                 self.reroll_items()
-            self.__is_level_up_menu_active = False  # Cerrar menú de nivel
+            self.__is_level_up_menu_active = False
 
     def initialize_items(self):
         Diccionario_Clases = DiccionarioClass()
@@ -84,10 +83,10 @@ class Game:
         item_cards = self.__level_menu.colocar_items(diccionario_items)
         self.__level_menu.draw(item_cards)
         pygame.display.flip()
-        self.__items_inicializados = True  # Marcar como inicializado
+        self.__items_inicializados = True
 
     def reroll_items(self):
-        self.__items_inicializados = False  # Asegúrate de reinicializar los ítems
+        self.__items_inicializados = False
 
     def run(self):
         """Starts the game loop."""

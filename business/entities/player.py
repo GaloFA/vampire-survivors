@@ -20,10 +20,10 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     BASE_DAMAGE = 10
     BASE_SHOOT_COOLDOWN = 100
 
-    def __init__(self, pos_x: int, pos_y: int, sprite: Sprite):
+    def __init__(self, pos_x: int, pos_y: int, sprite: Sprite, health: int):
         super().__init__(pos_x, pos_y, 5, sprite)
 
-        self.__health: int = 100                 # Salud actual
+        self.__health: int = health                 # Salud actual
         self.__max_health: int = 100             # Salud máxima
         self.__last_shot_time = pygame.time.get_ticks()  # Tiempo del último disparo
         self.__experience = 0                     # Experiencia acumulada
@@ -50,6 +50,15 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             'probabilidad_critico': self.__probabilidad_critico,
             'velocidad_ataque': self.__velocidad_ataque,
         }
+
+    def load_player_from_json(self, player_data) -> IPlayer:
+        """Loads the player entity from JSON data."""
+        src_x = player_data['pos_x']
+        src_y = player_data['pos_y']
+        health = player_data['health']
+        sprite = player_data['sprite']
+
+        return Player(src_x, src_y, sprite, health)
 
     def __str__(self):
         hp = self.__health
@@ -87,7 +96,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             self.__experience -= self.experience_to_next_level
             self.__level += 1
             self.__levelup_perks()
-            input("maria")
 
     def __shoot_at_nearest_enemy(self, world: IGameWorld):
         if not world.monsters:

@@ -104,18 +104,7 @@ class ICanMove(IHasPosition):
             direction_x (float): The direction in x-coordinate.
             direction_y (float): The direction in y-coordinate.
         """
-
-class IJsonFormat():
-    """ Interface for "jsonable" entities """
-    @abstractmethod
-    def json_format(self):
-        """ Json formatter
-
-        Returns:
-            str: json representation of an entity
-        """
-
-class IMonster(IUpdatable, ICanMove, IDamageable, ICanDealDamage, IJsonFormat):
+class IMonster(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
     """Interface for monster entities."""
     @property
     @abstractmethod
@@ -135,12 +124,47 @@ class IMonster(IUpdatable, ICanMove, IDamageable, ICanDealDamage, IJsonFormat):
             levelup_cooldown (CooldownHandler): cooldown to levelup
         """
 
+    @abstractmethod
+    def json_format(self):
+        """ Json formatter
 
-class IBullet(IUpdatable, ICanMove, IDamageable, ICanDealDamage, IJsonFormat):
+        Returns:
+            str: json representation of an entity
+        """
+
+    @abstractmethod
+    def load_monster_from_json(self, monster_data):
+        """Creates a monster from JSON data.
+
+        Args:
+            monster_data (dict): The data representing the monster.
+
+        Returns:
+            IMonster: An instance of a monster.
+        """
+
+class IBullet(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
     """Interface for bullet entities."""
+    @abstractmethod
+    def json_format(self):
+        """ Json formatter
 
+        Returns:
+            str: json representation of an entity
+        """
 
-class IExperienceGem(IUpdatable, IHasPosition, IJsonFormat):
+    @abstractmethod
+    def load_bullet_from_json(self, bullet_data):
+        """Creates a bullet from JSON data.
+
+        Args:
+            bullet_data (dict): The data representing the bullet.
+
+        Returns:
+            IBullet: An instance of a bullet.
+        """
+
+class IExperienceGem(IUpdatable, IHasPosition):
     """Interface for experience gem entities."""
 
     @property
@@ -151,9 +175,27 @@ class IExperienceGem(IUpdatable, IHasPosition, IJsonFormat):
         Returns:
             int: The amount of experience the gem gives.
         """
+    @abstractmethod
+    def load_experience_gem_from_json(self, gem_data):
+        """Creates an experience gem from JSON data.
+
+        Args:
+            gem_data (dict): The data representing the experience gem.
+
+        Returns:
+            IExperienceGem: An instance of an experience gem.
+        """
+
+    @abstractmethod
+    def json_format(self):
+        """ Json formatter
+
+        Returns:
+            str: json representation of an entity
+        """
 
 
-class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage, IJsonFormat):
+class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
     """Interface for the player entity."""
 
     @abstractmethod
@@ -198,4 +240,23 @@ class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage, IJsonFormat):
 
         Returns:
             int: The max health.
+        """
+
+    @abstractmethod
+    def json_format(self):
+        """ Json formatter
+
+        Returns:
+            str: json representation of an entity
+        """
+
+    @abstractmethod
+    def load_player_from_json(self, player_data):
+        """Loads the player entity from JSON data.
+
+        Args:
+            player_data (dict): The data representing the player.
+
+        Returns:
+            IPlayer: An instance of the player.
         """

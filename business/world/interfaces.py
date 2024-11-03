@@ -108,6 +108,10 @@ class IGameWorld(ABC):
             int: Number of seconds elapsed in game
         """
 
+    @abstractmethod
+    def clear_all_entities(self):
+        """Clears all entities from the world."""
+
 class IUpdatable(ABC):
     """Interface for entities that can be updated."""
 

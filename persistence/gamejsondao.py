@@ -32,15 +32,15 @@ class GameWorldJsonDAO(IGameDAO):
 
         monsters = defaultdict(list)
         for monster in game_world.monsters:
-            monsters[str(type(monster))].append(monster.json_format())
+            monsters[monster.__class__.__name__].append(monster.json_format())
 
         bullets = defaultdict(list)
         for bullet in game_world.bullets:
-            bullets[str(type(bullet))].append(bullet.json_format())
+            bullets[bullet.__class__.__name__].append(bullet.json_format())
 
         experience_gems = defaultdict(list)
         for gem in game_world.experience_gems:
-            experience_gems[str(type(gem))].append(gem.json_format())
+            experience_gems[gem.__class__.__name__].append(gem.json_format())
 
         player = game_world.player.json_format()
         timer = game_world.timer
@@ -54,9 +54,42 @@ class GameWorldJsonDAO(IGameDAO):
 
         self.__save_data(data)
 
-    def load_game(self) -> dict:
-        """Loads and returns the saved GameWorld state."""
-        return self.__read_data()
+    def load_game(self, game_world: GameWorld) -> None:
+        """Loads the saved GameWorld state and populates the provided GameWorld instance."""
+        data = self.__read_data()
+
+        # Clear existing entities in the game world
+        game_world.clear_all_entities()  # You might need to implement this method in GameWorld
+
+        # Load monsters
+        for monster_type, monster_data_list in data.get('monsters', {}).items():
+            for monster_data in monster_data_list:
+                # You will need a method to create a Monster from the JSON data
+                monster = self.create_monster_from_json(monster_data)  
+                game_world.add_monster(monster)
+
+        # Load bullets
+        for bullet_type, bullet_data_list in data.get('bullets', {}).items():
+            for bullet_data in bullet_data_list:
+                # You will need a method to create a Bullet from the JSON data
+                bullet = self.create_bullet_from_json(bullet_data)
+                game_world.add_bullet(bullet)
+
+        # Load experience gems
+        for gem_type, gem_data_list in data.get('gems', {}).items():
+            for gem_data in gem_data_list:
+                # You will need a method to create a Gem from the JSON data
+                gem = self.create_experience_gem_from_json(gem_data)
+                game_world.add_experience_gem(gem)
+
+        # Load player data
+        player_data = data.get('player')
+        if player_data:
+            game_world.player.load_from_json(player_data)  # You might need to implement this method in the Player class
+
+        # Load timer
+        game_world.timer = data.get('timer', 0)  # Set the timer if it exists
+
 
     def clear_save(self) -> None:
         """Clears the saved game data."""

@@ -33,7 +33,20 @@ class Monster(MovableEntity, IMonster):
             'attack_cooldown': self.__attack_cooldown,
             'pos_x': self.pos_x,
             'pos_y': self.pos_y,
+            'sprite': self.sprite,
         }
+
+    def load_monster_from_json(self, monster_data) -> IMonster:
+        """Creates a monster from JSON data."""
+        src_x = monster_data['pos_x']
+        src_y = monster_data['pos_y']
+        health = monster_data['health']
+        max_health = monster_data['max_health']
+        damage = monster_data['damage']
+        attack_range = monster_data['attack_range']
+        sprite = monster_data['sprite']
+
+        return Monster(src_x, src_y, sprite, health, max_health, damage, attack_range)
 
     def attack(self, target: IPlayer):
         """Attacks the target."""
