@@ -101,13 +101,12 @@ class IGameWorld(ABC):
 
     @property
     @abstractmethod
-    def simulation_speed(self) -> int:
-        """Gets the speed of the simulation.
-
+    def timer(self) -> int:
+        """ Gets the time elapsed (IN-GAME)
+        
         Returns:
-            int: Simulation speed.
+            int: Number of seconds elapsed in game
         """
-
 
 class IUpdatable(ABC):
     """Interface for entities that can be updated."""

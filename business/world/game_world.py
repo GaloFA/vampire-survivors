@@ -23,6 +23,10 @@ class GameWorld(IGameWorld):
         # Initialize the monster spawner
         self.__monster_spawner: IMonsterSpawner = spawner
 
+        # Timer
+        self.__timer = 0
+        self.__timer_cooldown = CooldownHandler(1000)
+
     def update(self):
         self.player.update(self)
 
@@ -33,6 +37,10 @@ class GameWorld(IGameWorld):
             bullet.update(self)
 
         self.__monster_spawner.update(self)
+
+        if self.__timer_cooldown.is_action_ready():
+            self.__timer += 1
+            self.__timer_cooldown.put_on_cooldown()
 
     def add_monster(self, monster: IMonster):
         if not self.__spawn_cooldown:
@@ -74,5 +82,5 @@ class GameWorld(IGameWorld):
         return self.__experience_gems[:]
 
     @property
-    def simulation_speed(self) -> int:
-        return self.__simulation_speed
+    def timer(self) -> int:
+        return self.__timer

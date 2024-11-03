@@ -17,7 +17,7 @@ class MonsterFactory:
         monster = Monster(src_x, src_y, sprite, self.default_health, self.default_max_health, self.default_damage, self.default_attack_range)
 
         return monster
-    
+
     def create_skeleton(self, src_x: int, src_y: int, sprite: Sprite) -> Monster:
         """Creates orc monster."""
         monster = Monster(src_x, src_y, sprite, 15, 15, 10, 50)
@@ -29,7 +29,7 @@ class MonsterFactory:
         monster = Monster(src_x, src_y, sprite, 20, 20, 15, 60)
 
         return monster
-    
+
     def create_werewolf(self, src_x: int, src_y: int, sprite: Sprite) -> Monster:
         """Creates werewolf monster."""
         monster = Monster(src_x, src_y, sprite, 25, 25, 20, 60)
