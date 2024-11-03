@@ -1,4 +1,5 @@
 import random
+import pygame
 
 
 class Item:
@@ -14,8 +15,9 @@ class Item:
         self.tipo_efecto = tipo_efecto
         self.mejoras = mejoras
         self.nivel = 1
-        self.imagen = imagen  # Ruta de la imagen o sprite
-        self.sprite_config = sprite_config or {}  # Configuración opcional del sprite
+        self.imagen = imagen  # Ruta de la imagen o sprite sheet
+        self.sprite_config = sprite_config or {}  # Configuración del sprite
+        self.frames = []  # Lista para almacenar los frames del sprite
 
     def configurar_sprite(self, ancho=16, alto=16, filas=1, columnas=1):
         """Configura las propiedades del sprite, como ancho y alto."""
@@ -24,13 +26,20 @@ class Item:
         self.sprite_config['filas'] = filas
         self.sprite_config['columnas'] = columnas
 
-    def obtener_sprite(self, fila, columna):
-        """Calcula la posición del sprite en la imagen de sprites."""
-        ancho_sprite = self.sprite_config['ancho']
-        alto_sprite = self.sprite_config['alto']
-        x = columna * ancho_sprite
-        y = fila * alto_sprite
-        return (x, y)
+        if self.imagen:
+            hoja_sprite = pygame.image.load(self.imagen).convert_alpha()
+            for fila in range(filas):
+                for columna in range(columnas):
+                    x = columna * ancho
+                    y = fila * alto
+                    frame = hoja_sprite.subsurface((x, y, ancho, alto))
+                    self.frames.append(frame)
+
+    def obtener_frame(self, indice):
+        """Devuelve un frame específico de la lista de frames."""
+        if 0 <= indice < len(self.frames):
+            return self.frames[indice]
+        return None
 
     def subir_nivel(self):
         """Sube el nivel del ítem si no ha alcanzado el nivel máximo."""
@@ -60,11 +69,16 @@ class ItemSalud(Item):
             descripcion="Aumenta la salud del jugador.",
             tipo_efecto="salud",
             mejoras=[20, 40, 60, 80, 100],
-            imagen="./assets/items/item2.png"
+            imagen=self.obtener_frame_inicial()
         )
+        self.configurar_sprite(ancho=16, alto=16, filas=1, columnas=4)
 
     def aplicar_efecto(self, jugador):
         jugador.salud += self.obtener_valor_efecto()
+
+    def obtener_frame_inicial(self):
+        """Devuelve el frame inicial del sprite configurado."""
+        return self.obtener_frame(0)
 
 
 class ItemVelocidad(Item):
@@ -76,11 +90,16 @@ class ItemVelocidad(Item):
             descripcion="Aumenta la velocidad de movimiento del jugador.",
             tipo_efecto="velocidad",
             mejoras=[2, 4, 6, 8, 10],
-            imagen="./assets/items/item2.png"
+            imagen=self.obtener_frame_inicial()
         )
+        self.configurar_sprite(ancho=16, alto=16, filas=1, columnas=4)
 
     def aplicar_efecto(self, jugador):
         jugador.velocidad += self.obtener_valor_efecto()
+
+    def obtener_frame_inicial(self):
+        """Devuelve el frame inicial del sprite configurado."""
+        return self.obtener_frame(0)
 
 
 class ItemDaño(Item):
@@ -92,11 +111,16 @@ class ItemDaño(Item):
             descripcion="Aumenta el daño infligido por el jugador.",
             tipo_efecto="daño",
             mejoras=[5, 10, 15, 20, 25],
-            imagen="./assets/items/item2.png"
+            imagen=self.obtener_frame_inicial()
         )
+        self.configurar_sprite(ancho=16, alto=16, filas=1, columnas=4)
 
     def aplicar_efecto(self, jugador):
         jugador.danio += self.obtener_valor_efecto()
+
+    def obtener_frame_inicial(self):
+        """Devuelve el frame inicial del sprite configurado."""
+        return self.obtener_frame(0)
 
 
 class ItemDefensa(Item):
@@ -108,11 +132,16 @@ class ItemDefensa(Item):
             descripcion="Aumenta la defensa del jugador.",
             tipo_efecto="defensa",
             mejoras=[3, 6, 9, 12, 15],
-            imagen="./assets/items/item2.png"
+            imagen=self.obtener_frame_inicial()
         )
+        self.configurar_sprite(ancho=16, alto=16, filas=1, columnas=4)
 
     def aplicar_efecto(self, jugador):
         jugador.defensa += self.obtener_valor_efecto()
+
+    def obtener_frame_inicial(self):
+        """Devuelve el frame inicial del sprite configurado."""
+        return self.obtener_frame(0)
 
 
 class ItemExperiencia(Item):
@@ -124,11 +153,16 @@ class ItemExperiencia(Item):
             descripcion="Aumenta la experiencia ganada por el jugador.",
             tipo_efecto="experiencia",
             mejoras=[50, 100, 150, 200, 250],
-            imagen="./assets/items/item2.png"
+            imagen=self.obtener_frame_inicial()
         )
+        self.configurar_sprite(ancho=16, alto=16, filas=1, columnas=4)
 
     def aplicar_efecto(self, jugador):
         jugador.experiencia += self.obtener_valor_efecto()
+
+    def obtener_frame_inicial(self):
+        """Devuelve el frame inicial del sprite configurado."""
+        return self.obtener_frame(0)
 
 
 class ItemAutocuracion(Item):
@@ -140,11 +174,16 @@ class ItemAutocuracion(Item):
             descripcion="Aumenta la cantidad de salud recuperada automáticamente.",
             tipo_efecto="autocuracion",
             mejoras=[1, 2, 3, 4, 5],
-            imagen="./assets/items/item2.png"
+            imagen=self.obtener_frame_inicial()
         )
+        self.configurar_sprite(ancho=16, alto=16, filas=1, columnas=4)
 
     def aplicar_efecto(self, jugador):
         jugador.autocuracion += self.obtener_valor_efecto()
+
+    def obtener_frame_inicial(self):
+        """Devuelve el frame inicial del sprite configurado."""
+        return self.obtener_frame(0)
 
 
 class ItemCriticos(Item):
@@ -156,11 +195,16 @@ class ItemCriticos(Item):
             descripcion="Aumenta la probabilidad de infligir daño crítico.",
             tipo_efecto="critico",
             mejoras=[1, 2, 3, 4, 5],  # Porcentaje o puntos de probabilidad
-            imagen="./assets/items/item2.png"
+            imagen=self.obtener_frame_inicial()
         )
+        self.configurar_sprite(ancho=16, alto=16, filas=1, columnas=4)
 
     def aplicar_efecto(self, jugador):
         jugador.probabilidad_critico += self.obtener_valor_efecto()
+
+    def obtener_frame_inicial(self):
+        """Devuelve el frame inicial del sprite configurado."""
+        return self.obtener_frame(0)
 
 
 class ItemVelocidadAtaque(Item):
@@ -172,11 +216,16 @@ class ItemVelocidadAtaque(Item):
             descripcion="Aumenta la velocidad de ataque del jugador.",
             tipo_efecto="velocidad_ataque",
             mejoras=[1, 2, 3, 4, 5],
-            imagen="./assets/items/item2.png"
+            imagen=self.obtener_frame_inicial()
         )
+        self.configurar_sprite(ancho=16, alto=16, filas=1, columnas=4)
 
     def aplicar_efecto(self, jugador):
         jugador.velocidad_ataque += self.obtener_valor_efecto()
+
+    def obtener_frame_inicial(self):
+        """Devuelve el frame inicial del sprite configurado."""
+        return self.obtener_frame(0)
 
 
 class DiccionarioClass:
