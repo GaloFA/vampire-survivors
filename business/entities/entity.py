@@ -1,6 +1,5 @@
 """Contains the base classes for all entities in the game."""
 
-import logging
 from math import sqrt
 from abc import abstractmethod
 from business.entities.interfaces import ICanMove, IDamageable, IHasPosition, IHasSprite

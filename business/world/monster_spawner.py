@@ -1,6 +1,5 @@
 """This module contains the MonsterSpawner class."""
 
-import logging
 import random
 import settings
 
@@ -15,11 +14,11 @@ from business.entities.monster_factory import MonsterFactory
 
 BASE_COOLDOWN = 400
 
+
 class MonsterSpawner(IMonsterSpawner):
     """Spawns monsters in the game world."""
 
     def __init__(self):
-        self.__logger = logging.getLogger(__name__)
         self.__spawn_cooldown = CooldownHandler(BASE_COOLDOWN)
         self.__monster_factory = MonsterFactory()
 
@@ -37,16 +36,18 @@ class MonsterSpawner(IMonsterSpawner):
 
         if monster_type == 0:
             sprite = ZombieSprite(pos_x, pos_y)
-            monster = self.__monster_factory.create_zombie(pos_x, pos_y, sprite)
+            monster = self.__monster_factory.create_zombie(
+                pos_x, pos_y, sprite)
         if monster_type == 1:
             sprite = SkeletonSprite(pos_x, pos_y)
-            monster = self.__monster_factory.create_skeleton(pos_x, pos_y, sprite)
+            monster = self.__monster_factory.create_skeleton(
+                pos_x, pos_y, sprite)
         if monster_type == 2:
             sprite = OrcSprite(pos_x, pos_y)
             monster = self.__monster_factory.create_orc(pos_x, pos_y, sprite)
         if monster_type == 3:
             sprite = WerewolfSprite(pos_x, pos_y)
-            monster = self.__monster_factory.create_werewolf(pos_x, pos_y, sprite)
+            monster = self.__monster_factory.create_werewolf(
+                pos_x, pos_y, sprite)
 
         world.add_monster(monster)
-        self.__logger.debug("Spawning Monster at (%d, %d)", pos_x, pos_y)

@@ -1,7 +1,6 @@
 """Module for displaying the game world."""
 
 import pygame
-from game import Game
 import settings
 from business.world.game_world import GameWorld
 from presentation.camera import Camera

@@ -10,7 +10,8 @@ class NivelMenu:
     def __init__(self, screen):
         """Inicializa el menú de nivelación con opciones y botones para rerollear y skipear."""
         self.screen = screen
-
+        button_color = (50, 50, 50)
+        button_text_color = (255, 255, 255)
         self.container = Container(
             settings.SCREEN_WIDTH//2-300, settings.SCREEN_HEIGHT//2-310, 600, 620, (84, 79, 79))
 
@@ -21,11 +22,11 @@ class NivelMenu:
         # Botones de reroll y skip
         self.reroll_button = Button(
             settings.SCREEN_WIDTH-250, settings.SCREEN_HEIGHT // 2 -
-            50, 200, 50, "REROLL", (0, 200, 0), (255, 255, 255)
+            50, 200, 50, "REROLL", button_color, button_text_color
         )
         self.skip_button = Button(
             settings.SCREEN_WIDTH-250, settings.SCREEN_HEIGHT // 2 +
-            50, 200, 50, "SKIP", (200, 0, 0), (255, 255, 255)
+            50, 200, 50, "SKIP", button_color, button_text_color
         )
 
         self.item_card1 = ItemCard(settings.SCREEN_WIDTH//2-250, settings.SCREEN_HEIGHT//2-125, 500, 100, "Ebony Wings",
@@ -60,7 +61,6 @@ class NivelMenu:
         for index, (key, item) in enumerate(dic.items()):
             if index < 3:  # Solo necesitamos los primeros 3 ítems
                 x, y = posiciones[index]
-                print(item.imagen_path)
                 item_card = ItemCard(
                     x, y, 500, 100, str(item), item.descripcion, item.imagen_path, is_new=True
                 )
@@ -87,9 +87,12 @@ class NivelMenu:
         elif self.skip_button.is_clicked(mouse_pos):
             return "skip"
         elif self.item_card1.is_clicked(mouse_pos):
-            return "item1"
+            pass
+            # return list(diccionario.keys())[0]  # Devuelve el primer ítem
         elif self.item_card2.is_clicked(mouse_pos):
-            return "item2"
+            pass
+            # return list(diccionario.keys())[1]  # Devuelve el segundo ítem
         elif self.item_card3.is_clicked(mouse_pos):
-            return "item3"
+            pass
+            # return list(diccionario.keys())[2]  # Devuelve el tercer ítem
         return None

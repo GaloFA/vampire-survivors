@@ -18,7 +18,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     """
 
     BASE_DAMAGE = 10
-    BASE_SHOOT_COOLDOWN = 100
+    BASE_SHOOT_COOLDOWN = 200
 
     def __init__(self, pos_x: int, pos_y: int, sprite: Sprite, health: int):
         super().__init__(pos_x, pos_y, 5, sprite)
@@ -120,9 +120,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         if current_time - self.__last_shot_time >= self.__shoot_cooldown:
             self.__shoot_at_nearest_enemy(world)
             self.__last_shot_time = current_time
-
-        if self.__health <= 0:
-            pass
 
     @property
     def experience(self):

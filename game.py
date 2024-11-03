@@ -1,7 +1,5 @@
 """This module defines the Game class."""
 
-import logging
-import time
 import pygame
 import settings
 from business.exceptions import DeadPlayerException
@@ -11,6 +9,7 @@ from business.world.interfaces import IGameWorld
 from presentation.interfaces import IDisplay, IInputHandler
 from presentation.pause_menu import PauseMenu
 from presentation.level_menu import NivelMenu
+from presentation.game_over_screen import GameOverScreen
 from business.entities.player import Player
 from business.entities.items import DiccionarioClass
 from persistence.gamejsondao import GameWorldJsonDAO
@@ -23,7 +22,7 @@ class Game:
     This is the game entrypoint.
     """
 
-    def __init__(self, display: IDisplay, game_world: IGameWorld, input_handler: IInputHandler):
+    def __init__(self, display: IDisplay, game_world: IGameWorld, input_handler: IInputHandler, restart_game_func):
         self.__clock = pygame.time.Clock()
         self.__display = display
         self.__world = game_world
@@ -31,13 +30,17 @@ class Game:
         self.__running = True
         self.__pause_menu = PauseMenu(display.screen)
         self.__level_menu = NivelMenu(display.screen)
-        self.__items_inicializados = False  # SI NO FUNCIONA BORRAR
+        self.__game_over = GameOverScreen(display.screen)
+        self.__items_inicializados = False
+        self.__is_game_over = False
         self.__is_paused = False
         self.__is_level_up_menu_active = False
         self.start_ticks = pygame.time.get_ticks()  # Tiempo de inicio
         self.elapsed_time = 0  # Tiempo transcurrido en segundos
         self.previous_level = self.__world.player.level
         self.__dao = GameWorldJsonDAO()
+        # Esta funcion guarda la funcion Reiniciar Partida,Si no se genera error de imports de otra manera :v
+        self.__restart_game_func = restart_game_func
 
     def __process_game_events(self):
         for event in pygame.event.get():
@@ -53,6 +56,18 @@ class Game:
     def load_game(self):
         """Loads the game state using the DAO."""
         self.__dao.load_game(self.__world)
+
+    def __handle_game_over_screen(self):
+        self.__game_over.draw()
+        pygame.display.flip()
+
+        if pygame.mouse.get_pressed()[0]:
+            action = self.__game_over.check_click(
+                pygame.mouse.get_pos())
+            if action == 'restart':
+                self.__restart_game()
+            if action == 'quit':
+                self.__running = False
 
     def __handle_pause_menu(self):
         self.__pause_menu.draw()
@@ -75,8 +90,19 @@ class Game:
             self.initialize_items()
 
         if pygame.mouse.get_pressed()[0]:
-            action = self.__level_menu.check_click(pygame.mouse.get_pos())
-            if action == "item1":
+            action = self.__level_menu.check_click(
+                pygame.mouse.get_pos())
+
+            if isinstance(action, str):
+                if action == "skip":
+                    self.__items_inicializados = False
+                    self.__is_level_up_menu_active = False
+                if action == "reroll":
+                    self.reroll_items()
+
+            else:
+                #  item_selecionado= action
+                #    item_selecionado.
                 self.__items_inicializados = False
             if action == "item2":
                 self.__items_inicializados = False
@@ -94,10 +120,14 @@ class Game:
         item_cards = self.__level_menu.colocar_items(diccionario_items)
         self.__level_menu.draw(item_cards)
         pygame.display.flip()
-        self.__items_inicializados = True
+        self.__items_inicializados = True  # Marcar como inicializado
+        return diccionario_items
 
     def reroll_items(self):
         self.__items_inicializados = False
+
+    def __restart_game(self):
+        self.__restart_game_func()
 
     def run(self):
         """Starts the game loop."""
@@ -116,6 +146,12 @@ class Game:
 
                 if self.__is_level_up_menu_active:
                     self.__handle_level_up_menu()
+                    continue
+                if self.__world.player.health <= 0:
+                    self.__is_game_over = True
+
+                if self.__is_game_over:
+                    self.__handle_game_over_screen()
                     continue
 
                 self.elapsed_time = (
