@@ -105,8 +105,17 @@ class ICanMove(IHasPosition):
             direction_y (float): The direction in y-coordinate.
         """
 
+class IJsonFormat():
+    """ Interface for "jsonable" entities """
+    @abstractmethod
+    def json_format(self):
+        """ Json formatter
 
-class IMonster(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
+        Returns:
+            str: json representation of an entity
+        """
+
+class IMonster(IUpdatable, ICanMove, IDamageable, ICanDealDamage, IJsonFormat):
     """Interface for monster entities."""
     @property
     @abstractmethod
@@ -116,13 +125,22 @@ class IMonster(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
         Returns:
             int: The max health.
         """
+    
+    @abstractmethod
+    def levelup(self, world, levelup_cooldown):
+        """ Levels up monster every 10 seconds
+
+        Args:
+            world (IGameWorld): world instance
+            levelup_cooldown (CooldownHandler): cooldown to levelup
+        """
 
 
-class IBullet(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
+class IBullet(IUpdatable, ICanMove, IDamageable, ICanDealDamage, IJsonFormat):
     """Interface for bullet entities."""
 
 
-class IExperienceGem(IUpdatable, IHasPosition):
+class IExperienceGem(IUpdatable, IHasPosition, IJsonFormat):
     """Interface for experience gem entities."""
 
     @property
@@ -135,7 +153,7 @@ class IExperienceGem(IUpdatable, IHasPosition):
         """
 
 
-class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
+class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage, IJsonFormat):
     """Interface for the player entity."""
 
     @abstractmethod
