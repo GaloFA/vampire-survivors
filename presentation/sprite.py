@@ -101,7 +101,7 @@ class ZombieSprite(Sprite):
 
     def __init__(self, pos_x: float, pos_y: float):
         image: pygame.Surface = pygame.image.load(ZombieSprite.ASSET).convert_alpha()
-        image = pygame.transform.scale(image, (ZombieSprite.TILE_WIDTH, ZombieSprite.TILE_HEIGHT))
+        image = pygame.transform.scale(image, (ZombieSprite.TILE_WIDTH * ZombieSprite.SIZE_MULTIPLIER, ZombieSprite.TILE_HEIGHT * ZombieSprite.SIZE_MULTIPLIER))
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
         super().__init__(image, rect)
@@ -116,7 +116,7 @@ class SkeletonSprite(Sprite):
 
     def __init__(self, pos_x: float, pos_y: float):
         image: pygame.Surface = pygame.image.load(SkeletonSprite.ASSET).convert_alpha()
-        image = pygame.transform.scale(image, (SkeletonSprite.TILE_WIDTH, SkeletonSprite.TILE_HEIGHT))
+        image = pygame.transform.scale(image, (SkeletonSprite.TILE_WIDTH * SkeletonSprite.SIZE_MULTIPLIER, SkeletonSprite.TILE_HEIGHT * SkeletonSprite.SIZE_MULTIPLIER))
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
         super().__init__(image, rect)
 
@@ -130,7 +130,7 @@ class OrcSprite(Sprite):
 
     def __init__(self, pos_x: float, pos_y: float):
         image: pygame.Surface = pygame.image.load(OrcSprite.ASSET).convert_alpha()
-        image = pygame.transform.scale(image, (OrcSprite.TILE_WIDTH, OrcSprite.TILE_HEIGHT))
+        image = pygame.transform.scale(image, (OrcSprite.TILE_WIDTH * OrcSprite.SIZE_MULTIPLIER, OrcSprite.TILE_HEIGHT * OrcSprite.SIZE_MULTIPLIER))
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
         super().__init__(image, rect)
 
@@ -144,7 +144,7 @@ class WerewolfSprite(Sprite):
 
     def __init__(self, pos_x: float, pos_y: float):
         image: pygame.Surface = pygame.image.load(WerewolfSprite.ASSET).convert_alpha()
-        image = pygame.transform.scale(image, (WerewolfSprite.TILE_WIDTH, WerewolfSprite.TILE_HEIGHT))
+        image = pygame.transform.scale(image, (WerewolfSprite.TILE_WIDTH * WerewolfSprite.SIZE_MULTIPLIER, WerewolfSprite.TILE_HEIGHT * WerewolfSprite.SIZE_MULTIPLIER))
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
         super().__init__(image, rect)
 
