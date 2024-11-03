@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 """Runs the game"""
-import logging
-
 import pygame
 
 import settings
@@ -38,12 +36,6 @@ def main():
     """Main function to run the game"""
     # Initialize pygame
     pygame.init()  # pylint: disable=E1101
-
-    # Logging configuration
-    # logging.basicConfig(
-    #    level=logging.DEBUG,  # Change between INFO, WARNING or DEBUG as needed
-    #    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    # )
 
     # Initialize the game objects
     display = Display()

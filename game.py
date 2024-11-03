@@ -1,7 +1,5 @@
 """This module defines the Game class."""
 
-import logging
-import time
 import pygame
 import settings
 from business.exceptions import DeadPlayerException

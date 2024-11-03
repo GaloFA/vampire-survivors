@@ -10,7 +10,8 @@ class NivelMenu:
     def __init__(self, screen):
         """Inicializa el menú de nivelación con opciones y botones para rerollear y skipear."""
         self.screen = screen
-
+        button_color = (50, 50, 50)
+        button_text_color = (255, 255, 255)
         self.container = Container(
             settings.SCREEN_WIDTH//2-300, settings.SCREEN_HEIGHT//2-310, 600, 620, (84, 79, 79))
 
@@ -21,11 +22,11 @@ class NivelMenu:
         # Botones de reroll y skip
         self.reroll_button = Button(
             settings.SCREEN_WIDTH-250, settings.SCREEN_HEIGHT // 2 -
-            50, 200, 50, "REROLL", (0, 200, 0), (255, 255, 255)
+            50, 200, 50, "REROLL", button_color, button_text_color
         )
         self.skip_button = Button(
             settings.SCREEN_WIDTH-250, settings.SCREEN_HEIGHT // 2 +
-            50, 200, 50, "SKIP", (200, 0, 0), (255, 255, 255)
+            50, 200, 50, "SKIP", button_color, button_text_color
         )
 
         self.item_card1 = ItemCard(settings.SCREEN_WIDTH//2-250, settings.SCREEN_HEIGHT//2-125, 500, 100, "Ebony Wings",
