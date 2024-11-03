@@ -36,19 +36,34 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__probabilidad_critico: int = 0
         self.__velocidad_ataque: int = 1
 
+    def json_format(self):
+        return {
+            'health': self.__health,
+            'max_health': self.__max_health,
+            'last_shot_time': self.__last_shot_time,
+            'experience': self.__experience,
+            'level': self.__level,
+            'velocidad': self.__velocidad,
+            'daño': self.__daño,
+            'defensa': self.__defensa,
+            'autocuracion': self.__autocuracion,
+            'probabilidad_critico': self.__probabilidad_critico,
+            'velocidad_ataque': self.__velocidad_ataque,
+        }
+
     def __str__(self):
         hp = self.__health
         xp = self.__experience
         lvl = self.__level
         pos = str(self._pos_x) + str(self._pos_y)
         vel = self.__velocidad
-        dañ = self.__daño
+        dam = self.__daño
         defe = self.__defensa
         autoc = self.__autocuracion
         pcrit = self.__probabilidad_critico
         velata = self.__velocidad_ataque
         return (f"Player(hp={hp}, xp={xp}, lvl={lvl}, pos=({pos}), "
-                f"vel={vel}, daño={dañ}, defensa={defe}, "
+                f"vel={vel}, daño={dam}, defensa={defe}, "
                 f"autocuración={autoc}, critico={pcrit}, "
                 f"vel_ataque={velata})")
 
@@ -56,46 +71,49 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         pass
 
     def take_damage(self, amount):
-        if not settings.PAUSE:
-            self.__health = max(0, self.__health - 0)  # - amount
-            self.sprite.take_damage()
+        self.__health = max(0, self.__health - amount)  # - amount
+        self.sprite.take_damage()
 
     def pickup_gem(self, gem: ExperienceGem):
-        if not settings.PAUSE:
-            self.__gain_experience(gem.amount)
+        self.__gain_experience(gem.amount)
+
+    def __levelup_perks(self):
+        self.__health *= self.__level
+        self.__max_health *= self.__level
 
     def __gain_experience(self, amount: int):
-        if not settings.PAUSE:
-            self.__experience += amount
-            while self.__experience >= self.experience_to_next_level:
-                self.__experience -= self.experience_to_next_level
-                self.__level += 1
+        self.__experience += amount
+        while self.__experience >= self.experience_to_next_level:
+            self.__experience -= self.experience_to_next_level
+            self.__level += 1
+            self.__levelup_perks()
+            input("maria")
 
     def __shoot_at_nearest_enemy(self, world: IGameWorld):
-        if not settings.PAUSE:
-            if not world.monsters:
-                return
+        if not world.monsters:
+            return
 
-            monster = min(
-                world.monsters,
-                key=lambda monster: (
-                    (monster.pos_x - self.pos_x) ** 2 +
-                    (monster.pos_y - self.pos_y) ** 2
-                ),
-            )
+        monster = min(
+            world.monsters,
+            key=lambda monster: (
+                (monster.pos_x - self.pos_x) ** 2 +
+                (monster.pos_y - self.pos_y) ** 2
+            ),
+        )
 
-            bullet = Bullet(self.pos_x, self.pos_y,
-                            monster.pos_x, monster.pos_y, 10)
-            world.add_bullet(bullet)
+        bullet = Bullet(self.pos_x, self.pos_y, monster.pos_x, monster.pos_y, 10)
+        world.add_bullet(bullet)
 
     def update(self, world: IGameWorld):
-        if not settings.PAUSE:
-            super().update(world)
+        super().update(world)
 
-            current_time = pygame.time.get_ticks()
-            if current_time - self.__last_shot_time >= self.__shoot_cooldown:
-                self.__shoot_at_nearest_enemy(world)
-                self.__last_shot_time = current_time
+        current_time = pygame.time.get_ticks()
+        if current_time - self.__last_shot_time >= self.__shoot_cooldown:
+            self.__shoot_at_nearest_enemy(world)
+            self.__last_shot_time = current_time
+
+        if self.__health <= 0:
+            pass
 
     @property
     def experience(self):

@@ -1,51 +1,63 @@
-""" Módulo que contiene el DAO para la Reserva usando JSON """
-import json
 import os
-from business.mydatetime import DateTime
-from persistence.reservation.reservationdao import ReservationDAO
+import json
+from collections import defaultdict
+from persistence.gamedao import IGameDAO
+from business.world.game_world import GameWorld
 
-class GameJsonDAO(GameDAO):
-    """ Maneja la conexión con el archivo JSON para reservas """
-    def __init__(self, json_path='data/json/reservations.json'):
-        self.json_path = json_path
-        self._initialize_file()
+class GameWorldJsonDAO(IGameDAO):
+    """JSON DAO that handles the saving and loading of GameWorld data."""
 
-    def _initialize_file(self):
-        if not os.path.exists(self.json_path):
-            with open(self.json_path, 'w', encoding='utf-8') as file:
-                json.dump([], file)
+    BASE_GAME_DATA = {}
 
-    def add_reservation(self, room_name, start_datetime: DateTime, end_datetime: DateTime):
+    def __init__(self, json_path="data/game_world.json") -> None:
+        """Initializes the DAO and creates a JSON file if it does not exist."""
+        self.__json_path = json_path
+        if not os.path.exists(self.__json_path):
+            with open(self.__json_path, 'w', encoding="utf-8") as file:
+                json.dump(self.BASE_GAME_DATA, file, indent=4)
 
-        reservation = {
-            'room_name': room_name,
-            'start_datetime': str(start_datetime),
-            'end_datetime': str(end_datetime)
-        }
-        reservations = self.list_reservations()
-        reservations.append(reservation)
+    def __read_data(self) -> dict:
+        """Reads data from the JSON file."""
+        with open(self.__json_path, 'r', encoding="utf-8") as file:
+            return json.load(file)
 
-        with open(self.json_path, 'w', encoding='utf-8') as file:
-            json.dump(reservations, file)
+    def __save_data(self, data: dict) -> None:
+        """Saves data to the JSON file."""
+        with open(self.__json_path, 'w', encoding="utf-8") as file:
+            json.dump(data, file, indent=4)
 
-    def remove_reservation(self, room_name, start_datetime: DateTime):
+    def save_game(self, game_world: GameWorld) -> None:
+        """Serializes and saves the current state of GameWorld."""
+        data = self.__read_data()
 
-        reservations = self.list_reservations()
-        reservations = [res for res in reservations if not (res['room_name'] == room_name and res['start_datetime'] == str(start_datetime))]
+        monsters = defaultdict(list)
+        for monster in game_world.monsters:
+            monsters[str(type(monster))].append(monster.json_format())
 
-        with open(self.json_path, 'w', encoding='utf-8') as file:
-            json.dump(reservations, file)
+        bullets = defaultdict(list)
+        for bullet in game_world.bullets:
+            bullets[str(type(bullet))].append(bullet.json_format())
 
-    def list_reservations(self):
+        experience_gems = defaultdict(list)
+        for gem in game_world.experience_gems:
+            experience_gems[str(type(gem))].append(gem.json_format())
 
-        try:
-            with open(self.json_path, 'r', encoding='utf-8') as file:
-                data = file.read().strip()
-                if not data:
-                    return []
+        player = game_world.player.json_format()
+        timer = game_world.timer
 
-                reservations = json.loads(data)
-                return [{"room_name": res["room_name"], "start_datetime": res["start_datetime"], "end_datetime": res["end_datetime"]}
-                        for res in reservations]
-        except (json.JSONDecodeError, KeyError):
-            return []
+        # Update the JSON structure
+        data['monsters'] = monsters
+        data['bullets'] = bullets
+        data['gems'] = experience_gems
+        data['player'] = player
+        data['timer'] = timer
+
+        self.__save_data(data)
+
+    def load_game(self) -> dict:
+        """Loads and returns the saved GameWorld state."""
+        return self.__read_data()
+
+    def clear_save(self) -> None:
+        """Clears the saved game data."""
+        self.__save_data({})

@@ -34,6 +34,17 @@ class Bullet(MovableEntity, IBullet):
     def __str__(self):
         return f"Bullet(pos=({self._pos_x, self._pos_y}), dir=({self.__dir_x, self.__dir_y}))"
 
+    def json_format(self):
+        return {
+            'pos_x': self.pos_x,
+            'pos_y': self.pos_y,
+            'dir_x': self.__dir_x,
+            'dir_y': self.__dir_y,
+            'damage_amount': self.__damage_amount,
+            'health': self.__health,
+            'speed': self.speed
+        }
+
     @property
     def damage_amount(self):
         return self.__damage_amount

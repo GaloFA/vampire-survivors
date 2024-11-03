@@ -12,6 +12,13 @@ class ExperienceGem(Entity, IExperienceGem):
         super().__init__(pos_x, pos_y, ExperienceGemSprite(pos_x, pos_y))
         self.__amount = amount
 
+    def json_format(self):
+        return {
+            'pos_x': self.pos_x,
+            'pos_y': self.pos_y,
+            'amount': self.__amount,
+        }
+
     @property
     def amount(self) -> int:
         return self.__amount
