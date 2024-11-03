@@ -49,9 +49,11 @@ class Game:
         pygame.display.flip()
         if pygame.mouse.get_pressed()[0]:
             action = self.__pause_menu.check_click(pygame.mouse.get_pos())
-            if action == "resume":
+            if action == "r":
                 self.__is_paused = False
-            elif action == "quit":
+            elif action == "q":
+                self.__running = False
+            elif action == "sq":
                 self.__running = False
             else:
                 self.__is_paused = False
