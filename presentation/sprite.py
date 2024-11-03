@@ -100,10 +100,8 @@ class ZombieSprite(Sprite):
     SIZE_MULTIPLIER = 4
 
     def __init__(self, pos_x: float, pos_y: float):
-        tileset = Tileset(ZombieSprite.ASSET, ZombieSprite.TILE_WIDTH * ZombieSprite.SIZE_MULTIPLIER,
-                          ZombieSprite.TILE_HEIGHT * ZombieSprite.SIZE_MULTIPLIER, 1, 1)
-
-        image: pygame.Surface = tileset.get_tile(0)
+        image: pygame.Surface = pygame.image.load(ZombieSprite.ASSET).convert_alpha()
+        image = pygame.transform.scale(image, (ZombieSprite.TILE_WIDTH, ZombieSprite.TILE_HEIGHT))
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
         super().__init__(image, rect)
@@ -117,12 +115,9 @@ class SkeletonSprite(Sprite):
     SIZE_MULTIPLIER = 4
 
     def __init__(self, pos_x: float, pos_y: float):
-        tileset = Tileset(SkeletonSprite.ASSET, SkeletonSprite.TILE_WIDTH * SkeletonSprite.SIZE_MULTIPLIER,
-                          SkeletonSprite.TILE_HEIGHT * SkeletonSprite.SIZE_MULTIPLIER, 1, 1)
-
-        image: pygame.Surface = tileset.get_tile(0)
+        image: pygame.Surface = pygame.image.load(SkeletonSprite.ASSET).convert_alpha()
+        image = pygame.transform.scale(image, (SkeletonSprite.TILE_WIDTH, SkeletonSprite.TILE_HEIGHT))
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
-
         super().__init__(image, rect)
 
 class OrcSprite(Sprite):
@@ -134,12 +129,9 @@ class OrcSprite(Sprite):
     SIZE_MULTIPLIER = 5
 
     def __init__(self, pos_x: float, pos_y: float):
-        tileset = Tileset(OrcSprite.ASSET, OrcSprite.TILE_WIDTH * OrcSprite.SIZE_MULTIPLIER,
-                          OrcSprite.TILE_HEIGHT * OrcSprite.SIZE_MULTIPLIER, 1, 1)
-
-        image: pygame.Surface = tileset.get_tile(0)
+        image: pygame.Surface = pygame.image.load(OrcSprite.ASSET).convert_alpha()
+        image = pygame.transform.scale(image, (OrcSprite.TILE_WIDTH, OrcSprite.TILE_HEIGHT))
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
-
         super().__init__(image, rect)
 
 class WerewolfSprite(Sprite):
@@ -151,12 +143,9 @@ class WerewolfSprite(Sprite):
     SIZE_MULTIPLIER = 3
 
     def __init__(self, pos_x: float, pos_y: float):
-        tileset = Tileset(WerewolfSprite.ASSET, WerewolfSprite.TILE_WIDTH * WerewolfSprite.SIZE_MULTIPLIER,
-                          WerewolfSprite.TILE_HEIGHT * WerewolfSprite.SIZE_MULTIPLIER, 1, 1)
-
-        image: pygame.Surface = tileset.get_tile(0)
+        image: pygame.Surface = pygame.image.load(WerewolfSprite.ASSET).convert_alpha()
+        image = pygame.transform.scale(image, (WerewolfSprite.TILE_WIDTH, WerewolfSprite.TILE_HEIGHT))
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
-
         super().__init__(image, rect)
 
 class BulletSprite(Sprite):

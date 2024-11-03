@@ -51,9 +51,11 @@ class Game:
         if pygame.mouse.get_pressed()[0]:
             keys = pygame.key.get_pressed()
             action = self.__pause_menu.check_click(pygame.mouse.get_pos())
-            if action == "resume":
+            if action == "r":
                 self.__is_paused = False
-            elif action == "quit":
+            elif action == "q":
+                self.__running = False
+            elif action == "sq":
                 self.__running = False
             elif keys[pygame.K_ESCAPE]:
                 self.__is_paused = False
