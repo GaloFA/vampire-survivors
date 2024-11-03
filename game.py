@@ -47,13 +47,15 @@ class Game:
     def __handle_pause_menu(self):
         self.__pause_menu.draw()
         pygame.display.flip()
+        # Detectar clics con el ratón
         if pygame.mouse.get_pressed()[0]:
+            keys = pygame.key.get_pressed()
             action = self.__pause_menu.check_click(pygame.mouse.get_pos())
             if action == "resume":
                 self.__is_paused = False
             elif action == "quit":
                 self.__running = False
-            else:
+            elif keys[pygame.K_ESCAPE]:
                 self.__is_paused = False
 
     def __handle_level_up_menu(self):

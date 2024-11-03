@@ -8,6 +8,7 @@ from presentation.camera import Camera
 from presentation.interfaces import IDisplay
 from presentation.tileset import Tileset
 from business.entities.interfaces import IMonster
+from presentation.design_elements import *
 
 
 class Display(IDisplay):
@@ -24,7 +25,7 @@ class Display(IDisplay):
         self.camera = Camera()
 
         self.__ground_tileset = self.__load_ground_tileset()
-        self.__world: GameWorld = None # type: ignore
+        self.__world: GameWorld = None  # type: ignore
 
     def __load_ground_tileset(self):
         return Tileset(
@@ -82,7 +83,8 @@ class Display(IDisplay):
             # Define the health bar dimensions
             bar_width = settings.TILE_WIDTH
             bar_height = 5
-            bar_x = monster.sprite.rect.centerx - bar_width // 2 - self.camera.camera_rect.left
+            bar_x = monster.sprite.rect.centerx - \
+                bar_width // 2 - self.camera.camera_rect.left
             bar_y = monster.sprite.rect.bottom + 5 - self.camera.camera_rect.top
 
             # Draw the background bar (red)
@@ -116,8 +118,10 @@ class Display(IDisplay):
             self.__world.player.experience_to_next_level
         current_xp_width = int(bar_width * xp_ratio)
 
-        pygame.draw.rect(self.__screen, (161, 157, 155), (settings.SCREEN_WIDTH // 4, settings.SCREEN_HEIGHT - 50, bar_width, bar_height))
-        pygame.draw.rect(self.__screen, (255, 209, 92), (settings.SCREEN_WIDTH // 4, settings.SCREEN_HEIGHT - 50, current_xp_width, bar_height))
+        pygame.draw.rect(self.__screen, (161, 157, 155), (settings.SCREEN_WIDTH //
+                         4, settings.SCREEN_HEIGHT - 50, bar_width, bar_height))
+        pygame.draw.rect(self.__screen, (255, 209, 92), (settings.SCREEN_WIDTH //
+                         4, settings.SCREEN_HEIGHT - 50, current_xp_width, bar_height))
 
         self.__screen.blit(
             experience_text, (settings.SCREEN_WIDTH//2-45, settings.SCREEN_HEIGHT-80))
@@ -128,10 +132,10 @@ class Display(IDisplay):
 
         timer_text = f"{minutes:02}:{seconds:02}"
 
-        font = pygame.font.SysFont(None, 36)
+        font = pygame.font.SysFont(None, 40, True)
         timer_surface = font.render(timer_text, True, (255, 255, 255))
-
-        self.__screen.blit(timer_surface, (settings.SCREEN_WIDTH // 2 - 30, 20))
+        self.__screen.blit(
+            timer_surface, (settings.SCREEN_WIDTH // 2 - 35, 20))
 
     def load_world(self, world: GameWorld):
         self.__world = world
