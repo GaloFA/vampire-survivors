@@ -1,3 +1,6 @@
+import random
+
+
 class Item:
     """Clase base que representa un ítem genérico con niveles y efectos."""
 
@@ -57,7 +60,7 @@ class ItemSalud(Item):
             descripcion="Aumenta la salud del jugador.",
             tipo_efecto="salud",
             mejoras=[20, 40, 60, 80, 100],
-            imagen="./assets/item2.png"
+            imagen="./assets/items/item2.png"
         )
 
     def aplicar_efecto(self, jugador):
@@ -73,14 +76,14 @@ class ItemVelocidad(Item):
             descripcion="Aumenta la velocidad de movimiento del jugador.",
             tipo_efecto="velocidad",
             mejoras=[2, 4, 6, 8, 10],
-            imagen="./assets/item2.png"
+            imagen="./assets/items/item2.png"
         )
 
     def aplicar_efecto(self, jugador):
         jugador.velocidad += self.obtener_valor_efecto()
 
 
-class ItemDanio(Item):
+class ItemDaño(Item):
     """Ítem que proporciona mejoras en daño."""
 
     def __init__(self):
@@ -89,7 +92,7 @@ class ItemDanio(Item):
             descripcion="Aumenta el daño infligido por el jugador.",
             tipo_efecto="daño",
             mejoras=[5, 10, 15, 20, 25],
-            imagen="./assets/item2.png"
+            imagen="./assets/items/item2.png"
         )
 
     def aplicar_efecto(self, jugador):
@@ -105,7 +108,7 @@ class ItemDefensa(Item):
             descripcion="Aumenta la defensa del jugador.",
             tipo_efecto="defensa",
             mejoras=[3, 6, 9, 12, 15],
-            imagen="./assets/item2.png"
+            imagen="./assets/items/item2.png"
         )
 
     def aplicar_efecto(self, jugador):
@@ -121,7 +124,7 @@ class ItemExperiencia(Item):
             descripcion="Aumenta la experiencia ganada por el jugador.",
             tipo_efecto="experiencia",
             mejoras=[50, 100, 150, 200, 250],
-            imagen="./assets/item2.png"
+            imagen="./assets/items/item2.png"
         )
 
     def aplicar_efecto(self, jugador):
@@ -137,7 +140,7 @@ class ItemAutocuracion(Item):
             descripcion="Aumenta la cantidad de salud recuperada automáticamente.",
             tipo_efecto="autocuracion",
             mejoras=[1, 2, 3, 4, 5],
-            imagen="./assets/item2.png"
+            imagen="./assets/items/item2.png"
         )
 
     def aplicar_efecto(self, jugador):
@@ -153,7 +156,7 @@ class ItemCriticos(Item):
             descripcion="Aumenta la probabilidad de infligir daño crítico.",
             tipo_efecto="critico",
             mejoras=[1, 2, 3, 4, 5],  # Porcentaje o puntos de probabilidad
-            imagen="./assets/item2.png"
+            imagen="./assets/items/item2.png"
         )
 
     def aplicar_efecto(self, jugador):
@@ -169,8 +172,34 @@ class ItemVelocidadAtaque(Item):
             descripcion="Aumenta la velocidad de ataque del jugador.",
             tipo_efecto="velocidad_ataque",
             mejoras=[1, 2, 3, 4, 5],
-            imagen="./assets/item2.png"
+            imagen="./assets/items/item2.png"
         )
 
     def aplicar_efecto(self, jugador):
         jugador.velocidad_ataque += self.obtener_valor_efecto()
+
+
+class DiccionarioClass:
+    def __init__(self):
+        # Asegúrate de que estos ítems sean instancias correctas de tus clases
+        self.items_dict = {
+            "item_salud": ItemSalud(),
+            "item_velocidad": ItemVelocidad(),
+            "item_danio": ItemDaño(),
+            "item_defensa": ItemDefensa(),
+            "item_experiencia": ItemExperiencia(),
+            "item_autocuracion": ItemAutocuracion(),
+            "item_criticos": ItemCriticos(),
+            "item_velocidad_ataque": ItemVelocidadAtaque(),
+        }
+        self.selected_items = {}  # Diccionario para almacenar ítems seleccionados
+
+    def select_random_items(self):
+        """Selecciona 3 ítems únicos aleatorios del diccionario de ítems."""
+        # Selecciona 3 claves únicas aleatorias del diccionario
+        unique_keys = random.sample(list(self.items_dict.keys()), 3)
+
+        # Crear el diccionario con los ítems seleccionados
+        self.selected_items = {
+            key: self.items_dict[key] for key in unique_keys}
+        return self.selected_items

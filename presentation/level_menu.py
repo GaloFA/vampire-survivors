@@ -3,9 +3,7 @@ import pygame
 from presentation.design_elements import Button, Title, Container, ItemCard
 # Archivo donde puedes tener configuraciones como SCREEN_WIDTH y SCREEN_HEIGHT
 import settings
-
-width = 1000
-height = 100
+from business.entities.items import *
 
 
 class NivelMenu:
@@ -29,8 +27,6 @@ class NivelMenu:
             settings.SCREEN_WIDTH-250, settings.SCREEN_HEIGHT // 2 +
             50, 200, 50, "SKIP", (200, 0, 0), (255, 255, 255)
         )
-        self.overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
-        self.overlay.fill((0, 0, 0, 5))
 
         self.item_card1 = ItemCard(settings.SCREEN_WIDTH//2-250, settings.SCREEN_HEIGHT//2-125, 500, 100, "Ebony Wings",
                                    "Bombards in a circling zone.", "./assets/experience_gems.png", is_new=True)
@@ -38,31 +34,48 @@ class NivelMenu:
                                    "Bombards in a circling zone.", "./assets/experience_gems.png", is_new=True)
         self.item_card3 = ItemCard(settings.SCREEN_WIDTH//2-250, settings.SCREEN_HEIGHT//2+125, 500, 100, "Ebony Wings",
                                    "Bombards in a circling zone.", "./assets/experience_gems.png", is_new=True)
+        self.overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
+        self.overlay.fill((0, 0, 0, 5))
+
         # Lista de botones
         self.buttons = [
             self.reroll_button,
             self.skip_button,
         ]
-        self.item_cards = [
-            self.item_card1,
-            self.item_card2,
-            self.item_card3
-        ]
-        self.containers = [
-            self.container
-        ]
-        self.titles = [self.title1]
 
-    def draw(self):
+    # SE ENCARGA DE RECIBIR EL DICCIONARIO CON LOS 3 ITEMS ELEGIDOS Y REMPLAZA TODA LA INFO DE ESTOS EN LA ITEM_CARD
+
+    def colocar_items(self, dic: dict):
+        # Crear una lista para almacenar los ItemCard
+        item_cards = []
+
+        # Definir las posiciones para cada ItemCard
+        posiciones = [
+            (settings.SCREEN_WIDTH // 2 - 250, settings.SCREEN_HEIGHT // 2 - 125),
+            (settings.SCREEN_WIDTH // 2 - 250, settings.SCREEN_HEIGHT // 2),
+            (settings.SCREEN_WIDTH // 2 - 250, settings.SCREEN_HEIGHT // 2 + 125)
+        ]
+
+        # Iterar sobre el diccionario y las posiciones, hasta un máximo de 3 ítems
+        for index, (key, item) in enumerate(dic.items()):
+            if index < 3:  # Solo necesitamos los primeros 3 ítems
+                x, y = posiciones[index]
+                item_card = ItemCard(
+                    x, y, 500, 100, item.nombre, item.descripcion, item.imagen, is_new=True
+                )
+                item_cards.append(item_card)
+        return item_cards
+
+    def draw(self, item_cards):
         """Dibuja el menú de nivelación y sus botones en la pantalla."""
         # Primero, dibuja el fondo negro semi-transparente
         self.screen.blit(self.overlay, (0, 0))
 
         # Dibujar cada botón
         self.container.draw(self.screen)
-        for item in self.item_cards:
-            item.draw(self.screen)
         self.title1.draw(self.screen)
+        for item in item_cards:
+            item.draw(self.screen)
         for button in self.buttons:
             button.draw(self.screen)
 
@@ -74,8 +87,8 @@ class NivelMenu:
             return "skip"
         elif self.item_card1.is_clicked(mouse_pos):
             return "item1"
-        elif self.item_card1.is_clicked(mouse_pos):
+        elif self.item_card2.is_clicked(mouse_pos):
             return "item2"
-        elif self.item_card1.is_clicked(mouse_pos):
+        elif self.item_card3.is_clicked(mouse_pos):
             return "item3"
         return None

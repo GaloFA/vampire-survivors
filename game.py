@@ -12,6 +12,7 @@ from presentation.interfaces import IDisplay, IInputHandler
 from presentation.pause_menu import PauseMenu
 from presentation.level_menu import NivelMenu
 from business.entities.player import Player
+from business.entities.items import DiccionarioClass
 
 
 class Game:
@@ -29,6 +30,7 @@ class Game:
         self.__running = True
         self.__pause_menu = PauseMenu(display.screen)
         self.__level_menu = NivelMenu(display.screen)
+        self.__items_inicializados = False  # SI NO FUNCIONA BORRAR
         self.__is_paused = False
         self.__is_level_up_menu_active = False
         self.start_ticks = pygame.time.get_ticks()  # Tiempo de inicio
@@ -55,13 +57,32 @@ class Game:
                 self.__is_paused = False
 
     def __handle_level_up_menu(self):
-        self.__level_menu.draw()
-        pygame.display.flip()
+        if not self.__items_inicializados:  # ESTO EXISTE PARA QUE SI NO SE ELIJE UNA OPCION ESTO NO SE VUELVA A REPETIR POR QUE SE VUELVE LOCO
+            Diccionario_Clases = DiccionarioClass()
+            diccionario_items = Diccionario_Clases.select_random_items()
+            item_cards = self.__level_menu.colocar_items(diccionario_items)
+            self.__level_menu.draw(item_cards)
+            pygame.display.flip()
+            self.__items_inicializados = True  # Marcar como inicializado
+
         if pygame.mouse.get_pressed()[0]:
             action = self.__level_menu.check_click(pygame.mouse.get_pos())
-            if action in ["item1", "item2", "item3", "skip", "reroll"]:
-                self.__is_level_up_menu_active = False  # Cerrar menú de nivel
-                # Lógica adicional para manejar cada acción puede ir aquí
+            if action == "item1":
+                self.__items_inicializados = False
+                pass
+            if action == "item2":
+                self.__items_inicializados = False
+                pass
+            if action == "item3":
+                self.__items_inicializados = False
+                pass
+            if action == "skip":
+                self.__items_inicializados = False
+                pass
+            if action == "reroll":
+                self.__items_inicializados = False
+                pass
+            self.__is_level_up_menu_active = False  # Cerrar menú de nivel
 
     def run(self):
         """Starts the game loop."""
