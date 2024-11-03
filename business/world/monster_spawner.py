@@ -11,7 +11,7 @@ from business.entities.monster import Monster
 from business.world.interfaces import IGameWorld, IMonsterSpawner
 from business.handlers.cooldown_handler import CooldownHandler
 from presentation.sprite import ZombieSprite, SkeletonSprite, OrcSprite, WerewolfSprite
-from business.world.monster_factory import MonsterFactory
+from business.entities.monster_factory import MonsterFactory
 
 BASE_COOLDOWN = 400
 
