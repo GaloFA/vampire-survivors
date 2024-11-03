@@ -60,7 +60,6 @@ class NivelMenu:
         for index, (key, item) in enumerate(dic.items()):
             if index < 3:  # Solo necesitamos los primeros 3 ítems
                 x, y = posiciones[index]
-                print(item.imagen_path)
                 item_card = ItemCard(
                     x, y, 500, 100, str(item), item.descripcion, item.imagen_path, is_new=True
                 )
@@ -87,9 +86,12 @@ class NivelMenu:
         elif self.skip_button.is_clicked(mouse_pos):
             return "skip"
         elif self.item_card1.is_clicked(mouse_pos):
-            return "item1"
+            pass
+            # return list(diccionario.keys())[0]  # Devuelve el primer ítem
         elif self.item_card2.is_clicked(mouse_pos):
-            return "item2"
+            pass
+            # return list(diccionario.keys())[1]  # Devuelve el segundo ítem
         elif self.item_card3.is_clicked(mouse_pos):
-            return "item3"
+            pass
+            # return list(diccionario.keys())[2]  # Devuelve el tercer ítem
         return None

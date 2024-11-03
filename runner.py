@@ -29,16 +29,21 @@ def initialize_game_world():
     return GameWorld(monster_spawner, tile_map, player)
 
 
+def restart_game():
+    """Reinicia La Partida"""
+    main()
+
+
 def main():
     """Main function to run the game"""
     # Initialize pygame
     pygame.init()  # pylint: disable=E1101
 
     # Logging configuration
-    logging.basicConfig(
-        level=logging.DEBUG,  # Change between INFO, WARNING or DEBUG as needed
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    )
+    # logging.basicConfig(
+    #    level=logging.DEBUG,  # Change between INFO, WARNING or DEBUG as needed
+    #    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    # )
 
     # Initialize the game objects
     display = Display()
@@ -47,7 +52,7 @@ def main():
     input_handler = InputHandler(world)
 
     # Create a game instance and start it
-    game = Game(display, world, input_handler)
+    game = Game(display, world, input_handler, restart_game)
     game.run()
 
     # Properly quit Pygame
