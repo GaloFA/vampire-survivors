@@ -44,20 +44,3 @@ class CollisionHandler:
         CollisionHandler.__handle_bullets(world.bullets, world.monsters)
         CollisionHandler.__handle_monsters(world.monsters, world.player)
         CollisionHandler.__handle_gems(world.experience_gems, world.player, world)
-
-    @staticmethod
-    def detect_monster_collisions(aMonster: IMonster, monsters: List[IMonster]):
-        """Detect collisions between monsters and return a dict of colliding monsters to self.
-
-        Args:
-            aMonster (IMonster): The monster to check collisions.
-            monsters (List[IMonster]): The list of monsters to check for collisions.
-
-        Returns:
-            Dict[IMonster]: A dict of monsters that collide with self.
-        """
-        colliding_monsters = []
-        for monster in monsters:
-            if monster != aMonster and CollisionHandler.__collides_with(aMonster, monster):
-                colliding_monsters.append(monster)
-        return colliding_monsters
