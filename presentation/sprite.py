@@ -9,8 +9,9 @@ from presentation.tileset import Tileset
 class Sprite(pygame.sprite.Sprite):
     """A class representing a sprite."""
 
-    def __init__(self, image: pygame.Surface, rect: pygame.Rect, *groups):
+    def __init__(self, image: pygame.Surface, image_path, rect: pygame.Rect, *groups):
         self._image: pygame.Surface = image
+        self._image_path = image_path
         self._rect: pygame.Rect = rect
         super().__init__(*groups)
         self.__is_in_damage_countdown = 0
@@ -70,13 +71,27 @@ class Sprite(pygame.sprite.Sprite):
         if self.__is_in_damage_countdown > 0:
             self.__decrease_damage_countdown()
 
+    def serialize_rect(self, rect: pygame.Rect) -> dict:
+        """Converts a pygame.Rect object to a dictionary."""
+        return {
+            'x': rect.x,
+            'y': rect.y,
+            'width': rect.width,
+            'height': rect.height
+        }
+
+    def json_format(self):
+        return {
+            'image_path': self._image_path,
+            'rect': self.serialize_rect(self.rect),
+            'is_in_damage_countdown': self.__is_in_damage_countdown,
+        }
+
 
 class PlayerSprite(Sprite):
     """A class representing the player sprite."""
 
     ASSET_IDLE = "./assets/adventurer-idle-00.png"
-    # A new asset for the running animation
-    ASSET_RUN = "./assets/character/Run.png"
 
     TILE_WIDTH = 64
     TILE_HEIGHT = 64
@@ -89,7 +104,7 @@ class PlayerSprite(Sprite):
         image = pygame.transform.scale(image, settings.TILE_DIMENSION)
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
-        super().__init__(image, rect)
+        super().__init__(image, PlayerSprite.ASSET_IDLE, rect)
 
 class ZombieSprite(Sprite):
     """A class representing the zombie sprite."""
@@ -104,7 +119,7 @@ class ZombieSprite(Sprite):
         image = pygame.transform.scale(image, (ZombieSprite.TILE_WIDTH * ZombieSprite.SIZE_MULTIPLIER, ZombieSprite.TILE_HEIGHT * ZombieSprite.SIZE_MULTIPLIER))
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
-        super().__init__(image, rect)
+        super().__init__(image, ZombieSprite.ASSET, rect)
 
 class SkeletonSprite(Sprite):
     """A class representing the skeleton sprite."""
@@ -118,7 +133,7 @@ class SkeletonSprite(Sprite):
         image: pygame.Surface = pygame.image.load(SkeletonSprite.ASSET).convert_alpha()
         image = pygame.transform.scale(image, (SkeletonSprite.TILE_WIDTH * SkeletonSprite.SIZE_MULTIPLIER, SkeletonSprite.TILE_HEIGHT * SkeletonSprite.SIZE_MULTIPLIER))
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
-        super().__init__(image, rect)
+        super().__init__(image, SkeletonSprite.ASSET, rect)
 
 class OrcSprite(Sprite):
     """A class representing the orc sprite."""
@@ -132,7 +147,7 @@ class OrcSprite(Sprite):
         image: pygame.Surface = pygame.image.load(OrcSprite.ASSET).convert_alpha()
         image = pygame.transform.scale(image, (OrcSprite.TILE_WIDTH * OrcSprite.SIZE_MULTIPLIER, OrcSprite.TILE_HEIGHT * OrcSprite.SIZE_MULTIPLIER))
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
-        super().__init__(image, rect)
+        super().__init__(image, OrcSprite.ASSET, rect)
 
 class WerewolfSprite(Sprite):
     """A class representing the werewolf sprite."""
@@ -146,7 +161,7 @@ class WerewolfSprite(Sprite):
         image: pygame.Surface = pygame.image.load(WerewolfSprite.ASSET).convert_alpha()
         image = pygame.transform.scale(image, (WerewolfSprite.TILE_WIDTH * WerewolfSprite.SIZE_MULTIPLIER, WerewolfSprite.TILE_HEIGHT * WerewolfSprite.SIZE_MULTIPLIER))
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
-        super().__init__(image, rect)
+        super().__init__(image, WerewolfSprite.ASSET, rect)
 
 class BulletSprite(Sprite):
     """A class representing the bullet sprite."""
@@ -157,7 +172,7 @@ class BulletSprite(Sprite):
         pygame.draw.circle(image, (255, 255, 0), (2, 2), 5)
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
-        super().__init__(image, rect)
+        super().__init__(image, None, rect)
 
 
 class ExperienceGemSprite(Sprite):
@@ -172,4 +187,4 @@ class ExperienceGemSprite(Sprite):
         image: pygame.Surface = tileset.get_tile(0)
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
 
-        super().__init__(image, rect)
+        super().__init__(image, ExperienceGemSprite.ASSET, rect)

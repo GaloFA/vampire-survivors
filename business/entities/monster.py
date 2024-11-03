@@ -30,10 +30,10 @@ class Monster(MovableEntity, IMonster):
             'max_health': self.__max_health,
             'damage': self.__damage,
             'attack_range': self.__attack_range,
-            'attack_cooldown': self.__attack_cooldown,
+            'attack_cooldown': "1",#self.__attack_cooldown,
             'pos_x': self.pos_x,
             'pos_y': self.pos_y,
-            'sprite': self.sprite,
+            'sprite': self._sprite.json_format(),
         }
 
     def load_monster_from_json(self, monster_data) -> IMonster:

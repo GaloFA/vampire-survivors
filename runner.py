@@ -18,7 +18,7 @@ from presentation.sprite import PlayerSprite
 def initialize_player():
     """Initializes the player object"""
     x, y = settings.WORLD_WIDTH//2, settings.WORLD_HEIGHT//2
-    return Player(x, y, PlayerSprite(x, y))
+    return Player(x, y, PlayerSprite(x, y), 100)
 
 
 def initialize_game_world():
@@ -50,7 +50,7 @@ def main():
     game = Game(display, world, input_handler)
     game.run()
 
-    # Properly quit Pygame
+    # Properly quit Pygame 
     pygame.quit()  # pylint: disable=E1101
 
 

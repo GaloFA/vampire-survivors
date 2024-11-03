@@ -3,13 +3,14 @@ import json
 from collections import defaultdict
 from persistence.gamedao import IGameDAO
 from business.world.game_world import GameWorld
+from business.world.interfaces import IGameWorld
 
-class GameWorldJsonDAO(IGameDAO):
+class GameWorldJsonDAO():
     """JSON DAO that handles the saving and loading of GameWorld data."""
 
     BASE_GAME_DATA = {}
 
-    def __init__(self, json_path="data/game_world.json") -> None:
+    def __init__(self, json_path="persistence/data/game_world.json") -> None:
         """Initializes the DAO and creates a JSON file if it does not exist."""
         self.__json_path = json_path
         if not os.path.exists(self.__json_path):
@@ -18,6 +19,7 @@ class GameWorldJsonDAO(IGameDAO):
 
     def __read_data(self) -> dict:
         """Reads data from the JSON file."""
+        input(self.__json_path)
         with open(self.__json_path, 'r', encoding="utf-8") as file:
             return json.load(file)
 
@@ -26,7 +28,7 @@ class GameWorldJsonDAO(IGameDAO):
         with open(self.__json_path, 'w', encoding="utf-8") as file:
             json.dump(data, file, indent=4)
 
-    def save_game(self, game_world: GameWorld) -> None:
+    def save_game(self, game_world: IGameWorld) -> None:
         """Serializes and saves the current state of GameWorld."""
         data = self.__read_data()
 
@@ -54,7 +56,7 @@ class GameWorldJsonDAO(IGameDAO):
 
         self.__save_data(data)
 
-    def load_game(self, game_world: GameWorld) -> None:
+    def load_game(self, game_world: IGameWorld) -> None:
         """Loads the saved GameWorld state and populates the provided GameWorld instance."""
         data = self.__read_data()
 

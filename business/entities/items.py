@@ -69,19 +69,19 @@ class ItemVelocidad(Item):
 
 
 class ItemDaño(Item):
-    """Ítem que proporciona mejoras en daño."""
+    """Ítem que proporciona mejoras en damage."""
 
     def __init__(self):
         super().__init__(
             nombre="Espada del Guerrero",
-            descripcion="Aumenta el daño infligido por el jugador.",
-            tipo_efecto="daño",
+            descripcion="Aumenta el damage infligido por el jugador.",
+            tipo_efecto="damage",
             mejoras=[5, 10, 15, 20, 25],
             imagen_path="./assets/items/sprite-items/item5.png"
         )
 
     def aplicar_efecto(self, jugador):
-        jugador.daño += self.obtener_valor_efecto()
+        jugador.damage += self.obtener_valor_efecto()
 
 
 class ItemDefensa(Item):
@@ -138,7 +138,7 @@ class ItemCriticos(Item):
     def __init__(self):
         super().__init__(
             nombre="Talismán de Juicio",
-            descripcion="Aumenta la probabilidad de infligir daño crítico.",
+            descripcion="Aumenta la probabilidad de infligir damage crítico.",
             tipo_efecto="critico",
             mejoras=[1, 2, 3, 4, 5],  # Porcentaje o puntos de probabilidad
             imagen_path="./assets/items/sprite-items/item2.png"

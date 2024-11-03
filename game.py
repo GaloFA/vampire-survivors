@@ -13,6 +13,7 @@ from presentation.pause_menu import PauseMenu
 from presentation.level_menu import NivelMenu
 from business.entities.player import Player
 from business.entities.items import DiccionarioClass
+from persistence.gamejsondao import GameWorldJsonDAO
 
 
 class Game:
@@ -36,6 +37,7 @@ class Game:
         self.start_ticks = pygame.time.get_ticks()  # Tiempo de inicio
         self.elapsed_time = 0  # Tiempo transcurrido en segundos
         self.previous_level = self.__world.player.level
+        self.__dao = GameWorldJsonDAO()
 
     def __process_game_events(self):
         for event in pygame.event.get():
@@ -43,6 +45,14 @@ class Game:
                 self.__running = False
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 self.__is_paused = not self.__is_paused
+
+    def save_game(self):
+        """Saves the current game state using the DAO."""
+        self.__dao.save_game(self.__world)
+
+    def load_game(self):
+        """Loads the game state using the DAO."""
+        self.__dao.load_game(self.__world)
 
     def __handle_pause_menu(self):
         self.__pause_menu.draw()
@@ -55,6 +65,7 @@ class Game:
             elif action == "q":
                 self.__running = False
             elif action == "sq":
+                self.save_game()
                 self.__running = False
             elif keys[pygame.K_ESCAPE]:
                 self.__is_paused = False

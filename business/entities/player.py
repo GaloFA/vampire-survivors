@@ -29,10 +29,10 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__experience = 0                     # Experiencia acumulada
         self.__level = 1                          # Nivel del jugador
         self.__velocidad: int = 5                 # Velocidad de movimiento del jugador
-        self.__daño: int = 10                    # Daño infligido por el jugador
+        self.__damage: int = 10                    # Daño infligido por el jugador
         self.__defensa: int = 0                   # Defensa del jugador
         self.__autocuracion: int = 0              # Mejora de autocuración del jugador
-        # Probabilidad de infligir daño crítico
+        # Probabilidad de infligir damage crítico
         self.__probabilidad_critico: int = 0
         self.__velocidad_ataque: int = 1
 
@@ -44,7 +44,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             'experience': self.__experience,
             'level': self.__level,
             'velocidad': self.__velocidad,
-            'daño': self.__daño,
+            'damage': self.__damage,
             'defensa': self.__defensa,
             'autocuracion': self.__autocuracion,
             'probabilidad_critico': self.__probabilidad_critico,
@@ -66,13 +66,13 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         lvl = self.__level
         pos = str(self._pos_x) + str(self._pos_y)
         vel = self.__velocidad
-        dam = self.__daño
+        dam = self.__damage
         defe = self.__defensa
         autoc = self.__autocuracion
         pcrit = self.__probabilidad_critico
         velata = self.__velocidad_ataque
         return (f"Player(hp={hp}, xp={xp}, lvl={lvl}, pos=({pos}), "
-                f"vel={vel}, daño={dam}, defensa={defe}, "
+                f"vel={vel}, damage={dam}, defensa={defe}, "
                 f"autocuración={autoc}, critico={pcrit}, "
                 f"vel_ataque={velata})")
 
