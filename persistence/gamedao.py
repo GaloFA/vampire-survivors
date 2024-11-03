@@ -1,7 +1,7 @@
 """Interfaz de una clase DAO para reservas"""
 from abc import abstractmethod, ABC
 
-class GameDAO(ABC):
+class IGameDAO(ABC):
     """ Clase abstracta que da los métodos para posibilitar conectarse 
     a una fuente de datos en donde se guarden o modifiquen los mismos """
     @abstractmethod

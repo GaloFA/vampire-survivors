@@ -15,12 +15,25 @@ class Monster(MovableEntity, IMonster):
     """A monster entity in the game."""
 
     def __init__(self, src_x: int, src_y: int, sprite: Sprite, health: int, max_health: int, damage: int, attack_range: int):
+        self.__level_multiplier = 1
         super().__init__(src_x, src_y, 2, sprite)
-        self.__health: int = health
-        self.__max_health: int = max_health
-        self.__damage = damage
+        self.__health: int = health * self.__level_multiplier
+        self.__max_health: int = max_health * self.__level_multiplier
+        self.__damage = damage * self.__level_multiplier
         self.__attack_range = attack_range
         self.__attack_cooldown = CooldownHandler(1000)
+
+    def json_format(self):
+        return {
+            'level_multiplier': self.__level_multiplier,
+            'health': self.__health,
+            'max_health': self.__max_health,
+            'damage': self.__damage,
+            'attack_range': self.__attack_range,
+            'attack_cooldown': self.__attack_cooldown,
+            'pos_x': self.pos_x,
+            'pos_y': self.pos_y,
+        }
 
     def attack(self, target: IPlayer):
         """Attacks the target."""
@@ -43,27 +56,25 @@ class Monster(MovableEntity, IMonster):
 
         return direction_x, direction_y
 
+    def levelup(self, world: IGameWorld, levelup_cooldown: CooldownHandler):
+        if levelup_cooldown.is_action_ready():
+            self.__level_multiplier += (world.timer // 10)
+
+            self.__health *= self.__level_multiplier
+            self.__max_health *= self.__level_multiplier
+            self.__damage *= self.__level_multiplier
+
+            levelup_cooldown.put_on_cooldown()
+
     def update(self, world: IGameWorld):
+
         direction_x, direction_y = self.__get_direction_towards_the_player(
             world)
+        
         if (direction_x, direction_y) == (0, 0):
             return
 
-        colliding_monsters = CollisionHandler.detect_monster_collisions(
-            self, world.monsters)
-
         self.move(direction_x, direction_y)
-
-        for monster_b in colliding_monsters:
-            closest_monster = min(
-                [self, monster_b],
-                key=lambda m: (
-                    (m.pos_x - world.player.pos_x) ** 2 +
-                    (m.pos_y - world.player.pos_y) ** 2
-                ),
-            )
-
-            closest_monster.move(direction_x, direction_y)
 
         if self.__health <= 0:
             world.remove_monster(self)

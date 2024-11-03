@@ -62,14 +62,14 @@ class Display(IDisplay):
         player = self.__world.player
 
         # Define the health bar dimensions
-        bar_width = settings.TILE_WIDTH
-        bar_height = 5
-        bar_x = player.sprite.rect.centerx - bar_width // 2 - self.camera.camera_rect.left
-        bar_y = player.sprite.rect.bottom + 5 - self.camera.camera_rect.top
+        bar_width = settings.SCREEN_WIDTH // 4
+        bar_height = 15
+        bar_x = settings.SCREEN_WIDTH // 2 - bar_width // 2
+        bar_y = settings.SCREEN_HEIGHT - 25
 
-        # Draw the background bar (red)
+        # Draw the background bar (gray)
         bg_rect = pygame.Rect(bar_x, bar_y, bar_width, bar_height)
-        pygame.draw.rect(self.__screen, (255, 0, 0), bg_rect)
+        pygame.draw.rect(self.__screen, (45, 45, 45), bg_rect)
 
         # Draw the health bar (green)
         health_percentage = player.health / player.max_health
@@ -78,7 +78,7 @@ class Display(IDisplay):
         pygame.draw.rect(self.__screen, (0, 255, 0), health_rect)
 
     def __draw_monster_health_bar(self, monster: IMonster):
-        # Get the player's health
+        # Get the monster's health
         if monster.health < monster.max_health:
             # Define the health bar dimensions
             bar_width = settings.TILE_WIDTH
