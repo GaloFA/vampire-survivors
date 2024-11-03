@@ -60,8 +60,9 @@ class NivelMenu:
         for index, (key, item) in enumerate(dic.items()):
             if index < 3:  # Solo necesitamos los primeros 3 ítems
                 x, y = posiciones[index]
+                print(item.imagen_path)
                 item_card = ItemCard(
-                    x, y, 500, 100, item.nombre, item.descripcion, item.imagen, is_new=True
+                    x, y, 500, 100, str(item), item.descripcion, item.imagen_path, is_new=True
                 )
                 item_cards.append(item_card)
         return item_cards
