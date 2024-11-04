@@ -63,7 +63,7 @@ class SpeedGem(Entity, IExperienceGem):
         boost = gem_data['boost']
         duration = gem_data['duration']
 
-        return ExperienceGem(src_x, src_y, amount, boost, duration)
+        return SpeedGem(src_x, src_y, amount, boost, duration)
 
     def apply_effect(self, player):
         """Applies a temporary speed boost to the player."""
@@ -106,7 +106,7 @@ class DamageGem(Entity, IExperienceGem):
         boost = gem_data['boost']
         duration = gem_data['duration']
 
-        return ExperienceGem(src_x, src_y, amount, boost, duration)
+        return DamageGem(src_x, src_y, amount, boost, duration)
 
     def apply_effect(self, player):
         """Applies a temporary damage boost to the player."""
@@ -149,7 +149,7 @@ class DefenseGem(Entity, IExperienceGem):
         boost = gem_data['boost']
         duration = gem_data['duration']
 
-        return ExperienceGem(src_x, src_y, amount, boost, duration)
+        return DefenseGem(src_x, src_y, amount, boost, duration)
 
     def apply_effect(self, player):
         """Applies a temporary defense boost to the player."""
