@@ -8,6 +8,7 @@ from business.entities.experience_gem import ExperienceGem
 from business.entities.interfaces import ICanDealDamage, IDamageable, IPlayer
 from business.world.interfaces import IGameWorld
 from presentation.sprite import Sprite, PlayerSprite
+from business.entities.weapons import PistolWeapon, ShotgunWeapon, MinigunWeapon
 
 
 class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
@@ -39,6 +40,8 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__autocuracion: int = 0  # funciona
         self.__probabilidad_critico: int = 0
         self.__velocidad_ataque_incrementada: int = 0
+        self.__weapon_type = "pistol"
+        self.__weapon = ShotgunWeapon()
 
     def json_format(self):
         return {
@@ -56,6 +59,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             'velocidad_ataque': self.__velocidad_ataque_incrementada,
             'pos_x': self.pos_x,
             'pos_y': self.pos_y,
+            'weapon_type': self.__weapon_type,
         }
 
     @staticmethod
@@ -79,6 +83,14 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         player.__autocuracion = player_data.get('autocuracion', player.__autocuracion)
         player.__probabilidad_critico = player_data.get('probabilidad_critico', player.__probabilidad_critico)
         player.__velocidad_ataque_incrementada = player_data.get('velocidad_ataque', player.__velocidad_ataque_incrementada)
+        player.__weapon_type = player_data.get('weapon_type', player.__weapon_type)
+
+        if player.__weapon_type == "pistol":
+            player.__weapon = PistolWeapon()
+        if player.__weapon_type == "shotgun":
+            player.__weapon = ShotgunWeapon()
+        if player.__weapon_type == "minigun":
+            player.__weapon = MinigunWeapon()
 
         return player
 
@@ -103,6 +115,10 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
     def aplicar_efecto(self, item):
         pass
+
+    @staticmethod
+    def set_shoot_cooldown(shoot_cooldown: int):
+        Player.BASE_SHOOT_COOLDOWN = shoot_cooldown
 
     def increase_speed(self):
         """Aumenta la velocidad del jugador."""
@@ -130,6 +146,16 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     def __levelup_perks(self):
         self.__health_base *= self.__level
         self.__max_health *= self.__level
+        if self.__level == 1:
+            self.__weapon = PistolWeapon()
+            self.__weapon_type = "pistol"
+        if self.__level == 4:
+            self.__weapon = ShotgunWeapon()
+            self.__weapon_type = "shotgun"
+        if self.__level == 6:
+            self.__weapon = MinigunWeapon()
+            self.__weapon_type = "minigun"
+
 
     def __heal(self, amount: int):
         # Aumenta la salud del jugador, asegurándose de que no exceda el máximo
@@ -155,9 +181,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             ),
         )
 
-        bullet = Bullet(self.pos_x, self.pos_y,
-                        monster.pos_x, monster.pos_y, 10)
-        world.add_bullet(bullet)
+        self.__weapon.shoot(world, self.pos_x, self.pos_y, monster.pos_x, monster.pos_y)
 
     def update(self, world: IGameWorld):
         super().update(world)
