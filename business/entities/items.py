@@ -1,5 +1,6 @@
 import random
 import pygame
+from business.entities.player import Player
 
 
 class Item:
@@ -17,11 +18,12 @@ class Item:
         self.nivel = 1
         self.imagen_path = imagen_path
 
-    def subir_nivel(self):
-        """Sube el nivel del ítem si no ha alcanzado el nivel máximo."""
+    def subir_nivel(self, jugador):
+        """Sube el nivel del ítem si no ha alcanzado el nivel máximo y aplica la mejora."""
         if self.nivel < len(self.mejoras):
-            self.nivel += 1
-            return f"{self.nombre} ha subido al nivel {self.nivel}!"
+            self.nivel += 1  # Incrementa el nivel
+            self.aplicar_efecto(jugador)  # Aplica el efecto del nuevo nivel
+            return f"{self.nombre} ha subido al nivel {self.nivel} y ahora otorga {self.obtener_valor_efecto()} de efecto!"
         else:
             return f"{self.nombre} ya está en el nivel máximo."
 
@@ -29,6 +31,7 @@ class Item:
         return self.mejoras[self.nivel - 1]
 
     def aplicar_efecto(self, jugador):
+        """Método a implementar en las subclases para aplicar el efecto específico al jugador."""
         pass
 
     def __str__(self):
@@ -48,7 +51,7 @@ class ItemSalud(Item):
             imagen_path="./assets/items/sprite-items/item2.png"
         )
 
-    def aplicar_efecto(self, jugador):
+    def aplicar_efecto(self, jugador: Player):
         jugador.salud += self.obtener_valor_efecto()
 
 
@@ -137,11 +140,11 @@ class ItemCriticos(Item):
 
     def __init__(self):
         super().__init__(
-            nombre="Talismán de Juicio",
+            nombre="Anillo de Juicio",
             descripcion="Aumenta la probabilidad de infligir damage crítico.",
             tipo_efecto="critico",
             mejoras=[1, 2, 3, 4, 5],  # Porcentaje o puntos de probabilidad
-            imagen_path="./assets/items/sprite-items/item2.png"
+            imagen_path="./assets/items/sprite-items/item1.png"
         )
 
     def aplicar_efecto(self, jugador):
