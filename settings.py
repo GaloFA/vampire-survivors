@@ -4,8 +4,8 @@ GAME_TITLE = "VA Game"
 FPS = 60
 
 # Tile dimensions
-TILE_HEIGHT = 72  # 32
-TILE_WIDTH = 72
+TILE_HEIGHT = 100  # 32
+TILE_WIDTH = 100
 TILE_DIMENSION = (TILE_WIDTH, TILE_HEIGHT)
 
 # Screen dimensions

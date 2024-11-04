@@ -10,6 +10,7 @@ from presentation.interfaces import IDisplay, IInputHandler
 from presentation.pause_menu import PauseMenu
 from presentation.level_menu import NivelMenu
 from presentation.game_over_screen import GameOverScreen
+from presentation.player_stats import PlayerStatsContainer
 from business.entities.player import Player
 from business.entities.items import DiccionarioClass
 from persistence.gamejsondao import GameWorldJsonDAO
@@ -28,6 +29,7 @@ class Game:
         self.__world = game_world
         self.__input_handler = input_handler
         self.__running = True
+        self.__player_stats = PlayerStatsContainer(display.screen)
         self.__pause_menu = PauseMenu(display.screen)
         self.__level_menu = NivelMenu(display.screen)
         self.__game_over = GameOverScreen(display.screen)
@@ -72,6 +74,7 @@ class Game:
 
     def __handle_pause_menu(self):
         self.__pause_menu.draw()
+        self.__player_stats.draw()
         pygame.display.flip()
         if pygame.mouse.get_pressed()[0]:
             keys = pygame.key.get_pressed()
@@ -120,6 +123,7 @@ class Game:
         diccionario_items = Diccionario_Clases.select_random_items()
         item_cards = self.__level_menu.colocar_items(diccionario_items)
         self.__level_menu.draw(item_cards)
+        self.__player_stats.draw()
         pygame.display.flip()
         self.__items_inicializados = True  # Marcar como inicializado
         return diccionario_items
