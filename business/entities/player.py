@@ -7,7 +7,7 @@ from business.entities.entity import MovableEntity
 from business.entities.experience_gem import ExperienceGem
 from business.entities.interfaces import ICanDealDamage, IDamageable, IPlayer
 from business.world.interfaces import IGameWorld
-from presentation.sprite import Sprite
+from presentation.sprite import Sprite, PlayerSprite
 
 
 class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
@@ -49,14 +49,17 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             'autocuracion': self.__autocuracion,
             'probabilidad_critico': self.__probabilidad_critico,
             'velocidad_ataque': self.__velocidad_ataque,
+            'pos_x': self.pos_x,
+            'pos_y': self.pos_y,
         }
 
-    def load_player_from_json(self, player_data) -> IPlayer:
+    @staticmethod
+    def load_player_from_json(player_data) -> IPlayer:
         """Loads the player entity from JSON data."""
         src_x = player_data['pos_x']
         src_y = player_data['pos_y']
         health = player_data['health']
-        sprite = player_data['sprite']
+        sprite = PlayerSprite(src_x, src_y)
 
         return Player(src_x, src_y, sprite, health)
 
