@@ -42,7 +42,6 @@ class Game:
         self.previous_level = self.__world.player.level
         self.__dao = GameWorldJsonDAO()
         self.__loaded: bool = False
-        # Esta funcion guarda la funcion Reiniciar Partida,Si no se genera error de imports de otra manera :v
         self.__restart_game_func = restart_game_func
 
     def __process_game_events(self):
@@ -76,16 +75,19 @@ class Game:
         self.__pause_menu.draw()
         self.__player_stats.draw()
         pygame.display.flip()
+
         if pygame.mouse.get_pressed()[0]:
             keys = pygame.key.get_pressed()
             action = self.__pause_menu.check_click(pygame.mouse.get_pos())
             if action == "r":
                 self.__is_paused = False
+
             elif action == "q":
                 self.__running = False
             elif action == "sq":
                 self.save_game()
                 self.__running = False
+
             elif keys[pygame.K_ESCAPE]:
                 self.__is_paused = False
 

@@ -1,6 +1,6 @@
 import pygame
 import settings
-from presentation.design_elements import Title
+from presentation.design_elements import Title, Container
 from business.entities.player import Player
 from presentation.sprite import PlayerSprite
 
@@ -13,7 +13,7 @@ class PlayerStatsContainer:
         x, y = settings.WORLD_WIDTH//2, settings.WORLD_HEIGHT//2
         self.player = Player(x, y, PlayerSprite(x, y), 100)
         self.screen_width, self.screen_height = settings.SCREEN_WIDTH//2, settings.SCREEN_HEIGHT//2
-
+        self.container = Container(0, 100, 400, 700, (0, 0, 100))
         # Configuración del título
         self.title = Title("Estadísticas del Jugador",
                            self.screen_width // 4, 150, 40, (255, 255, 255))
@@ -27,6 +27,9 @@ class PlayerStatsContainer:
 
         # Cargar estadísticas del jugador
         self.stats = self.player.json_format()
+
+    def draw_container(self):
+        self.container.draw(self.screen)
 
     def draw_title(self):
         """Dibuja el título 'Estadísticas del Jugador'."""
@@ -45,6 +48,7 @@ class PlayerStatsContainer:
 
     def draw(self):
         """Dibuja todo el contenedor de estadísticas."""
+        self.draw_container()
         self.draw_title()
         self.draw_stats()
         pygame.display.flip()

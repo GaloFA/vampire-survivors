@@ -1,7 +1,5 @@
 import pygame
-# Asegúrate de tener un archivo nivel_button.py que defina la clase Button
 from presentation.design_elements import Button, Title, Container, ItemCard
-# Archivo donde puedes tener configuraciones como SCREEN_WIDTH y SCREEN_HEIGHT
 import settings
 from business.entities.items import *
 
@@ -16,7 +14,7 @@ class NivelMenu:
             settings.SCREEN_WIDTH//2-300, settings.SCREEN_HEIGHT//2-310, 600, 620, (84, 79, 79))
 
         self.title1 = Title(
-            "¡SUBES DE NIVEL!", settings.SCREEN_WIDTH//2, settings.SCREEN_HEIGHT-530, 80, (255, 255, 255))
+            "¡SUBES DE NIVEL!", settings.SCREEN_WIDTH//2, settings.SCREEN_HEIGHT//2-210, 80, (255, 255, 255))
         # Botones de opciones de nivelación
 
         # Botones de reroll y skip
@@ -36,7 +34,7 @@ class NivelMenu:
         self.item_card3 = ItemCard(settings.SCREEN_WIDTH//2-250, settings.SCREEN_HEIGHT//2+125, 500, 100, "Ebony Wings",
                                    "Bombards in a circling zone.", "./assets/experience_gems.png", is_new=True)
         self.overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
-        self.overlay.fill((0, 0, 0, 5))
+        self.overlay.fill((42, 42, 42))
 
         # Lista de botones
         self.buttons = [
@@ -69,7 +67,6 @@ class NivelMenu:
 
     def draw(self, item_cards):
         """Dibuja el menú de nivelación y sus botones en la pantalla."""
-        # Primero, dibuja el fondo negro semi-transparente
         self.screen.blit(self.overlay, (0, 0))
 
         # Dibujar cada botón
