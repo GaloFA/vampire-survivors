@@ -10,6 +10,12 @@ class CooldownHandler:
         self.__last_action_time = pygame.time.get_ticks()
         self.__cooldown_time = cooldown_time
 
+    def json_format(self):
+        return {
+            'last_action_time': self.__last_action_time,
+            'cooldown_time': self.__cooldown_time,
+        }
+
     def is_action_ready(self):
         """Check if the action is ready to be performed."""
         current_time = pygame.time.get_ticks()
