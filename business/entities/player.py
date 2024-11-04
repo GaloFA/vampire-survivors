@@ -18,44 +18,42 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     """
     AUTOHEAL_INTERVAL = 1000
     BASE_DAMAGE = 10
-    BASE_SHOOT_COOLDOWN = 200
+    BASE_SHOOT_COOLDOWN = 100
 
     def __init__(self, pos_x: int, pos_y: int, sprite: Sprite, health: int):
         super().__init__(pos_x, pos_y, 5, sprite)
 
-        self.__health: int = health
+        self.__health_base: int = health
         self.__max_health: int = 100
         self.__last_shot_time = pygame.time.get_ticks()  # Tiempo del último disparo
         self._last_autoheal_time = pygame.time.get_ticks()
         self.__experience = 0  # funciona
         self.__multexperience = 1  # funciona
-        self.__level = 1  # funciona                         # Nivel del jugador
-        # Velocidad de movimiento del jugador
+        self.__level = 1  # funciona
         self.__velocidad_base: int = 500
-        self.__current_speed: int = self.__velocidad_base
         self.__velocidad_incrementada: int = 1
-        self.__damage: int = 10                    # Daño infligido por el jugador
-        # Establecer a 0 como minimo1                # Defensa del jugador
-        self.__defensa: int = 0  # funciona
-        self.__autocuracion: int = 5  # funciona      # Mejora de autocuración del jugador
-        # Probabilidad de infligir damage crítico
+        self.__damage_base: int = 10
+        self.__damage_incrementada: int = 20
+        self.__defensa_base: int = 0  # funciona
+        self.__defensa_incrementada: int = 10
+        self.__autocuracion: int = 0  # funciona
         self.__probabilidad_critico: int = 0
-        self.__velocidad_ataque: int = 1
+        self.__velocidad_ataque_incrementada: int = 0
 
     def json_format(self):
         return {
-            'health': self.__health,
+            'health': self.__health_base,
             'max_health': self.__max_health,
             'last_shot_time': self.__last_shot_time,
             'experience': self.__experience,
             'multexperience': self.__multexperience,
             'level': self.__level,
-            'velocidad': self.__current_speed,
-            'damage': self.__damage,
-            'defensa': self.__defensa,
+            'velocidad': self.__velocidad_base,
+            'damage': self.__damage_base,
+            'defensa': self.__defensa_base,
             'autocuracion': self.__autocuracion,
             'probabilidad_critico': self.__probabilidad_critico,
-            'velocidad_ataque': self.__velocidad_ataque,
+            'velocidad_ataque': self.__velocidad_ataque_incrementada,
             'pos_x': self.pos_x,
             'pos_y': self.pos_y,
         }
@@ -71,13 +69,13 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         return Player(src_x, src_y, sprite, health)
 
     def __str__(self):
-        hp = self.__health
+        hp = self.__health_base
         xp = self.__experience
         lvl = self.__level
         pos = str(self._pos_x) + str(self._pos_y)
-        vel = self.__velocidad
-        dam = self.__damage
-        defe = self.__defensa
+        vel = self.__velocidad_base
+        dam = self.__damage_base
+        defe = self.__defensa_base
         autoc = self.__autocuracion
         pcrit = self.__probabilidad_critico
         velata = self.__velocidad_ataque
@@ -89,23 +87,26 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     def mostrar_estadisticas(self):
         pass
 
+    def aplicar_efecto(self, item):
+        pass
+
     def increase_speed(self):
         """Aumenta la velocidad del jugador."""
-        self.__current_speed += self.__velocidad_incrementada
+        self.__velocidad_base += self.__velocidad_incrementada
 
     def move(self, dx: int, dy: int):
         """Mueve al jugador, ajustando la distancia según la velocidad actual."""
-        super().move(dx * self.__current_speed, dy * self.__current_speed)
+        super().move(dx * self.__velocidad_base, dy * self.__velocidad_base)
 
     def take_damage(self, amount):
-        if self.__defensa >= amount:
+        if self.__defensa_base >= amount:
             amount = 0
         else:
             # Resta el valor de la defensa al daño si es menor que el daño recibido
-            amount -= self.__defensa
+            amount -= self.__defensa_base
 
         # Actualiza la salud asegurando que no sea menor que 0
-        self.__health = max(0, self.__health - amount)
+        self.__health_base = max(0, self.__health_base - amount)
         self.sprite.take_damage()
 
     def pickup_gem(self, gem: ExperienceGem):
@@ -113,12 +114,13 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__gain_experience(amount)
 
     def __levelup_perks(self):
-        self.__health *= self.__level
+        self.__health_base *= self.__level
         self.__max_health *= self.__level
 
     def __heal(self, amount: int):
         # Aumenta la salud del jugador, asegurándose de que no exceda el máximo
-        self.__health = min(self.__max_health, self.__health + amount)
+        self.__health_base = min(
+            self.__max_health, self.__health_base + amount)
 
     def __gain_experience(self, amount: int):
         self.__experience += amount
@@ -178,7 +180,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
     @property
     def health(self) -> int:
-        return self.__health
+        return self.__health_base
 
     @property
     def max_health(self):
