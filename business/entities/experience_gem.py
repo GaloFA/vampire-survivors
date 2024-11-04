@@ -2,7 +2,7 @@
 
 from business.entities.entity import Entity
 from business.entities.interfaces import IExperienceGem
-from presentation.sprite import ExperienceGemSprite
+from presentation.sprite import ExperienceGemSprite, SpeedGemSprite, DamageGemSprite, DefenseGemSprite
 
 
 class ExperienceGem(Entity, IExperienceGem):
@@ -34,3 +34,59 @@ class ExperienceGem(Entity, IExperienceGem):
 
     def __str__(self):
         return f"ExperienceGem(amount={self.__amount}, pos=({self.pos_x}, {self.pos_y}))"
+
+
+class SpeedGem(ExperienceGem):
+    """Gema temporal que incrementa la velocidad del jugador"""
+
+    def __init__(self, pos_x: float, pos_y: float, amount: int, speed_boost: int, duration: int):
+        super().__init__(pos_x, pos_y, amount)
+        self.__speed_boost = speed_boost
+        self.__duration = duration
+        self.sprite = SpeedGemSprite(pos_x, pos_y)
+
+    def apply_effect(self, player):
+        """Applies a temporary speed boost to the player."""
+        pass
+
+    def __str__(self):
+        return (f"SpeedGem(amount={self.amount}, pos=({self.pos_x}, {self.pos_y}), "
+                f"speed_boost={self.__speed_boost}, duration={self.__duration})")
+
+
+# Subclass for a DamageGem
+class DamageGem(ExperienceGem):
+    """Gema temporal que incrementa el daño del jugador"""
+
+    def __init__(self, pos_x: float, pos_y: float, amount: int, damage_boost: int, duration: int):
+        super().__init__(pos_x, pos_y, amount)
+        self.__damage_boost = damage_boost
+        self.__duration = duration
+        self.sprite = DamageGemSprite(pos_x, pos_y)
+
+    def apply_effect(self, player):
+        """Applies a temporary damage boost to the player."""
+        pass
+
+    def __str__(self):
+        return (f"DamageGem(amount={self.amount}, pos=({self.pos_x}, {self.pos_y}), "
+                f"damage_boost={self.__damage_boost}, duration={self.__duration})")
+
+
+# Subclass for a DefenseGem
+class DefenseGem(ExperienceGem):
+    """Gema temporal que incrementa la defensa del jugador"""
+
+    def __init__(self, pos_x: float, pos_y: float, amount: int, defense_boost: int, duration: int):
+        super().__init__(pos_x, pos_y, amount)
+        self.__defense_boost = defense_boost
+        self.__duration = duration
+        self.sprite = DefenseGemSprite(pos_x, pos_y)
+
+    def apply_effect(self, player):
+        """Applies a temporary defense boost to the player."""
+        pass
+
+    def __str__(self):
+        return (f"DefenseGem(amount={self.amount}, pos=({self.pos_x}, {self.pos_y}), "
+                f"defense_boost={self.__defense_boost}, duration={self.__duration})")

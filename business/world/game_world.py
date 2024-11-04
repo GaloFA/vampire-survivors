@@ -1,12 +1,13 @@
 """This module contains the implementation of the game world."""
-
+import random
 from business.entities.interfaces import IBullet, IExperienceGem, IMonster, IPlayer
 from business.world.interfaces import IGameWorld, IMonsterSpawner, ITileMap
 from business.handlers.cooldown_handler import CooldownHandler
-from business.entities.experience_gem import ExperienceGem
+from business.entities.experience_gem import *
 from business.entities.monster import Monster
 from business.entities.bullet import Bullet
 from business.entities.player import Player
+
 
 class GameWorld(IGameWorld):
     """Represents the game world."""
@@ -55,7 +56,26 @@ class GameWorld(IGameWorld):
     def remove_monster(self, monster: IMonster):
         self.__monsters.remove(monster)
 
-        self.add_experience_gem(ExperienceGem(monster.pos_x, monster.pos_y, 1))
+        # Genera un número aleatorio entre 0 y 100
+        probability = random.uniform(0, 100)
+
+        if probability <= 70:
+            # 70% de probabilidad de generar una ExperienceGem
+            self.add_experience_gem(ExperienceGem(
+                monster.pos_x, monster.pos_y, 1))
+        elif 70 < probability <= 85:
+            # 15% de probabilidad de generar una SpeedGem
+            self.add_experience_gem(
+                SpeedGem(monster.pos_x, monster.pos_y, 1, speed_boost=10, duration=5))
+        elif 85 < probability <= 95:
+            # 10% de probabilidad de generar una DamageGem
+            self.add_experience_gem(
+                DamageGem(monster.pos_x, monster.pos_y, 1, damage_boost=5, duration=5))
+        else:
+            # 5% de probabilidad de generar una DefenseGem
+
+            self.add_experience_gem(DefenseGem(
+                monster.pos_x, monster.pos_y, 1, defense_boost=3, duration=5))
 
     def add_experience_gem(self, gem: IExperienceGem):
         self.__experience_gems.append(gem)
@@ -71,7 +91,7 @@ class GameWorld(IGameWorld):
 
     def clear_all_entities(self):
         """Clears all entities from the world."""
-        self.__player = None # type: ignore
+        self.__player = None  # type: ignore
         self.__monsters.clear()
         self.__bullets.clear()
         self.__experience_gems.clear()
@@ -79,30 +99,30 @@ class GameWorld(IGameWorld):
     def load_game_data(self, game_data: dict) -> None:
         """Loads game data into the world."""
         self.clear_all_entities()
-        
+
         # Load player
         player_data = game_data['player']
         self.__player = Player.load_player_from_json(player_data)
-        
+
         # Load monsters
         for monster_type, monster_list in game_data.get('monsters', {}).items():
             for monster_data in monster_list:
                 monster = Monster.load_monster_from_json(monster_data)
-                #print("Monster data:", monster_data)
+                # print("Monster data:", monster_data)
                 self.add_monster(monster)
-        
+
         # Load bullets
         for bullet_type, bullet_list in game_data.get('bullets', {}).items():
             for bullet_data in bullet_list:
                 bullet = Bullet.load_bullet_from_json(bullet_data)
                 self.add_bullet(bullet)
-        
+
         # Load experience gems
         for gem_type, gem_list in game_data.get('gems', {}).items():
             for gem_data in gem_list:
                 gem = ExperienceGem.load_experience_gem_from_json(gem_data)
                 self.add_experience_gem(gem)
-        
+
         # Set timer
         self.__timer = game_data['timer']
 
