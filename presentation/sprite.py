@@ -87,7 +87,6 @@ class Sprite(pygame.sprite.Sprite):
             'is_in_damage_countdown': self.__is_in_damage_countdown,
         }
 
-
 class PlayerSprite(Sprite):
     """A class representing the player sprite."""
 
