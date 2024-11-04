@@ -35,19 +35,20 @@ class MonsterSpawner(IMonsterSpawner):
         monster_type = random.randint(0, 3)
 
         if monster_type == 0:
+            mob_type = "zombie"
             sprite = ZombieSprite(pos_x, pos_y)
-            monster = self.__monster_factory.create_zombie(
-                pos_x, pos_y, sprite)
+            monster = self.__monster_factory.create_monster(pos_x, pos_y, sprite, mob_type)
         if monster_type == 1:
+            mob_type = "skeleton"
             sprite = SkeletonSprite(pos_x, pos_y)
-            monster = self.__monster_factory.create_skeleton(
-                pos_x, pos_y, sprite)
+            monster = self.__monster_factory.create_monster(pos_x, pos_y, sprite, mob_type)
         if monster_type == 2:
+            mob_type = "orc"
             sprite = OrcSprite(pos_x, pos_y)
-            monster = self.__monster_factory.create_orc(pos_x, pos_y, sprite)
+            monster = self.__monster_factory.create_monster(pos_x, pos_y, sprite, mob_type)
         if monster_type == 3:
+            mob_type = "werewolf"
             sprite = WerewolfSprite(pos_x, pos_y)
-            monster = self.__monster_factory.create_werewolf(
-                pos_x, pos_y, sprite)
+            monster = self.__monster_factory.create_monster(pos_x, pos_y, sprite, mob_type)
 
         world.add_monster(monster)

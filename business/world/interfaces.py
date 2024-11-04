@@ -112,6 +112,14 @@ class IGameWorld(ABC):
     def clear_all_entities(self):
         """Clears all entities from the world."""
 
+    @abstractmethod
+    def load_game_data(self, game_data: dict) -> None:
+        """ Loads game data
+
+        Args:
+            game_data (dict): Json all game data (monsters, bullets, gems, player)
+        """
+
 class IUpdatable(ABC):
     """Interface for entities that can be updated."""
 
