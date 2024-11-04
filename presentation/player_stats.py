@@ -1,17 +1,14 @@
 import pygame
 import settings
 from presentation.design_elements import Title, Container
-from business.entities.player import Player
-from presentation.sprite import PlayerSprite
 
 
 class PlayerStatsContainer:
     """Clase que muestra todas las estadísticas del jugador en un contenedor estilizado."""
 
-    def __init__(self, screen):
+    def __init__(self, screen, estadisticas):
+        print(estadisticas)
         self.screen = screen
-        x, y = settings.WORLD_WIDTH//2, settings.WORLD_HEIGHT//2
-        self.player = Player(x, y, PlayerSprite(x, y), 100)
         self.screen_width, self.screen_height = settings.SCREEN_WIDTH//2, settings.SCREEN_HEIGHT//2
         self.container = Container(0, 100, 400, 700, (0, 0, 100))
         # Configuración del título
@@ -26,7 +23,7 @@ class PlayerStatsContainer:
         self.line_spacing = 40
 
         # Cargar estadísticas del jugador
-        self.stats = self.player.json_format()
+        self.stats = estadisticas
 
     def draw_container(self):
         self.container.draw(self.screen)

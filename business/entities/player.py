@@ -4,7 +4,7 @@ import pygame
 import settings
 from business.entities.bullet import Bullet
 from business.entities.entity import MovableEntity
-from business.entities.experience_gem import ExperienceGem
+from business.entities.experience_gem import *
 from business.entities.interfaces import ICanDealDamage, IDamageable, IPlayer
 from business.world.interfaces import IGameWorld
 from presentation.sprite import Sprite, PlayerSprite
@@ -18,8 +18,8 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     It can move around the game world and shoot at monsters.
     """
     AUTOHEAL_INTERVAL = 1000
-    BASE_DAMAGE = 10
-    BASE_SHOOT_COOLDOWN = 100
+    BASE_DAMAGE = 1
+    BASE_SHOOT_COOLDOWN = 200
 
     def __init__(self, pos_x: int, pos_y: int, sprite: Sprite, health: int):
         super().__init__(pos_x, pos_y, 5, sprite)
@@ -28,16 +28,16 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__max_health: int = 100
         self.__last_shot_time = pygame.time.get_ticks()  # Tiempo del último disparo
         self._last_autoheal_time = pygame.time.get_ticks()
-        self.__experience = 0  # funciona
-        self.__multexperience = 1  # funciona
-        self.__level = 1  # funciona
+        self.__experience = 0
+        self.__multexperience = 1
+        self.__level = 1
         self.__velocidad_base: int = 500
         self.__velocidad_incrementada: int = 1
         self.__damage_base: int = 10
         self.__damage_incrementada: int = 20
-        self.__defensa_base: int = 0  # funciona
+        self.__defensa_base: int = 0
         self.__defensa_incrementada: int = 10
-        self.__autocuracion: int = 0  # funciona
+        self.__autocuracion: int = 0
         self.__probabilidad_critico: int = 0
         self.__velocidad_ataque_incrementada: int = 0
         self.__weapon_type = "pistol"
@@ -69,7 +69,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         src_y = player_data['pos_y']
         health = player_data['health']
         sprite = PlayerSprite(src_x, src_y)
-
         player = Player(src_x, src_y, sprite, health)
 
         # Load player attributes
@@ -77,14 +76,28 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         player.__last_shot_time = player_data.get('last_shot_time', player.__last_shot_time)
         player.__experience = player_data.get('experience', player.__experience)
         player.__multexperience = player_data.get('multexperience', player.__multexperience)
+        player.__max_health = player_data.get(
+            'max_health', player.__max_health)
+        player.__last_shot_time = player_data.get(
+            'last_shot_time', player.__last_shot_time)
+        player.__experience = player_data.get(
+            'experience', player.__experience)
+        player.__multexperience = player_data.get(
+            'multexperience', player.__multexperience)
         player.__level = player_data.get('level', player.__level)
-        player.__velocidad_base = player_data.get('velocidad', player.__velocidad_base)
+        player.__velocidad_base = player_data.get(
+            'velocidad', player.__velocidad_base)
         player.__damage_base = player_data.get('damage', player.__damage_base)
-        player.__defensa_base = player_data.get('defensa', player.__defensa_base)
-        player.__autocuracion = player_data.get('autocuracion', player.__autocuracion)
-        player.__probabilidad_critico = player_data.get('probabilidad_critico', player.__probabilidad_critico)
-        player.__velocidad_ataque_incrementada = player_data.get('velocidad_ataque', player.__velocidad_ataque_incrementada)
-        player.__weapon_type = player_data.get('weapon_type', player.__weapon_type)
+        player.__defensa_base = player_data.get(
+            'defensa', player.__defensa_base)
+        player.__autocuracion = player_data.get(
+            'autocuracion', player.__autocuracion)
+        player.__probabilidad_critico = player_data.get(
+            'probabilidad_critico', player.__probabilidad_critico)
+        player.__velocidad_ataque_incrementada = player_data.get(
+            'velocidad_ataque', player.__velocidad_ataque_incrementada)
+        player.__weapon_type = player_data.get(
+            'weapon_type', player.__weapon_type)
 
         # Assign the weapon based on weapon type loaded from JSON
         if player.__weapon_type == "pistol":
@@ -113,10 +126,19 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
                 f"vel_ataque={velata})")
 
     def mostrar_estadisticas(self):
-        pass
-
-    def aplicar_efecto(self, item):
-        pass
+        """Devuelve un diccionario con las estadísticas del jugador."""
+        return {
+            'Salud': self.__health_base,
+            'Salud Máxima': self.__max_health,
+            'Experiencia': self.__experience,
+            'Nivel': self.level,
+            'Velocidad': self.speed,  # Llamamos a la propiedad
+            'Daño': self.damage_amount,  # Llamamos a la propiedad
+            'Defensa': self.defense_amount,  # Llamamos a la propiedad
+            'Autocuración': self.__autocuracion,
+            'Probabilidad Crítico': self.__probabilidad_critico,
+            'Velocidad de Ataque': self.__velocidad_ataque_incrementada,
+        }
 
     @staticmethod
     def set_shoot_cooldown(shoot_cooldown: int):
@@ -141,7 +163,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__health_base = max(0, self.__health_base - amount)
         self.sprite.take_damage()
 
-    def pickup_gem(self, gem: ExperienceGem):
+    def pickup_gem(self, gem: ExperienceGem):  # SKIBIDI
         amount = gem.amount*self.__multexperience
         self.__gain_experience(amount)
 
@@ -158,7 +180,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         if self.__level == 6:
             self.__weapon = MinigunWeapon()
             self.__weapon_type = "minigun"
-
 
     def __heal(self, amount: int):
         # Aumenta la salud del jugador, asegurándose de que no exceda el máximo
@@ -184,7 +205,8 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             ),
         )
 
-        self.__weapon.shoot(world, self.pos_x, self.pos_y, monster.pos_x, monster.pos_y)
+        self.__weapon.shoot(world, self.pos_x, self.pos_y,
+                            monster.pos_x, monster.pos_y)
 
     def update(self, world: IGameWorld):
         super().update(world)
@@ -217,7 +239,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
     @property
     def damage_amount(self):
-        return Player.BASE_DAMAGE
+        return self.__damage_base + self.__damage_incrementada
 
     @property
     def health(self) -> int:
@@ -228,9 +250,13 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         return self.__max_health
 
     @property
-    def __shoot_cooldown(self):
-        return Player.BASE_SHOOT_COOLDOWN
+    def defense_amount(self):
+        return self.__defensa_base + self.__defensa_incrementada
 
     @property
     def speed(self):
-        return self.__current_speed
+        return self.__velocidad_base + self.__velocidad_incrementada
+
+    @property
+    def __shoot_cooldown(self):
+        return Player.BASE_SHOOT_COOLDOWN
