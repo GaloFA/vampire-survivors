@@ -29,7 +29,8 @@ class Game:
         self.__world = game_world
         self.__input_handler = input_handler
         self.__running = True
-        self.__player_stats = PlayerStatsContainer(display.screen)
+        self.__player_stats = PlayerStatsContainer(
+            display.screen, self.__world.player.mostrar_estadisticas())
         self.__pause_menu = PauseMenu(display.screen)
         self.__level_menu = NivelMenu(display.screen)
         self.__game_over = GameOverScreen(display.screen)

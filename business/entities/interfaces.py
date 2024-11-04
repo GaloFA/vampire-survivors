@@ -104,6 +104,8 @@ class ICanMove(IHasPosition):
             direction_x (float): The direction in x-coordinate.
             direction_y (float): The direction in y-coordinate.
         """
+
+
 class IMonster(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
     """Interface for monster entities."""
     @property
@@ -152,6 +154,7 @@ class IMonster(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
             IMonster: An instance of a monster.
         """
 
+
 class IBullet(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
     """Interface for bullet entities."""
     @abstractmethod
@@ -172,6 +175,7 @@ class IBullet(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
         Returns:
             IBullet: An instance of a bullet.
         """
+
 
 class IExperienceGem(IUpdatable, IHasPosition):
     """Interface for experience gem entities."""
@@ -268,4 +272,12 @@ class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
 
         Returns:
             IPlayer: An instance of the player.
+        """
+
+    @abstractmethod
+    def mostrar_estadisticas(self):
+        """Muestra las estadísticas del jugador.
+
+        Returns:
+            dict: Un diccionario con las estadísticas del jugador, como salud, nivel, experiencia, etc.
         """

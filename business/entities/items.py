@@ -1,6 +1,8 @@
 import random
 import pygame
+import settings
 from business.entities.player import Player
+from presentation.sprite import PlayerSprite
 
 
 class Item:
@@ -17,6 +19,8 @@ class Item:
         self.mejoras = mejoras
         self.nivel = 1
         self.imagen_path = imagen_path
+        x, y = settings.WORLD_WIDTH//2, settings.WORLD_HEIGHT//2
+        self.player = Player(x, y, PlayerSprite(x, y), 100)
 
     def subir_nivel(self, jugador):
         """Sube el nivel del ítem si no ha alcanzado el nivel máximo y aplica la mejora."""
@@ -51,8 +55,8 @@ class ItemSalud(Item):
             imagen_path="./assets/items/sprite-items/item2.png"
         )
 
-    def aplicar_efecto(self, jugador: Player):
-        jugador.salud += self.obtener_valor_efecto()
+    def aplicar_efecto(self):
+        self.player.__max_health += self.obtener_valor_efecto()
 
 
 class ItemVelocidad(Item):
@@ -67,8 +71,8 @@ class ItemVelocidad(Item):
             imagen_path="./assets/items/sprite-items/item7.png"
         )
 
-    def aplicar_efecto(self, jugador):
-        jugador.velocidad += self.obtener_valor_efecto()
+    def aplicar_efecto(self):
+        self.player.__velocidad_incrementada += self.obtener_valor_efecto()
 
 
 class ItemDaño(Item):
@@ -83,8 +87,8 @@ class ItemDaño(Item):
             imagen_path="./assets/items/sprite-items/item5.png"
         )
 
-    def aplicar_efecto(self, jugador):
-        jugador.damage += self.obtener_valor_efecto()
+    def aplicar_efecto(self):
+        self.player.__damage_incrementada += self.obtener_valor_efecto()
 
 
 class ItemDefensa(Item):
@@ -99,8 +103,8 @@ class ItemDefensa(Item):
             imagen_path="./assets/items/sprite-items/item8.png"
         )
 
-    def aplicar_efecto(self, jugador):
-        jugador.defensa += self.obtener_valor_efecto()
+    def aplicar_efecto(self):
+        self.player.__defensa_incrementada += self.obtener_valor_efecto()
 
 
 class ItemExperiencia(Item):
@@ -111,12 +115,12 @@ class ItemExperiencia(Item):
             nombre="Libro de Sabiduría",
             descripcion="Aumenta la experiencia ganada por el jugador.",
             tipo_efecto="experiencia",
-            mejoras=[50, 100, 150, 200, 250],
+            mejoras=[2, 3, 4, 5, 10],
             imagen_path="./assets/items/sprite-items/item9.png"
         )
 
-    def aplicar_efecto(self, jugador):
-        jugador.experiencia += self.obtener_valor_efecto()
+    def aplicar_efecto(self):
+        self.player.__multexperience += self.obtener_valor_efecto()
 
 
 class ItemAutocuracion(Item):
@@ -131,8 +135,8 @@ class ItemAutocuracion(Item):
             imagen_path="./assets/items/sprite-items/item11.png"
         )
 
-    def aplicar_efecto(self, jugador):
-        jugador.autocuracion += self.obtener_valor_efecto()
+    def aplicar_efecto(self):
+        self.player.__autocuracion += self.obtener_valor_efecto()
 
 
 class ItemCriticos(Item):
@@ -147,8 +151,8 @@ class ItemCriticos(Item):
             imagen_path="./assets/items/sprite-items/item1.png"
         )
 
-    def aplicar_efecto(self, jugador):
-        jugador.probabilidad_critico += self.obtener_valor_efecto()
+    def aplicar_efecto(self):
+        self.player.__probabilidad_critico += self.obtener_valor_efecto()
 
 
 class ItemVelocidadAtaque(Item):
@@ -163,8 +167,8 @@ class ItemVelocidadAtaque(Item):
             imagen_path="./assets/items/sprite-items/item10.png"
         )
 
-    def aplicar_efecto(self, jugador):
-        jugador.velocidad_ataque += self.obtener_valor_efecto()
+    def aplicar_efecto(self):
+        self.player.__velocidad_ataque_incrementada += self.obtener_valor_efecto()
 
 
 class DiccionarioClass:
