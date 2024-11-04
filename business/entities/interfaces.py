@@ -114,7 +114,16 @@ class IMonster(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
         Returns:
             int: The max health.
         """
-    
+
+    @property
+    @abstractmethod
+    def monster_type(self) -> int:
+        """The type of the monster.
+
+        Returns:
+            str: The type of the monster.
+        """
+
     @abstractmethod
     def levelup(self, world, levelup_cooldown):
         """ Levels up monster every 10 seconds

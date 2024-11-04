@@ -39,6 +39,7 @@ class Game:
         self.elapsed_time = 0  # Tiempo transcurrido en segundos
         self.previous_level = self.__world.player.level
         self.__dao = GameWorldJsonDAO()
+        self.__loaded: bool = False
         # Esta funcion guarda la funcion Reiniciar Partida,Si no se genera error de imports de otra manera :v
         self.__restart_game_func = restart_game_func
 
@@ -132,6 +133,9 @@ class Game:
     def run(self):
         """Starts the game loop."""
         while self.__running:
+            if self.__dao.has_saved_game_data() and not self.__loaded:
+                self.__loaded = True
+                self.__dao.load_game(self.__world)
             try:
                 self.__process_game_events()
 
@@ -152,6 +156,7 @@ class Game:
 
                 if self.__is_game_over:
                     self.__handle_game_over_screen()
+                    self.__dao.clear_save()
                     continue
 
                 self.elapsed_time = (

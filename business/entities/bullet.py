@@ -45,15 +45,16 @@ class Bullet(MovableEntity, IBullet):
             'speed': self.speed
         }
 
-    def load_bullet_from_json(self, bullet_data) -> IBullet:
+    @staticmethod
+    def load_bullet_from_json(bullet_data) -> IBullet:
         """Creates a bullet from JSON data."""
         src_x = bullet_data['pos_x']
         src_y = bullet_data['pos_y']
         dir_x = bullet_data['dir_x']
         dir_y = bullet_data['dir_y']
-        sprite = bullet_data['sprite']
+        speed = bullet_data['speed']
 
-        return Bullet(src_x, src_y, dir_x, dir_y, sprite)
+        return Bullet(src_x, src_y, dir_x, dir_y, speed)
 
     @property
     def damage_amount(self):

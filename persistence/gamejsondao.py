@@ -19,7 +19,6 @@ class GameWorldJsonDAO():
 
     def __read_data(self) -> dict:
         """Reads data from the JSON file."""
-        input(self.__json_path)
         with open(self.__json_path, 'r', encoding="utf-8") as file:
             return json.load(file)
 
@@ -60,38 +59,20 @@ class GameWorldJsonDAO():
         """Loads the saved GameWorld state and populates the provided GameWorld instance."""
         data = self.__read_data()
 
-        # Clear existing entities in the game world
-        game_world.clear_all_entities()  # You might need to implement this method in GameWorld
+        game_world.clear_all_entities()
 
-        # Load monsters
-        for monster_type, monster_data_list in data.get('monsters', {}).items():
-            for monster_data in monster_data_list:
-                # You will need a method to create a Monster from the JSON data
-                monster = self.create_monster_from_json(monster_data)  
-                game_world.add_monster(monster)
+        game_world.load_game_data(data)
 
-        # Load bullets
-        for bullet_type, bullet_data_list in data.get('bullets', {}).items():
-            for bullet_data in bullet_data_list:
-                # You will need a method to create a Bullet from the JSON data
-                bullet = self.create_bullet_from_json(bullet_data)
-                game_world.add_bullet(bullet)
-
-        # Load experience gems
-        for gem_type, gem_data_list in data.get('gems', {}).items():
-            for gem_data in gem_data_list:
-                # You will need a method to create a Gem from the JSON data
-                gem = self.create_experience_gem_from_json(gem_data)
-                game_world.add_experience_gem(gem)
-
-        # Load player data
-        player_data = data.get('player')
-        if player_data:
-            game_world.player.load_from_json(player_data)  # You might need to implement this method in the Player class
-
-        # Load timer
-        game_world.timer = data.get('timer', 0)  # Set the timer if it exists
-
+    def has_saved_game_data(self) -> bool:
+        """Checks if there is saved game data available to load."""
+        if os.path.isfile(self.__json_path) and os.path.getsize(self.__json_path) > 10:
+            try:
+                with open(self.__json_path, 'r') as file:
+                    data = json.load(file)
+                return bool(data)
+            except json.JSONDecodeError:
+                return False
+        return False
 
     def clear_save(self) -> None:
         """Clears the saved game data."""

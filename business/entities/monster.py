@@ -8,13 +8,13 @@ from business.entities.interfaces import IDamageable, IHasPosition, IHasSprite, 
 from business.handlers.cooldown_handler import CooldownHandler
 from business.handlers.collision_handler import CollisionHandler
 from business.world.interfaces import IGameWorld, IPlayer
-from presentation.sprite import Sprite
+from presentation.sprite import Sprite, ZombieSprite, SkeletonSprite, OrcSprite, WerewolfSprite
 
 
 class Monster(MovableEntity, IMonster):
     """A monster entity in the game."""
 
-    def __init__(self, src_x: int, src_y: int, sprite: Sprite, health: int, max_health: int, damage: int, attack_range: int):
+    def __init__(self, src_x: int, src_y: int, sprite: Sprite, health: int, max_health: int, damage: int, attack_range: int, monster_type: str):
         self.__level_multiplier = 1
         super().__init__(src_x, src_y, 2, sprite)
         self.__health: int = health * self.__level_multiplier
@@ -22,6 +22,7 @@ class Monster(MovableEntity, IMonster):
         self.__damage = damage * self.__level_multiplier
         self.__attack_range = attack_range
         self.__attack_cooldown = CooldownHandler(1000)
+        self.__monster_type = monster_type
 
     def json_format(self):
         return {
@@ -30,23 +31,33 @@ class Monster(MovableEntity, IMonster):
             'max_health': self.__max_health,
             'damage': self.__damage,
             'attack_range': self.__attack_range,
-            'attack_cooldown': "1",#self.__attack_cooldown,
+            'attack_cooldown': self.__attack_cooldown.json_format(),
             'pos_x': self.pos_x,
             'pos_y': self.pos_y,
-            'sprite': self._sprite.json_format(),
+            'monster_type': self.__monster_type,
         }
 
-    def load_monster_from_json(self, monster_data) -> IMonster:
+    @staticmethod
+    def load_monster_from_json(monster_data) -> IMonster:
         """Creates a monster from JSON data."""
-        src_x = monster_data['pos_x']
-        src_y = monster_data['pos_y']
-        health = monster_data['health']
-        max_health = monster_data['max_health']
-        damage = monster_data['damage']
-        attack_range = monster_data['attack_range']
-        sprite = monster_data['sprite']
+        src_x = int(monster_data['pos_x'])
+        src_y = int(monster_data['pos_y'])
+        health = int(monster_data['health'])
+        max_health = int(monster_data['max_health'])
+        damage = int(monster_data['damage'])
+        attack_range = int(monster_data['attack_range'])
+        monster_type = monster_data['monster_type']
 
-        return Monster(src_x, src_y, sprite, health, max_health, damage, attack_range)
+        if monster_type == "zombie":
+            sprite = ZombieSprite(src_x, src_y)
+        if monster_type == "skeleton":
+            sprite = SkeletonSprite(src_x, src_y)
+        if monster_type == "orc":
+            sprite = OrcSprite(src_x, src_y)
+        if monster_type == "werewolf":
+            sprite = WerewolfSprite(src_x, src_y)
+
+        return Monster(src_x, src_y, sprite, health, max_health, damage, attack_range, monster_type)
 
     def attack(self, target: IPlayer):
         """Attacks the target."""
@@ -114,3 +125,7 @@ class Monster(MovableEntity, IMonster):
     @property
     def max_health(self) -> int:
         return self.__max_health
+
+    @property
+    def monster_type(self) -> str:
+        return self.__monster_type

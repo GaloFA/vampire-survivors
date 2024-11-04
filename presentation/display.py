@@ -28,7 +28,7 @@ class Display(IDisplay):
 
     def __load_ground_tileset(self):
         return Tileset(
-            "./assets/ground_tileset.png", settings.TILE_WIDTH, settings.TILE_HEIGHT, 2, 3
+            "./assets/ground_tileset.png", settings.TILE_WIDTH, settings.TILE_HEIGHT, 1, 1
         )
 
     def __render_ground_tiles(self):

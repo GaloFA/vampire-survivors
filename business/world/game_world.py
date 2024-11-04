@@ -6,6 +6,7 @@ from business.handlers.cooldown_handler import CooldownHandler
 from business.entities.experience_gem import ExperienceGem
 from business.entities.monster import Monster
 from business.entities.bullet import Bullet
+from business.entities.player import Player
 
 class GameWorld(IGameWorld):
     """Represents the game world."""
@@ -70,7 +71,7 @@ class GameWorld(IGameWorld):
 
     def clear_all_entities(self):
         """Clears all entities from the world."""
-        self.__player = None
+        self.__player = None # type: ignore
         self.__monsters.clear()
         self.__bullets.clear()
         self.__experience_gems.clear()
@@ -80,25 +81,27 @@ class GameWorld(IGameWorld):
         self.clear_all_entities()
         
         # Load player
-        self.__player.load_player_from_json(game_data['player'])
+        player_data = game_data['player']
+        self.__player = Player.load_player_from_json(player_data)
         
         # Load monsters
-        for monster_data in game_data['monsters']:
-            # Create a new monster instance from the JSON data
-            monster = Monster.load_monster_from_json(monster ,monster_data)
-            
-            # Add the newly created monster to the __monsters list
-            self.add_monster(monster)
+        for monster_type, monster_list in game_data.get('monsters', {}).items():
+            for monster_data in monster_list:
+                monster = Monster.load_monster_from_json(monster_data)
+                #print("Monster data:", monster_data)
+                self.add_monster(monster)
         
         # Load bullets
-        for bullet_data in game_data['bullets']:
-            bullet = self.load_bullet_from_json(bullet_data)
-            self.add_bullet(bullet)
+        for bullet_type, bullet_list in game_data.get('bullets', {}).items():
+            for bullet_data in bullet_list:
+                bullet = Bullet.load_bullet_from_json(bullet_data)
+                self.add_bullet(bullet)
         
         # Load experience gems
-        for gem_data in game_data['gems']:
-            gem = self.load_experience_gem_from_json(gem_data)
-            self.add_experience_gem(gem)
+        for gem_type, gem_list in game_data.get('gems', {}).items():
+            for gem_data in gem_list:
+                gem = ExperienceGem.load_experience_gem_from_json(gem_data)
+                self.add_experience_gem(gem)
         
         # Set timer
         self.__timer = game_data['timer']

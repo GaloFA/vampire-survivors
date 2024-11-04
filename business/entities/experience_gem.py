@@ -19,7 +19,8 @@ class ExperienceGem(Entity, IExperienceGem):
             'amount': self.__amount,
         }
 
-    def load_experience_gem_from_json(self, gem_data) -> IExperienceGem:
+    @staticmethod
+    def load_experience_gem_from_json(gem_data) -> IExperienceGem:
         """Creates an experience gem from JSON data."""
         src_x = gem_data['pos_x']
         src_y = gem_data['pos_y']
