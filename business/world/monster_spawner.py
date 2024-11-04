@@ -12,7 +12,7 @@ from business.handlers.cooldown_handler import CooldownHandler
 from presentation.sprite import ZombieSprite, SkeletonSprite, OrcSprite, WerewolfSprite
 from business.entities.monster_factory import MonsterFactory
 
-BASE_COOLDOWN = 400
+BASE_COOLDOWN = 800
 
 
 class MonsterSpawner(IMonsterSpawner):

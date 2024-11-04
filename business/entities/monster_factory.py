@@ -33,18 +33,18 @@ class MonsterFactory:
 
     def create_skeleton(self, src_x: int, src_y: int, sprite: Sprite, monster_type: str) -> Monster:
         """Creates orc monster."""
-        monster = Monster(src_x, src_y, sprite, 15, 15, 10, 50, monster_type)
+        monster = Monster(src_x, src_y, sprite, 15, 15, 5, 50, monster_type)
 
         return monster
 
     def create_orc(self, src_x: int, src_y: int, sprite: Sprite, monster_type: str) -> Monster:
         """Creates orc monster."""
-        monster = Monster(src_x, src_y, sprite, 20, 20, 15, 60, monster_type)
+        monster = Monster(src_x, src_y, sprite, 20, 20, 10, 60, monster_type)
 
         return monster
 
     def create_werewolf(self, src_x: int, src_y: int, sprite: Sprite, monster_type: str) -> Monster:
         """Creates werewolf monster."""
-        monster = Monster(src_x, src_y, sprite, 25, 25, 20, 60, monster_type)
+        monster = Monster(src_x, src_y, sprite, 25, 25, 10, 60, monster_type)
 
         return monster
