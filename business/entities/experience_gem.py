@@ -2,7 +2,7 @@
 
 from business.entities.entity import Entity
 from business.entities.interfaces import IExperienceGem
-from presentation.sprite import ExperienceGemSprite, SpeedGemSprite, DamageGemSprite, DefenseGemSprite
+from presentation.sprite import ExperienceGemSprite, SpeedGemSprite, DamageGemSprite, DefenseGemSprite, HealthGemSprite
 
 
 class ExperienceGem(Entity, IExperienceGem):
@@ -162,3 +162,45 @@ class DefenseGem(Entity, IExperienceGem):
     def __str__(self):
         return (f"DefenseGem(amount={self.amount}, pos=({self.pos_x}, {self.pos_y}), "
                 f"defense_boost={self.__defense_boost}, duration={self.__duration})")
+
+# Subclass for a HealthGem
+class HealthGem(Entity, IExperienceGem):
+    """Gema que incrementa la vida del jugador"""
+
+    def __init__(self, pos_x: float, pos_y: float, amount: int, health_boost: int, duration: int):
+        super().__init__(pos_x, pos_y, HealthGemSprite(pos_x, pos_y))
+        self.__health_boost = health_boost
+        self.__duration = duration
+        self.__amount = amount
+
+    def json_format(self):
+        return {
+            'pos_x': self.pos_x,
+            'pos_y': self.pos_y,
+            'amount': self.__amount,
+            'boost': self.__health_boost,
+            'duration': self.__duration,
+        }
+
+    @staticmethod
+    def load_experience_gem_from_json(gem_data) -> IExperienceGem:
+        """Creates an experience gem from JSON data."""
+        src_x = gem_data['pos_x']
+        src_y = gem_data['pos_y']
+        amount = gem_data['amount']
+        boost = gem_data['boost']
+        duration = gem_data['duration']
+
+        return HealthGem(src_x, src_y, amount, boost, duration)
+
+    def apply_effect(self, player):
+        """Applies a temporary defense boost to the player."""
+        pass
+
+    @property
+    def amount(self) -> int:
+        return self.__amount
+
+    def __str__(self):
+        return (f"DefenseGem(amount={self.amount}, pos=({self.pos_x}, {self.pos_y}), "
+                f"defense_boost={self.__health_boost}, duration={self.__duration})")
