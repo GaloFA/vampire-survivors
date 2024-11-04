@@ -1,34 +1,38 @@
-"""Interfaz de una clase DAO para reservas"""
+""" Module that contains interface for gameworld DAO """
 from abc import abstractmethod, ABC
+from business.world.interfaces import IGameWorld
 
 class IGameDAO(ABC):
-    """ Clase abstracta que da los métodos para posibilitar conectarse 
-    a una fuente de datos en donde se guarden o modifiquen los mismos """
+    """ Interface for gameworld DAO """
+
     @abstractmethod
-    def add_game(self, world):
-        """Agrega una nueva reserva a la base de datos.
-        
-        Ejemplo de uso: self.add_reservation('Sala A', inicio, fin)
+    def add_game(self, game_world):
+        """Adds a new savestate to the JSON.
 
         Args:
-            room_name (str): El nombre de la sala a reservar.
-            start_datetime (datetime): La fecha y hora de inicio de la reserva.
-            end_datetime (datetime): La fecha y hora de fin de la reserva.
-
-        Returns:
-            None: Este método no devuelve ningún valor. Agrega la reserva a la base de datos.
+            game_world (IGameWorld): The instance of the game world to save..
         """
 
     @abstractmethod
-    def remove_game(self, world):
-        """Elimina una reserva de la base de datos.
-        
-        Ejemplo de uso: self.remove_reservation('Sala A', inicio)
+    def remove_game(self):
+        """Removes the saved game state from the data source."""
 
-        Args:
-            room_name (str): El nombre de la sala cuya reserva se desea eliminar.
-            start_datetime (datetime): La fecha y hora de inicio de la reserva a eliminar.
+    @abstractmethod
+    def load_game(self) -> IGameWorld:
+        """Loads the saved game state and returns an instance of the game world.
 
         Returns:
-            None: Este método no devuelve ningún valor. Elimina la reserva de la base de datos.
+            IGameWorld: An instance of the game world with the saved data.
         """
+
+    @abstractmethod
+    def has_saved_game_data(self) -> bool:
+        """Checks if there is saved game data.
+
+        Returns:
+            bool: If there is saved game data.
+        """
+
+    @abstractmethod
+    def clear_save(self) -> None:
+        """Clears the saved game data."""
