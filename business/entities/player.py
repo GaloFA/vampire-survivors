@@ -53,7 +53,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             'defensa': self.__defensa_base,
             'autocuracion': self.__autocuracion,
             'probabilidad_critico': self.__probabilidad_critico,
-            'velocidad_ataque': self.__velocidad_ataque,
+            'velocidad_ataque': self.__velocidad_ataque_incrementada,
             'pos_x': self.pos_x,
             'pos_y': self.pos_y,
         }
