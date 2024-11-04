@@ -41,7 +41,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__probabilidad_critico: int = 0
         self.__velocidad_ataque_incrementada: int = 0
         self.__weapon_type = "pistol"
-        self.__weapon = ShotgunWeapon()
+        self.__weapon = PistolWeapon()
 
     def json_format(self):
         return {
@@ -72,6 +72,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
         player = Player(src_x, src_y, sprite, health)
 
+        # Load player attributes
         player.__max_health = player_data.get('max_health', player.__max_health)
         player.__last_shot_time = player_data.get('last_shot_time', player.__last_shot_time)
         player.__experience = player_data.get('experience', player.__experience)
@@ -85,11 +86,12 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         player.__velocidad_ataque_incrementada = player_data.get('velocidad_ataque', player.__velocidad_ataque_incrementada)
         player.__weapon_type = player_data.get('weapon_type', player.__weapon_type)
 
+        # Assign the weapon based on weapon type loaded from JSON
         if player.__weapon_type == "pistol":
             player.__weapon = PistolWeapon()
-        if player.__weapon_type == "shotgun":
+        elif player.__weapon_type == "shotgun":
             player.__weapon = ShotgunWeapon()
-        if player.__weapon_type == "minigun":
+        elif player.__weapon_type == "minigun":
             player.__weapon = MinigunWeapon()
 
         return player
@@ -146,10 +148,11 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     def __levelup_perks(self):
         self.__health_base *= self.__level
         self.__max_health *= self.__level
+
         if self.__level == 1:
             self.__weapon = PistolWeapon()
             self.__weapon_type = "pistol"
-        if self.__level == 4:
+        if self.__level == 3:
             self.__weapon = ShotgunWeapon()
             self.__weapon_type = "shotgun"
         if self.__level == 6:
@@ -193,9 +196,9 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             # Actualizar el tiempo del último autoheal
             self._last_autoheal_time = current_time
 
-        if current_time - self.__last_shot_time >= self.__shoot_cooldown:
-            self.__shoot_at_nearest_enemy(world)
-            self.__last_shot_time = current_time
+        #if current_time - self.__last_shot_time >= self.__shoot_cooldown:
+        self.__shoot_at_nearest_enemy(world)
+        self.__last_shot_time = current_time
 
     @property
     def experience(self):
