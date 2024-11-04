@@ -90,7 +90,7 @@ class Sprite(pygame.sprite.Sprite):
 class PlayerSprite(Sprite):
     """A class representing the player sprite."""
 
-    ASSET_IDLE = "./assets/adventurer-idle-00.png"
+    ASSET_IDLE = "./assets/entities/player/player.png"
 
     TILE_WIDTH = 64
     TILE_HEIGHT = 64
