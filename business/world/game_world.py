@@ -73,7 +73,6 @@ class GameWorld(IGameWorld):
                 DamageGem(monster.pos_x, monster.pos_y, 1, damage_boost=5, duration=5))
         else:
             # 5% de probabilidad de generar una DefenseGem
-
             self.add_experience_gem(DefenseGem(
                 monster.pos_x, monster.pos_y, 1, defense_boost=3, duration=5))
 
