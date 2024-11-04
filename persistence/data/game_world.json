@@ -1,1 +1,494 @@
-{}
+{
+    "monsters": {
+        "Monster": [
+            {
+                "level_multiplier": 6,
+                "health": 90,
+                "max_health": 90,
+                "damage": 30,
+                "attack_range": 50,
+                "attack_cooldown": {
+                    "last_action_time": 360,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 2056.219120621357,
+                "pos_y": 1075.8254685319187,
+                "monster_type": "skeleton"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 25,
+                "max_health": 25,
+                "damage": 10,
+                "attack_range": 60,
+                "attack_cooldown": {
+                    "last_action_time": 361,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 1806.9764799341995,
+                "pos_y": 1080.6568542494924,
+                "monster_type": "werewolf"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 15,
+                "max_health": 15,
+                "damage": 5,
+                "attack_range": 50,
+                "attack_cooldown": {
+                    "last_action_time": 361,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 2156.9764799342383,
+                "pos_y": 1398.976479934134,
+                "monster_type": "skeleton"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 20,
+                "max_health": 20,
+                "damage": 10,
+                "attack_range": 60,
+                "attack_cooldown": {
+                    "last_action_time": 361,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 1713.9764799341845,
+                "pos_y": 2269.9764799342383,
+                "monster_type": "orc"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 25,
+                "max_health": 25,
+                "damage": 10,
+                "attack_range": 60,
+                "attack_cooldown": {
+                    "last_action_time": 361,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 2060.9764799342383,
+                "pos_y": 1616.976479934169,
+                "monster_type": "werewolf"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 15,
+                "max_health": 15,
+                "damage": 5,
+                "attack_range": 50,
+                "attack_cooldown": {
+                    "last_action_time": 361,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 1004.0235200658676,
+                "pos_y": 2415.9764799342383,
+                "monster_type": "skeleton"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 15,
+                "max_health": 15,
+                "damage": 5,
+                "attack_range": 50,
+                "attack_cooldown": {
+                    "last_action_time": 2468,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 2184.929798740001,
+                "pos_y": 1079.2283553372442,
+                "monster_type": "skeleton"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 10,
+                "max_health": 10,
+                "damage": 5,
+                "attack_range": 50,
+                "attack_cooldown": {
+                    "last_action_time": 3272,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 958.602163828557,
+                "pos_y": 2277.3978361715263,
+                "monster_type": "zombie"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 10,
+                "max_health": 10,
+                "damage": 5,
+                "attack_range": 50,
+                "attack_cooldown": {
+                    "last_action_time": 4077,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 1645.6943007277325,
+                "pos_y": 847.3056992722748,
+                "monster_type": "zombie"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 15,
+                "max_health": 15,
+                "damage": 5,
+                "attack_range": 50,
+                "attack_cooldown": {
+                    "last_action_time": 4892,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 1807.4049788464024,
+                "pos_y": 1375.4049788463806,
+                "monster_type": "skeleton"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 20,
+                "max_health": 20,
+                "damage": 10,
+                "attack_range": 60,
+                "attack_cooldown": {
+                    "last_action_time": 6165,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 2902.8902602206786,
+                "pos_y": 2874.8902602206786,
+                "monster_type": "orc"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 20,
+                "max_health": 20,
+                "damage": 10,
+                "attack_range": 60,
+                "attack_cooldown": {
+                    "last_action_time": 6968,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 2633.6009383393225,
+                "pos_y": 3158.6009383393225,
+                "monster_type": "orc"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 20,
+                "max_health": 25,
+                "damage": 10,
+                "attack_range": 60,
+                "attack_cooldown": {
+                    "last_action_time": 7772,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 319.10259710444285,
+                "pos_y": 1091.5147186257614,
+                "monster_type": "werewolf"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 25,
+                "max_health": 25,
+                "damage": 10,
+                "attack_range": 60,
+                "attack_cooldown": {
+                    "last_action_time": 8575,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 3000.1938674518647,
+                "pos_y": 370.80613254816103,
+                "monster_type": "werewolf"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 15,
+                "max_health": 15,
+                "damage": 5,
+                "attack_range": 50,
+                "attack_cooldown": {
+                    "last_action_time": 9379,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 1719.4903320081212,
+                "pos_y": 1140.0883117545682,
+                "monster_type": "skeleton"
+            },
+            {
+                "level_multiplier": 1,
+                "health": 25,
+                "max_health": 25,
+                "damage": 10,
+                "attack_range": 60,
+                "attack_cooldown": {
+                    "last_action_time": 10193,
+                    "cooldown_time": 1000
+                },
+                "pos_x": 1716.2010101267765,
+                "pos_y": 447.7989898732235,
+                "monster_type": "werewolf"
+            }
+        ]
+    },
+    "bullets": {
+        "Bullet": [
+            {
+                "pos_x": 1532.3172808954776,
+                "pos_y": 2220.433385870614,
+                "dir_x": 0.3392829674804401,
+                "dir_y": 0.9406843615037228,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1561.6802939493791,
+                "pos_y": 2154.4846867510337,
+                "dir_x": 0.4004724263537316,
+                "dir_y": 0.916308810243771,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1633.939743531946,
+                "pos_y": 2065.583380414509,
+                "dir_x": 0.4882771850598135,
+                "dir_y": 0.8726885988427169,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1343.651351502533,
+                "pos_y": 2006.4520230682888,
+                "dir_x": 0.26241031954775446,
+                "dir_y": 0.9649563846075351,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1300.6523905236472,
+                "pos_y": 1952.1713093915273,
+                "dir_x": 0.2093712529355829,
+                "dir_y": 0.9778362227102165,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1274.9338235298274,
+                "pos_y": 1886.0234549039442,
+                "dir_x": 0.1978477328435766,
+                "dir_y": 0.9802327655249323,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1257.0807421541424,
+                "pos_y": 1843.2057135519035,
+                "dir_x": 0.19334914848781118,
+                "dir_y": 0.9811300152268497,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1242.0753327098796,
+                "pos_y": 1809.8150966862347,
+                "dir_x": 0.19155528379252898,
+                "dir_y": 0.9814818252271225,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1222.77387261059,
+                "pos_y": 1757.4077602125178,
+                "dir_x": 0.1812814113297156,
+                "dir_y": 0.9834312634375147,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1200.0533306916382,
+                "pos_y": 1690.3401583742943,
+                "dir_x": 0.16674395752411547,
+                "dir_y": 0.9860002295279631,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1178.9533973088319,
+                "pos_y": 1622.8399131373037,
+                "dir_x": 0.15153773759488007,
+                "dir_y": 0.9884514728020921,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1083.6142392812972,
+                "pos_y": 1549.9980404728421,
+                "dir_x": -0.00282808309939402,
+                "dir_y": 0.9999960009649953,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1085.0043435330704,
+                "pos_y": 1479.9999999775391,
+                "dir_x": 1.034174541407057e-05,
+                "dir_y": 0.9999999999465241,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1083.9692126786565,
+                "pos_y": 1409.998482107419,
+                "dir_x": -0.0029451066324174087,
+                "dir_y": 0.9999956631640577,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1085.003050594045,
+                "pos_y": 1344.9999999833835,
+                "dir_x": 1.0894978739180904e-05,
+                "dir_y": 0.9999999999406497,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1084.293192658403,
+                "pos_y": 1309.9988105284926,
+                "dir_x": -0.0033657492456994594,
+                "dir_y": 0.9999943358499662,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1085.0018917473203,
+                "pos_y": 1274.9999999872193,
+                "dir_x": 1.3512480861007044e-05,
+                "dir_y": 0.9999999999087065,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1164.9970261618018,
+                "pos_y": 1139.3102136070574,
+                "dir_x": 0.9999628270225309,
+                "dir_y": -0.008622329911790462,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            },
+            {
+                "pos_x": 1093.8604478302284,
+                "pos_y": 1135.3640034245266,
+                "dir_x": 0.8860447830228366,
+                "dir_y": -0.46359965754734356,
+                "damage_amount": 5,
+                "health": 1,
+                "speed": 10
+            }
+        ]
+    },
+    "gems": {
+        "ExperienceGem": [
+            {
+                "pos_x": 1506.9949493661175,
+                "pos_y": 559.9949493661175,
+                "amount": 1
+            },
+            {
+                "pos_x": 1906.4953826420112,
+                "pos_y": 1767.1766235091363,
+                "amount": 1
+            },
+            {
+                "pos_x": 1838.9562773986108,
+                "pos_y": 2024.1522368915219,
+                "amount": 1
+            },
+            {
+                "pos_x": 1041.6711395993675,
+                "pos_y": 2065.4659453905088,
+                "amount": 1
+            },
+            {
+                "pos_x": 1355.7544007200531,
+                "pos_y": 2329.5349211613566,
+                "amount": 1
+            },
+            {
+                "pos_x": 2018.0668837298263,
+                "pos_y": 1833.8801589528541,
+                "amount": 1
+            },
+            {
+                "pos_x": 1476.7603179057082,
+                "pos_y": 1430.7603179057082,
+                "amount": 1
+            },
+            {
+                "pos_x": 1719.6181822819815,
+                "pos_y": 1120.206060760659,
+                "amount": 1
+            },
+            {
+                "pos_x": 1160.5521651039942,
+                "pos_y": 1526.2435072389,
+                "amount": 1
+            },
+            {
+                "pos_x": 1085.0050506338825,
+                "pos_y": 1505.9470426826256,
+                "amount": 1
+            }
+        ],
+        "DefenseGem": [
+            {
+                "pos_x": 873.8923522616742,
+                "pos_y": 2326.382684269831,
+                "amount": 1,
+                "boost": 3,
+                "duration": 5
+            }
+        ],
+        "HealthGem": [
+            {
+                "pos_x": 1462.8873016277917,
+                "pos_y": 2571.8873016277967,
+                "amount": 1,
+                "boost": 25,
+                "duration": 0
+            }
+        ]
+    },
+    "player": {
+        "health": 600,
+        "max_health": 600,
+        "last_shot_time": 10423,
+        "experience": 7,
+        "multexperience": 1,
+        "level": 3,
+        "velocidad": 500,
+        "damage": 10,
+        "defensa": 0,
+        "autocuracion": 0,
+        "probabilidad_critico": 0,
+        "velocidad_ataque": 0,
+        "pos_x": 1085.0,
+        "pos_y": 1140.0
+    },
+    "timer": 51
+}

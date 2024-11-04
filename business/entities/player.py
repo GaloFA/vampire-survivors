@@ -66,7 +66,21 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         health = player_data['health']
         sprite = PlayerSprite(src_x, src_y)
 
-        return Player(src_x, src_y, sprite, health)
+        player = Player(src_x, src_y, sprite, health)
+
+        player.__max_health = player_data.get('max_health', player.__max_health)
+        player.__last_shot_time = player_data.get('last_shot_time', player.__last_shot_time)
+        player.__experience = player_data.get('experience', player.__experience)
+        player.__multexperience = player_data.get('multexperience', player.__multexperience)
+        player.__level = player_data.get('level', player.__level)
+        player.__velocidad_base = player_data.get('velocidad', player.__velocidad_base)
+        player.__damage_base = player_data.get('damage', player.__damage_base)
+        player.__defensa_base = player_data.get('defensa', player.__defensa_base)
+        player.__autocuracion = player_data.get('autocuracion', player.__autocuracion)
+        player.__probabilidad_critico = player_data.get('probabilidad_critico', player.__probabilidad_critico)
+        player.__velocidad_ataque_incrementada = player_data.get('velocidad_ataque', player.__velocidad_ataque_incrementada)
+
+        return player
 
     def __str__(self):
         hp = self.__health_base
