@@ -20,7 +20,8 @@ class TestMonster(unittest.TestCase):
         ):
             self.monster.attack(target_mock)
 
-        target_mock.take_damage.assert_called_once_with(self.monster.damage_amount)
+        target_mock.take_damage.assert_called_once_with(
+            self.monster.damage_amount)
 
     def test_attack_is_not_called_when_action_is_not_ready(self):
         target_mock = MagicMock(spec=IDamageable)

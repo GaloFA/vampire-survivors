@@ -1,7 +1,7 @@
 # pylint: disable=C0114,C0115,C0116
 import unittest
 
-from business.entities.bullet import Bullet
+from ...business.entities.bullet import Bullet
 
 
 class TestBullet(unittest.TestCase):
