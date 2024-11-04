@@ -69,24 +69,30 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         src_y = player_data['pos_y']
         health = player_data['health']
         sprite = PlayerSprite(src_x, src_y)
-
-<<<<<<< HEAD
-        return Player(src_x, src_y, sprite, health)
-=======
         player = Player(src_x, src_y, sprite, health)
 
-        player.__max_health = player_data.get('max_health', player.__max_health)
-        player.__last_shot_time = player_data.get('last_shot_time', player.__last_shot_time)
-        player.__experience = player_data.get('experience', player.__experience)
-        player.__multexperience = player_data.get('multexperience', player.__multexperience)
+        player.__max_health = player_data.get(
+            'max_health', player.__max_health)
+        player.__last_shot_time = player_data.get(
+            'last_shot_time', player.__last_shot_time)
+        player.__experience = player_data.get(
+            'experience', player.__experience)
+        player.__multexperience = player_data.get(
+            'multexperience', player.__multexperience)
         player.__level = player_data.get('level', player.__level)
-        player.__velocidad_base = player_data.get('velocidad', player.__velocidad_base)
+        player.__velocidad_base = player_data.get(
+            'velocidad', player.__velocidad_base)
         player.__damage_base = player_data.get('damage', player.__damage_base)
-        player.__defensa_base = player_data.get('defensa', player.__defensa_base)
-        player.__autocuracion = player_data.get('autocuracion', player.__autocuracion)
-        player.__probabilidad_critico = player_data.get('probabilidad_critico', player.__probabilidad_critico)
-        player.__velocidad_ataque_incrementada = player_data.get('velocidad_ataque', player.__velocidad_ataque_incrementada)
-        player.__weapon_type = player_data.get('weapon_type', player.__weapon_type)
+        player.__defensa_base = player_data.get(
+            'defensa', player.__defensa_base)
+        player.__autocuracion = player_data.get(
+            'autocuracion', player.__autocuracion)
+        player.__probabilidad_critico = player_data.get(
+            'probabilidad_critico', player.__probabilidad_critico)
+        player.__velocidad_ataque_incrementada = player_data.get(
+            'velocidad_ataque', player.__velocidad_ataque_incrementada)
+        player.__weapon_type = player_data.get(
+            'weapon_type', player.__weapon_type)
 
         if player.__weapon_type == "pistol":
             player.__weapon = PistolWeapon()
@@ -96,7 +102,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             player.__weapon = MinigunWeapon()
 
         return player
->>>>>>> 9c7b4d491b7567e5c4cdb0a79323a8f497cbf552
 
     def __str__(self):
         hp = self.__health_base
@@ -169,7 +174,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             self.__weapon = MinigunWeapon()
             self.__weapon_type = "minigun"
 
-
     def __heal(self, amount: int):
         # Aumenta la salud del jugador, asegurándose de que no exceda el máximo
         self.__health_base = min(
@@ -194,7 +198,8 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             ),
         )
 
-        self.__weapon.shoot(world, self.pos_x, self.pos_y, monster.pos_x, monster.pos_y)
+        self.__weapon.shoot(world, self.pos_x, self.pos_y,
+                            monster.pos_x, monster.pos_y)
 
     def update(self, world: IGameWorld):
         super().update(world)
