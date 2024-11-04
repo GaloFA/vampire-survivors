@@ -5,7 +5,7 @@ from persistence.gamedao import IGameDAO
 from business.world.game_world import GameWorld
 from business.world.interfaces import IGameWorld
 
-class GameWorldJsonDAO():
+class GameWorldJsonDAO(IGameDAO):
     """JSON DAO that handles the saving and loading of GameWorld data."""
 
     BASE_GAME_DATA = {}

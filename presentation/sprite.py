@@ -177,13 +177,13 @@ class BulletSprite(Sprite):
 class ExperienceGemSprite(Sprite):
     """A class representing the experience gem sprite."""
 
-    ASSET = "./assets/experience_gems.png"
+    ASSET = "./assets/items/gems/gem.png"
+    TILE_WIDTH = 64
+    TILE_HEIGHT = 64
+    SIZE_MULTIPLIER = 0.75
 
     def __init__(self, pos_x: float, pos_y: float):
-        tileset = Tileset(
-            ExperienceGemSprite.ASSET, settings.TILE_HEIGHT, settings.TILE_HEIGHT, 2, 2
-        )
-        image: pygame.Surface = tileset.get_tile(0)
+        image: pygame.Surface = pygame.image.load(ExperienceGemSprite.ASSET).convert_alpha()
+        image = pygame.transform.scale(image, (ExperienceGemSprite.TILE_WIDTH * ExperienceGemSprite.SIZE_MULTIPLIER, ExperienceGemSprite.TILE_HEIGHT * ExperienceGemSprite.SIZE_MULTIPLIER))
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
-
         super().__init__(image, ExperienceGemSprite.ASSET, rect)

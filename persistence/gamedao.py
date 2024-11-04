@@ -6,16 +6,12 @@ class IGameDAO(ABC):
     """ Interface for gameworld DAO """
 
     @abstractmethod
-    def add_game(self, game_world):
+    def save_game(self, game_world):
         """Adds a new savestate to the JSON.
 
         Args:
             game_world (IGameWorld): The instance of the game world to save..
         """
-
-    @abstractmethod
-    def remove_game(self):
-        """Removes the saved game state from the data source."""
 
     @abstractmethod
     def load_game(self) -> IGameWorld:
