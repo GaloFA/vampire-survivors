@@ -7,14 +7,14 @@ from business.entities.monster import Monster
 
 class TestMonster(unittest.TestCase):
     def setUp(self):
-        self.monster = Monster(5, 5, MagicMock())
+        self.monster = Monster(5, 5, MagicMock(), 5, 5, 5, 50, "zombie")
 
     def test_attack(self):
         target_mock = MagicMock(spec=IDamageable)
         target_mock.health = 10
 
         with patch.object(
-            self.monster._Monster__attack_cooldown_handler,  # pylint: disable=W0212
+            self.monster.__attack_cooldown_handler,  # pylint: disable=W0212
             "is_action_ready",
             return_value=True,
         ):

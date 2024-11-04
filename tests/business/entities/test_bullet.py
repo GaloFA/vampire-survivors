@@ -9,14 +9,14 @@ class TestBullet(unittest.TestCase):
         self.bullet = Bullet(0, 0, 10, 10, 5)
 
     def test_initial_health(self):
-        self.assertEqual(self.bullet.health, 5)
+        self.assertEqual(self.bullet.health, 1)
 
     def test_damage_amount(self):
         self.assertEqual(self.bullet.damage_amount, 5)
 
     def test_take_damage(self):
-        self.bullet.take_damage(2)
-        self.assertEqual(self.bullet.health, 3)
+        self.bullet.take_damage(1)
+        self.assertEqual(self.bullet.health, 0)
 
     def test_update_position(self):
         x_distance, y_distance = 3, 4
