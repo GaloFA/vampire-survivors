@@ -219,6 +219,14 @@ class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
             gem (IExperienceGem): The experience gem to pick up.
         """
 
+    @abstractmethod
+    def set_timer(self, timer):
+        """sets timer.
+
+        Args:
+            timer: timer.
+        """
+
     @property
     @abstractmethod
     def level(self) -> int:

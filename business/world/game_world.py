@@ -96,7 +96,9 @@ class GameWorld(IGameWorld):
 
         # Load player
         player_data = game_data['player']
+        timer_data = game_data['timer']
         self.__player = Player.load_player_from_json(player_data)
+        self.__player.set_timer(timer_data)
 
         # Load monsters
         for monster_type, monster_list in game_data.get('monsters', {}).items():

@@ -9,6 +9,7 @@ from business.entities.interfaces import ICanDealDamage, IDamageable, IPlayer
 from business.world.interfaces import IGameWorld
 from presentation.sprite import Sprite, PlayerSprite
 from business.entities.weapons import PistolWeapon, ShotgunWeapon, MinigunWeapon
+#from game import Game
 
 
 class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
@@ -42,6 +43,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__velocidad_ataque_incrementada: int = 0
         self.__weapon_type = "pistol"
         self.__weapon = PistolWeapon()
+        self.__timer = 0
 
     def json_format(self):
         return {
@@ -109,6 +111,28 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
         return player
 
+    def aplicar_efecto(self, item):
+        if item.tipo_efecto == "salud":
+            self.__max_health += item_autocuracion.amount
+        if item.tipo_efecto == "velocidad":
+            self.__velocidad_base += item_autocuracion.amount
+        if item.tipo_efecto == "damage":
+            self.__health += item_autocuracion.amount
+        if item.tipo_efecto == "defensa":
+            self.__health += item_autocuracion.amount
+        if item.tipo_efecto == "experiencia":
+            self.__health += item_autocuracion.amount
+        if item.tipo_efecto == "autocuracion":
+            self.__health += item_autocuracion.amount
+        if item.tipo_efecto == "critico":
+            self.__health += item_autocuracion.amount
+        if item.tipo_efecto == "velocidad_ataque":
+            self.__health += item_autocuracion.amount
+            
+    
+    def set_timer(self, timer):
+        self.__timer = timer
+
     def __str__(self):
         hp = self.__health_base
         xp = self.__experience
@@ -119,11 +143,9 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         defe = self.__defensa_base
         autoc = self.__autocuracion
         pcrit = self.__probabilidad_critico
-        velata = self.__velocidad_ataque
         return (f"Player(hp={hp}, xp={xp}, lvl={lvl}, pos=({pos}), "
                 f"vel={vel}, damage={dam}, defensa={defe}, "
-                f"autocuración={autoc}, critico={pcrit}, "
-                f"vel_ataque={velata})")
+                f"autocuración={autoc}, critico={pcrit}, ")
 
     def mostrar_estadisticas(self):
         """Devuelve un diccionario con las estadísticas del jugador."""
@@ -139,6 +161,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             'Probabilidad Crítico': self.__probabilidad_critico,
             'Velocidad de Ataque': self.__velocidad_ataque_incrementada,
         }
+
 
     @staticmethod
     def set_shoot_cooldown(shoot_cooldown: int):

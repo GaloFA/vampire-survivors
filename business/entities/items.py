@@ -81,7 +81,7 @@ class ItemDaño(Item):
     def __init__(self):
         super().__init__(
             nombre="Espada del Guerrero",
-            descripcion="Aumenta el damage infligido por el jugador.",
+            descripcion="Aumenta el daño infligido por el jugador.",
             tipo_efecto="damage",
             mejoras=[5, 10, 15, 20, 25],
             imagen_path="./assets/items/sprite-items/item5.png"
@@ -136,6 +136,7 @@ class ItemAutocuracion(Item):
         )
 
     def aplicar_efecto(self):
+        self.player.aplicar_efecto()
         self.player.__autocuracion += self.obtener_valor_efecto()
 
 
@@ -145,7 +146,7 @@ class ItemCriticos(Item):
     def __init__(self):
         super().__init__(
             nombre="Anillo de Juicio",
-            descripcion="Aumenta la probabilidad de infligir damage crítico.",
+            descripcion="Aumenta la probabilidad de infligir daño crítico.",
             tipo_efecto="critico",
             mejoras=[1, 2, 3, 4, 5],  # Porcentaje o puntos de probabilidad
             imagen_path="./assets/items/sprite-items/item1.png"
@@ -167,7 +168,7 @@ class ItemVelocidadAtaque(Item):
             imagen_path="./assets/items/sprite-items/item10.png"
         )
 
-    def aplicar_efecto(self):
+    def aplicar_efecto(self,item):
         self.player.__velocidad_ataque_incrementada += self.obtener_valor_efecto()
 
 

@@ -64,6 +64,7 @@ class TestGameWorldJsonDAO(unittest.TestCase):
             'player': {'name': 'Player1'},
             'timer': 123
         }
+
         mock_save_data.assert_called_once_with(expected_data)
 
     @patch("builtins.open", new_callable=mock_open, read_data='{"player": {"player_name": "Hero"}}')
@@ -101,6 +102,7 @@ class TestGameWorldJsonDAO(unittest.TestCase):
         game_world.clear_all_entities.assert_called_once()
         game_world.load_game_data.assert_called_once_with(
             json.loads(mock_open().read()))
+
 
 if __name__ == '__main__':
     unittest.main()
