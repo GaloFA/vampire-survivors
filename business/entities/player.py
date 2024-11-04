@@ -16,22 +16,28 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     The player is the main character of the game. 
     It can move around the game world and shoot at monsters.
     """
-
+    AUTOHEAL_INTERVAL = 1000
     BASE_DAMAGE = 10
     BASE_SHOOT_COOLDOWN = 200
 
     def __init__(self, pos_x: int, pos_y: int, sprite: Sprite, health: int):
         super().__init__(pos_x, pos_y, 5, sprite)
 
-        self.__health: int = health                 # Salud actual
-        self.__max_health: int = 100             # Salud máxima
+        self.__health: int = health
+        self.__max_health: int = 100
         self.__last_shot_time = pygame.time.get_ticks()  # Tiempo del último disparo
-        self.__experience = 0                     # Experiencia acumulada
-        self.__level = 1                          # Nivel del jugador
-        self.__velocidad: int = 5                 # Velocidad de movimiento del jugador
+        self._last_autoheal_time = pygame.time.get_ticks()
+        self.__experience = 0  # funciona
+        self.__multexperience = 1  # funciona
+        self.__level = 1  # funciona                         # Nivel del jugador
+        # Velocidad de movimiento del jugador
+        self.__velocidad_base: int = 500
+        self.__current_speed: int = self.__velocidad_base
+        self.__velocidad_incrementada: int = 1
         self.__damage: int = 10                    # Daño infligido por el jugador
-        self.__defensa: int = 0                   # Defensa del jugador
-        self.__autocuracion: int = 0              # Mejora de autocuración del jugador
+        # Establecer a 0 como minimo1                # Defensa del jugador
+        self.__defensa: int = 0  # funciona
+        self.__autocuracion: int = 5  # funciona      # Mejora de autocuración del jugador
         # Probabilidad de infligir damage crítico
         self.__probabilidad_critico: int = 0
         self.__velocidad_ataque: int = 1
@@ -42,8 +48,9 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             'max_health': self.__max_health,
             'last_shot_time': self.__last_shot_time,
             'experience': self.__experience,
+            'multexperience': self.__multexperience,
             'level': self.__level,
-            'velocidad': self.__velocidad,
+            'velocidad': self.__current_speed,
             'damage': self.__damage,
             'defensa': self.__defensa,
             'autocuracion': self.__autocuracion,
@@ -79,16 +86,36 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     def mostrar_estadisticas(self):
         pass
 
+    def increase_speed(self):
+        """Aumenta la velocidad del jugador."""
+        self.__current_speed += self.__velocidad_incrementada
+
+    def move(self, dx: int, dy: int):
+        """Mueve al jugador, ajustando la distancia según la velocidad actual."""
+        super().move(dx * self.__current_speed, dy * self.__current_speed)
+
     def take_damage(self, amount):
-        self.__health = max(0, self.__health - amount)  # - amount
+        if self.__defensa >= amount:
+            amount = 0
+        else:
+            # Resta el valor de la defensa al daño si es menor que el daño recibido
+            amount -= self.__defensa
+
+        # Actualiza la salud asegurando que no sea menor que 0
+        self.__health = max(0, self.__health - amount)
         self.sprite.take_damage()
 
     def pickup_gem(self, gem: ExperienceGem):
-        self.__gain_experience(gem.amount)
+        amount = gem.amount*self.__multexperience
+        self.__gain_experience(amount)
 
     def __levelup_perks(self):
         self.__health *= self.__level
         self.__max_health *= self.__level
+
+    def __heal(self, amount: int):
+        # Aumenta la salud del jugador, asegurándose de que no exceda el máximo
+        self.__health = min(self.__max_health, self.__health + amount)
 
     def __gain_experience(self, amount: int):
         self.__experience += amount
@@ -117,6 +144,12 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         super().update(world)
 
         current_time = pygame.time.get_ticks()
+
+        if current_time - self._last_autoheal_time >= Player.AUTOHEAL_INTERVAL:
+            self.__heal(self.__autocuracion)  # Curar al jugador
+            # Actualizar el tiempo del último autoheal
+            self._last_autoheal_time = current_time
+
         if current_time - self.__last_shot_time >= self.__shoot_cooldown:
             self.__shoot_at_nearest_enemy(world)
             self.__last_shot_time = current_time
@@ -151,3 +184,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     @property
     def __shoot_cooldown(self):
         return Player.BASE_SHOOT_COOLDOWN
+
+    @property
+    def speed(self):
+        return self.__current_speed

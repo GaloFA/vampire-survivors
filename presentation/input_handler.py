@@ -6,7 +6,6 @@ from presentation.tileset import Tileset
 from business.world.game_world import GameWorld
 from business.handlers.death_handler import DeathHandler
 from presentation.interfaces import IInputHandler
-from presentation.sprite import PlayerSprite
 
 
 class InputHandler(IInputHandler):
@@ -17,7 +16,6 @@ class InputHandler(IInputHandler):
         self.__death_handler = DeathHandler()
 
     def __example_method(self, keys, posx, posy):
-
         if keys[pygame.K_w] and posy > 0:
             self.__world.player.move(0, -1)
 

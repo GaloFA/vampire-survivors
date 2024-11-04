@@ -137,11 +137,11 @@ class ItemCriticos(Item):
 
     def __init__(self):
         super().__init__(
-            nombre="Talismán de Juicio",
+            nombre="Anillo de Juicio",
             descripcion="Aumenta la probabilidad de infligir damage crítico.",
             tipo_efecto="critico",
             mejoras=[1, 2, 3, 4, 5],  # Porcentaje o puntos de probabilidad
-            imagen_path="./assets/items/sprite-items/item2.png"
+            imagen_path="./assets/items/sprite-items/item1.png"
         )
 
     def aplicar_efecto(self, jugador):
