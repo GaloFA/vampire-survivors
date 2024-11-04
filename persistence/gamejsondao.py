@@ -46,7 +46,6 @@ class GameWorldJsonDAO(IGameDAO):
         player = game_world.player.json_format()
         timer = game_world.timer
 
-        # Update the JSON structure
         data['monsters'] = monsters
         data['bullets'] = bullets
         data['gems'] = experience_gems
