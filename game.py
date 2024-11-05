@@ -50,6 +50,8 @@ class Game:
                 self.__running = False
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 self.__is_paused = not self.__is_paused
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                self.__is_paused = not self.__is_paused
 
     def save_game(self):
         """Saves the current game state using the DAO."""
