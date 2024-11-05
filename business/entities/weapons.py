@@ -80,7 +80,7 @@ class ShotgunWeapon(Weapon):
 
     def __init__(self):
         super().__init__("ShotgunBullet", shoot_cooldown=600,
-                         bullet_speed=4.0, bullet_damage=10, required_level=5, image_path="assets/items/gun/shotgun.png")
+                         bullet_speed=4.0, bullet_damage=10, required_level=4, image_path="assets/items/gun/shotgun.png")
 
     def shoot(self, world: IGameWorld, src_x: float, src_y: float, target_x: float, target_y: float):
         if self.cooldown_handler.is_action_ready():
@@ -114,7 +114,7 @@ class MinigunWeapon(Weapon):
 
     def __init__(self):
         super().__init__("MinigunBullet", shoot_cooldown=100,
-                         bullet_speed=6.0, bullet_damage=8, required_level=10, image_path="assets/items/gun/minigun.png")
+                         bullet_speed=6.0, bullet_damage=8, required_level=8, image_path="assets/items/gun/minigun.png")
 
     def shoot(self, world: IGameWorld, src_x: float, src_y: float, target_x: float, target_y: float):
         if self._cooldown_handler.is_action_ready():

@@ -19,11 +19,11 @@ def initialize_player():
     return Player(x, y, PlayerSprite(x, y), 100)
 
 
-def initialize_game_world():
-    """Initializes the game world"""
+def initialize_game_world(display):
+    """Initializes the game world with a display dependency"""
     monster_spawner = MonsterSpawner()
     tile_map = TileMap()
-    player = initialize_player()
+    player = Player(settings.WORLD_WIDTH//2, settings.WORLD_HEIGHT//2, PlayerSprite(settings.WORLD_WIDTH//2, settings.WORLD_HEIGHT//2), 100)
     return GameWorld(monster_spawner, tile_map, player)
 
 
@@ -38,8 +38,9 @@ def main():
     pygame.init()  # pylint: disable=E1101
 
     # Initialize the game objects
-    world = initialize_game_world()
-    display = Display(world)
+    
+    display = Display()
+    world = initialize_game_world(display)
     display.load_world(world)
     input_handler = InputHandler(world)
 

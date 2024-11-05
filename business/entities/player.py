@@ -34,7 +34,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__experience = 0
 
         self.__experience_multiplier = 1
-        self.__level = 100
+        self.__level = 5
 
         self.__speed_base: int = 500
         self.__speed_increase: int = 0
@@ -191,13 +191,13 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__health *= self.__level
         self.__max_health *= self.__level
 
-        if self.__level == 1:
+        if self.__level == PistolWeapon.required_level:
             self.__weapon = PistolWeapon()
             self.__weapon_type = "pistol"
-        if self.__level == 10:
+        if self.__level == MinigunWeapon.required_level:
             self.__weapon = MinigunWeapon()
             self.__weapon_type = "minigun"
-        if self.__level == 20:
+        if self.__level == ShotgunWeapon.required_level:
             self.__weapon = ShotgunWeapon()
             self.__weapon_type = "shotgun"
 
@@ -217,12 +217,11 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
         # Verificar si el arma seleccionada está desbloqueada según el nivel del jugador
         selected_weapon = self.__weapons[self.__current_weapon_index]["type"]
-        if (selected_weapon == "minigun" and self.__level < 10) or \
-                (selected_weapon == "shotgun" and self.__level < 20):
+        if (selected_weapon == "minigun" and self.__level < 4) or \
+                (selected_weapon == "shotgun" and self.__level < 8):
             # Si el arma no está desbloqueada, volver al índice original
             self.__current_weapon_index = original_index
-            print(f"El arma {
-                  selected_weapon} no está desbloqueada. Desbloquéala alcanzando un nivel más alto.")
+            #print(f"El arma {selected_weapon} no está desbloqueada. Desbloquéala alcanzando un nivel más alto.")
             return
 
         # Actualiza el arma y el tipo de arma

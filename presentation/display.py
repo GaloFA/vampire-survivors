@@ -214,7 +214,7 @@ class Display(IDisplay):
         # Draw timer
         self.__draw_timer()
 
-        self.__draw_inventory_slots(1)
+        self.__draw_inventory_slots(self.__world.player.level)
         # Update the display
         pygame.display.flip()
 
