@@ -19,8 +19,6 @@ class Item:
         self._upgrades = upgrades
         self._level = 1
         self._image_path = image_path
-        x, y = settings.WORLD_WIDTH // 2, settings.WORLD_HEIGHT // 2
-        self._player = Player(x, y, PlayerSprite(x, y), 100)
 
     def level_up(self, player):
         """Increases the item's level if it hasn't reached the maximum level and applies the upgrade."""
@@ -52,6 +50,7 @@ class Item:
         """Returns the image path of the item."""
         return self._image_path
 
+
 class HealthItem(Item):
     """Item that provides health upgrades."""
 
@@ -64,8 +63,8 @@ class HealthItem(Item):
             image_path="./assets/items/sprite-items/item2.png"
         )
 
-    def apply_effect(self, player):
-        player.__max_health += self.get_effect_value()
+    def apply_effect(self, player: Player):
+        player.set_max_health(self.get_effect_value())
 
     @property
     def description(self):
@@ -76,6 +75,7 @@ class HealthItem(Item):
     def image_path(self):
         """Returns the image path of the item."""
         return self._image_path
+
 
 class SpeedItem(Item):
     """Item that provides speed upgrades."""
@@ -89,8 +89,8 @@ class SpeedItem(Item):
             image_path="./assets/items/sprite-items/item7.png"
         )
 
-    def apply_effect(self):
-        self._player.__speed_increase += self.get_effect_value()
+    def apply_effect(self, player: Player):
+        player.set_speed(self.get_effect_value())
 
     @property
     def description(self):
@@ -101,6 +101,7 @@ class SpeedItem(Item):
     def image_path(self):
         """Returns the image path of the item."""
         return self._image_path
+
 
 class DamageItem(Item):
     """Item that provides damage upgrades."""
@@ -114,8 +115,8 @@ class DamageItem(Item):
             image_path="./assets/items/sprite-items/item5.png"
         )
 
-    def apply_effect(self):
-        self._player.__damage_increment += self.get_effect_value()
+    def apply_effect(self, player: Player):
+        player.set_damage(self.get_effect_value())
 
     @property
     def description(self):
@@ -127,20 +128,21 @@ class DamageItem(Item):
         """Returns the image path of the item."""
         return self._image_path
 
-class DefenseItem(Item):
-    """Item that provides defense upgrades."""
+
+class DefenceItem(Item):
+    """Item that provides defence upgrades."""
 
     def __init__(self):
         super().__init__(
             name="Shield of the Brave",
-            description="Increases the player's defense.",
-            effect_type="defense",
+            description="Increases the player's defence.",
+            effect_type="defence",
             upgrades=[3, 6, 9, 12, 15],
             image_path="./assets/items/sprite-items/item8.png"
         )
 
-    def apply_effect(self):
-        self._player.__defense_increase += self.get_effect_value()
+    def apply_effect(self, player: Player):
+        player.set_defence(self.get_effect_value())
 
     @property
     def description(self):
@@ -151,6 +153,7 @@ class DefenseItem(Item):
     def image_path(self):
         """Returns the image path of the item."""
         return self._image_path
+
 
 class ExperienceItem(Item):
     """Item that provides experience gain upgrades."""
@@ -164,8 +167,8 @@ class ExperienceItem(Item):
             image_path="./assets/items/sprite-items/item9.png"
         )
 
-    def apply_effect(self):
-        self._player.__multexperience += self.get_effect_value()
+    def apply_effect(self, player: Player):
+        player.set_experience_mult(self.get_effect_value())
 
     @property
     def description(self):
@@ -176,6 +179,7 @@ class ExperienceItem(Item):
     def image_path(self):
         """Returns the image path of the item."""
         return self._image_path
+
 
 class AutoHealItem(Item):
     """Item that improves the player's self-healing."""
@@ -189,8 +193,8 @@ class AutoHealItem(Item):
             image_path="./assets/items/sprite-items/item11.png"
         )
 
-    def apply_effect(self, player):
-        player.__autoheal += self.get_effect_value()
+    def apply_effect(self, player: Player):
+        player.set_autoheal(self.get_effect_value())
 
     @property
     def description(self):
@@ -202,55 +206,6 @@ class AutoHealItem(Item):
         """Returns the image path of the item."""
         return self._image_path
 
-class CriticalItem(Item):
-    """Item that increases the probability of critical hits."""
-
-    def __init__(self):
-        super().__init__(
-            name="Ring of Judgment",
-            description="Increases the probability of dealing critical damage.",
-            effect_type="critical",
-            upgrades=[1, 2, 3, 4, 5],
-            image_path="./assets/items/sprite-items/item1.png"
-        )
-
-    def apply_effect(self):
-        self._player.__critical += self.get_effect_value()
-
-    @property
-    def description(self):
-        """Returns the description of the item."""
-        return self._description
-
-    @property
-    def image_path(self):
-        """Returns the image path of the item."""
-        return self._image_path
-
-class AttackSpeedItem(Item):
-    """Item that improves the player's attack speed."""
-
-    def __init__(self):
-        super().__init__(
-            name="Elixir of Rapid Assault",
-            description="Increases the player's attack speed.",
-            effect_type="attack_speed",
-            upgrades=[1, 2, 3, 4, 5],
-            image_path="./assets/items/sprite-items/item10.png"
-        )
-
-    def apply_effect(self, player):
-        player.__attack_speed_increase += self.get_effect_value()
-
-    @property
-    def description(self):
-        """Returns the description of the item."""
-        return self._description
-
-    @property
-    def image_path(self):
-        """Returns the image path of the item."""
-        return self._image_path
 
 class DictionaryClass:
     def __init__(self):
@@ -259,17 +214,17 @@ class DictionaryClass:
             "health_item": HealthItem(),
             "speed_item": SpeedItem(),
             "damage_item": DamageItem(),
-            "defense_item": DefenseItem(),
+            "defence_item": DefenceItem(),
             "experience_item": ExperienceItem(),
             "autoheal_item": AutoHealItem(),
-            "critical_item": CriticalItem(),
-            "attack_speed_item": AttackSpeedItem(),
         }
         self._selected_items = {}  # Dictionary to store selected items
 
     def select_random_items(self):
         """Selects 3 unique random items from the items dictionary."""
+
         unique_keys = random.sample(list(self.items_dict.keys()), 3)
 
-        self._selected_items = {key: self.items_dict[key] for key in unique_keys}
+        self._selected_items = {
+            key: self.items_dict[key] for key in unique_keys}
         return self._selected_items

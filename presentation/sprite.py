@@ -204,6 +204,7 @@ class ExperienceGemSprite(Sprite):
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
         super().__init__(image, ExperienceGemSprite.ASSET, rect)
 
+
 class HealthGemSprite(Sprite):
     """A class representing the health gem sprite."""
 
@@ -218,8 +219,10 @@ class HealthGemSprite(Sprite):
         image = pygame.transform.scale(
             image,
             (
-                int(HealthGemSprite.TILE_WIDTH * HealthGemSprite.SIZE_MULTIPLIER),
-                int(HealthGemSprite.TILE_HEIGHT * HealthGemSprite.SIZE_MULTIPLIER)
+                int(HealthGemSprite.TILE_WIDTH *
+                    HealthGemSprite.SIZE_MULTIPLIER),
+                int(HealthGemSprite.TILE_HEIGHT *
+                    HealthGemSprite.SIZE_MULTIPLIER)
             )
         )
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
@@ -272,7 +275,7 @@ class DamageGemSprite(Sprite):
         super().__init__(image, DamageGemSprite.ASSET, rect)
 
 
-class DefenseGemSprite(Sprite):
+class DefenceGemSprite(Sprite):
     """A class representing the defence gem sprite."""
 
     ASSET = "./assets/items/gems/defence_gem.png"
@@ -282,15 +285,15 @@ class DefenseGemSprite(Sprite):
 
     def __init__(self, pos_x: float, pos_y: float):
         image: pygame.Surface = pygame.image.load(
-            DefenseGemSprite.ASSET).convert_alpha()
+            DefenceGemSprite.ASSET).convert_alpha()
         image = pygame.transform.scale(
             image,
             (
-                int(DefenseGemSprite.TILE_WIDTH *
-                    DefenseGemSprite.SIZE_MULTIPLIER),
-                int(DefenseGemSprite.TILE_HEIGHT *
-                    DefenseGemSprite.SIZE_MULTIPLIER)
+                int(DefenceGemSprite.TILE_WIDTH *
+                    DefenceGemSprite.SIZE_MULTIPLIER),
+                int(DefenceGemSprite.TILE_HEIGHT *
+                    DefenceGemSprite.SIZE_MULTIPLIER)
             )
         )
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
-        super().__init__(image, DefenseGemSprite.ASSET, rect)
+        super().__init__(image, DefenceGemSprite.ASSET, rect)

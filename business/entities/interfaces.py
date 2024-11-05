@@ -219,14 +219,6 @@ class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
             gem (IExperienceGem): The experience gem to pick up.
         """
 
-    @abstractmethod
-    def set_timer(self, timer):
-        """sets timer.
-
-        Args:
-            timer: timer.
-        """
-
     @property
     @abstractmethod
     def level(self) -> int:
@@ -288,6 +280,54 @@ class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
 
         Returns:
             dict: Un diccionario con las estadísticas del jugador, como salud, nivel, experiencia, etc.
+        """
+
+    @abstractmethod
+    def set_max_health(self, max_health: int):
+        """set max health
+
+        Args:
+            max_health (int): max health to be added
+        """
+
+    @abstractmethod
+    def set_speed(self, speed: int):
+        """set speed
+
+        Args:
+            speed (int): speed to be added
+        """
+
+    @abstractmethod
+    def set_damage(self, damage: int):
+        """set damage
+
+        Args:
+            damage (int): damage to be added
+        """
+
+    @abstractmethod
+    def set_defence(self, defence: int):
+        """set defence
+
+        Args:
+            defence (int): defence to be added
+        """
+
+    @abstractmethod
+    def set_experience_mult(self, xp_mult: int):
+        """set experience mult
+
+        Args:
+            xp_mult (int): xp_mult to be added
+        """
+
+    @abstractmethod
+    def set_autoheal(self, autoheal: int):
+        """set autoheal
+
+        Args:
+            autoheal (int): autoheal amount to be added
         """
     @abstractmethod
     def change_weapon(self, direction):
