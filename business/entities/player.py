@@ -33,13 +33,8 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self._last_autoheal_time = pygame.time.get_ticks()
 
         self.__experience = 0
-<<<<<<< HEAD
-        self.__multexperience = 1
-        self.__level = 100
-=======
         self.__experience_multiplier = 1
         self.__level = 1
->>>>>>> d8426db44e375b577d0a8c3c3e7ab49979365f57
 
         self.__speed_base: int = 500
         self.__speed_increase: int = 0
@@ -58,15 +53,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
         self.__autoheal: int = 0
 
-<<<<<<< HEAD
-        self.__critical: int = 0
-
-        self.__attack_speed_increase: int = 0
-
-        self.__weapon = PistolWeapon()
-=======
         self.__weapon_type = "pistol"
->>>>>>> d8426db44e375b577d0a8c3c3e7ab49979365f57
         self.__weapons = [
             {"weapon": PistolWeapon(), "type": "pistol"},
             {"weapon": MinigunWeapon(), "type": "minigun"},
