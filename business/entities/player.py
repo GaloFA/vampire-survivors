@@ -65,6 +65,8 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__speed_boost_cooldown = CooldownHandler(5000)
         self.__defence_boost_cooldown = CooldownHandler(5000)
 
+        self.__items = {}
+
     def json_format(self):
         return {
             'health': self.__health,
@@ -73,13 +75,24 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             'experience': self.__experience,
             'experience_multiplier': self.__experience_multiplier,
             'level': self.__level,
-            'velocidad': self.__speed,
+            'speed_base': self.__speed_base,
+            'speed_increase': self.__speed_increase,
+            'speed_temp_increase': self.__speed_temp_increase,
+            'speed': self.__speed,
+            'damage_base': self.__damage_base,
+            'damage_increase': self.__damage_increase,
+            'damage_temp_increase': self.__damage_temp_increase,
             'damage': self.__damage,
-            'defensa': self.__defence,
+            'defence_base': self.__defence_base,
+            'defence_increase': self.__defence_increase,
+            'defence_temp_increase': self.__defence_temp_increase,
+            'defence': self.__defence,
             'autoheal': self.__autoheal,
-            'pos_x': self.pos_x,
-            'pos_y': self.pos_y,
             'weapon_type': self.__weapon_type,
+            'items': self.__items,
+            'damage_boost_cooldown': self.__damage_boost_cooldown.json_format(),
+            'speed_boost_cooldown': self.__speed_boost_cooldown.json_format(),
+            'defence_boost_cooldown': self.__defence_boost_cooldown.json_format(),
         }
 
     @staticmethod
@@ -91,30 +104,29 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         sprite = PlayerSprite(src_x, src_y)
         player = Player(src_x, src_y, sprite, health)
 
-        # Load player attributes
-        player.__max_health = player_data.get(
-            'max_health', player.__max_health)
-        player.__last_shot_time = player_data.get(
-            'last_shot_time', player.__last_shot_time)
-        player.__experience = player_data.get(
-            'experience', player.__experience)
-        player.__experience_multiplier = player_data.get(
-            'multexperience', player.__experience_multiplier)
-        player.__max_health = player_data.get(
-            'max_health', player.__max_health)
-        player.__last_shot_time = player_data.get(
-            'last_shot_time', player.__last_shot_time)
-        player.__experience = player_data.get(
-            'experience', player.__experience)
-        player.__experience_multiplier = player_data.get(
-            'experience_multiplier', player.__experience_multiplier)
+        player.__max_health = player_data.get('max_health', player.__max_health)
+        player.__last_shot_time = player_data.get('last_shot_time', player.__last_shot_time)
+        player.__experience = player_data.get('experience', player.__experience)
+        player.__experience_multiplier = player_data.get('experience_multiplier', player.__experience_multiplier)
         player.__level = player_data.get('level', player.__level)
+        player.__speed_base = player_data.get('speed_base', player.__speed_base)
+        player.__speed_increase = player_data.get('speed_increase', player.__speed_increase)
+        player.__speed_temp_increase = player_data.get('speed_temp_increase', player.__speed_temp_increase)
         player.__speed = player_data.get('speed', player.__speed)
+        player.__damage_base = player_data.get('damage_base', player.__damage_base)
+        player.__damage_increase = player_data.get('damage_increase', player.__damage_increase)
+        player.__damage_temp_increase = player_data.get('damage_temp_increase', player.__damage_temp_increase)
         player.__damage = player_data.get('damage', player.__damage)
+        player.__defence_base = player_data.get('defence_base', player.__defence_base)
+        player.__defence_increase = player_data.get('defence_increase', player.__defence_increase)
+        player.__defence_temp_increase = player_data.get('defence_temp_increase', player.__defence_temp_increase)
         player.__defence = player_data.get('defence', player.__defence)
         player.__autoheal = player_data.get('autoheal', player.__autoheal)
-        player.__weapon_type = player_data.get(
-            'weapon_type', player.__weapon_type)
+        player.__weapon_type = player_data.get('weapon_type', player.__weapon_type)
+        player.__items = player_data.get('items', player.__items)
+        player.__damage_boost_cooldown = CooldownHandler(5000)
+        player.__speed_boost_cooldown = CooldownHandler(5000)
+        player.__defence_boost_cooldown = CooldownHandler(5000)
 
         if player.__weapon_type == "pistol":
             player.__weapon = PistolWeapon()
@@ -177,7 +189,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         if isinstance(gem, SpeedGem) and self.__speed_boost_cooldown.is_action_ready():  # no Funciona
             self.__speed_temp_increase += 10
             self.__speed_boost_cooldown.put_on_cooldown()
-        # Funciona pero no suma el daño
         if isinstance(gem, DamageGem) and self.__damage_boost_cooldown.is_action_ready():
             self.__damage_temp_increase += 1
             self.__damage_boost_cooldown.put_on_cooldown()
@@ -349,3 +360,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     @property
     def __shoot_cooldown(self):
         return Player.BASE_SHOOT_COOLDOWN
+
+    @property
+    def items(self) -> dict:
+        return self.__items
