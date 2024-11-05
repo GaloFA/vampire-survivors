@@ -191,7 +191,7 @@ class BulletSprite(Sprite):
 class ExperienceGemSprite(Sprite):
     """A class representing the experience gem sprite."""
 
-    ASSET = "./assets/items/gems/gem.png"
+    ASSET = "./assets/items/gems/experience_gem.png"
     TILE_WIDTH = 64
     TILE_HEIGHT = 64
     SIZE_MULTIPLIER = 0.75
@@ -207,7 +207,7 @@ class ExperienceGemSprite(Sprite):
 class HealthGemSprite(Sprite):
     """A class representing the health gem sprite."""
 
-    ASSET = "./assets/items/gems/gems2/gem7-green.png"
+    ASSET = "./assets/items/gems/health_gem.png"
     TILE_WIDTH = 64
     TILE_HEIGHT = 64
     SIZE_MULTIPLIER = 0.75
@@ -229,7 +229,7 @@ class HealthGemSprite(Sprite):
 class SpeedGemSprite(Sprite):
     """A class representing the speed gem sprite."""
 
-    ASSET = "./assets/items/gems/gems2/gem7-darkblue.png"
+    ASSET = "./assets/items/gems/speed_gem.png"
     TILE_WIDTH = 64
     TILE_HEIGHT = 64
     SIZE_MULTIPLIER = 0.75
@@ -251,7 +251,7 @@ class SpeedGemSprite(Sprite):
 class DamageGemSprite(Sprite):
     """A class representing the damage gem sprite."""
 
-    ASSET = "./assets/items/gems/gems2/gem7-darkred.png"
+    ASSET = "./assets/items/gems/damage_gem.png"
     TILE_WIDTH = 64
     TILE_HEIGHT = 64
     SIZE_MULTIPLIER = 0.75
@@ -273,9 +273,9 @@ class DamageGemSprite(Sprite):
 
 
 class DefenseGemSprite(Sprite):
-    """A class representing the defense gem sprite."""
+    """A class representing the defence gem sprite."""
 
-    ASSET = "./assets/items/gems/gems2/gem7-black.png"
+    ASSET = "./assets/items/gems/defence_gem.png"
     TILE_WIDTH = 64
     TILE_HEIGHT = 64
     SIZE_MULTIPLIER = 0.75
