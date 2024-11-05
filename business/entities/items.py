@@ -227,3 +227,8 @@ class DictionaryClass:
         self._selected_items = {
             key: self.items_dict[key] for key in unique_keys}
         return self._selected_items
+
+    def apply_selected_items_to_player(self, player: Player):
+        """Selects 3 unique random items and applies their effects to the player."""
+        selected_items = self.select_random_items()
+        player.apply_items(selected_items)

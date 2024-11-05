@@ -60,6 +60,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             {"weapon": ShotgunWeapon(), "type": "shotgun"},
         ]
         self.__current_weapon_index = 0
+        self.__weapon = self.__weapons[self.__current_weapon_index]["weapon"]
 
         self.__damage_boost_cooldown = CooldownHandler(5000)
         self.__speed_boost_cooldown = CooldownHandler(5000)
@@ -254,14 +255,10 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__weapon.shoot(world, self.pos_x, self.pos_y,
                             monster.pos_x, monster.pos_y)
 
-    def apply_item(self, item):
-        """Applies an item's effect on the player."""
-        item.apply_effect(self)
-
     def apply_items(self, items):
         """Applies multiple items' effects on the player."""
         for item in items.values():
-            self.apply_item(item)
+            item.apply_effect(self)
 
     def update_stats(self):
         """Update all stats."""
