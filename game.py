@@ -71,7 +71,8 @@ class Game:
             if action == 'quit':
                 self.__running = False
 
-    def __handle_pause_menu(self):
+    def __handle_pause_menu(self, display: IDisplay):
+        self.__player_stats = PlayerStatsContainer(display.screen, self.__world.player.mostrar_estadisticas())
         self.__pause_menu.draw()
         self.__player_stats.draw()
         pygame.display.flip()
@@ -146,7 +147,7 @@ class Game:
                 self.__process_game_events()
 
                 if self.__is_paused:
-                    self.__handle_pause_menu()
+                    self.__handle_pause_menu(self.__display)
                     continue
 
                 current_level = self.__world.player.level

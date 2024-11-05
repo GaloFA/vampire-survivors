@@ -60,7 +60,7 @@ class NivelMenu:
             if index < 3:  # Solo necesitamos los primeros 3 ítems
                 x, y = posiciones[index]
                 item_card = ItemCard(
-                    x, y, 500, 100, str(item), item.descripcion, item.imagen_path, is_new=True
+                    x, y, 500, 100, str(item), item.description, item.image_path, is_new=True
                 )
                 item_cards.append(item_card)
         return item_cards
@@ -69,7 +69,6 @@ class NivelMenu:
         """Dibuja el menú de nivelación y sus botones en la pantalla."""
         self.screen.blit(self.overlay, (0, 0))
 
-        # Dibujar cada botón
         self.container.draw(self.screen)
         self.title1.draw(self.screen)
         for item in item_cards:

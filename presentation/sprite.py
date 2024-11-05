@@ -214,12 +214,12 @@ class HealthGemSprite(Sprite):
 
     def __init__(self, pos_x: float, pos_y: float):
         image: pygame.Surface = pygame.image.load(
-            SpeedGemSprite.ASSET).convert_alpha()
+            HealthGemSprite.ASSET).convert_alpha()
         image = pygame.transform.scale(
             image,
             (
-                int(SpeedGemSprite.TILE_WIDTH * SpeedGemSprite.SIZE_MULTIPLIER),
-                int(SpeedGemSprite.TILE_HEIGHT * SpeedGemSprite.SIZE_MULTIPLIER)
+                int(HealthGemSprite.TILE_WIDTH * HealthGemSprite.SIZE_MULTIPLIER),
+                int(HealthGemSprite.TILE_HEIGHT * HealthGemSprite.SIZE_MULTIPLIER)
             )
         )
         rect: pygame.Rect = image.get_rect(center=(int(pos_x), int(pos_y)))
@@ -229,7 +229,7 @@ class HealthGemSprite(Sprite):
 class SpeedGemSprite(Sprite):
     """A class representing the speed gem sprite."""
 
-    ASSET = "./assets/items/gems/gems2/gem1-color5.png"
+    ASSET = "./assets/items/gems/gems2/gem7-darkblue.png"
     TILE_WIDTH = 64
     TILE_HEIGHT = 64
     SIZE_MULTIPLIER = 0.75
@@ -251,7 +251,7 @@ class SpeedGemSprite(Sprite):
 class DamageGemSprite(Sprite):
     """A class representing the damage gem sprite."""
 
-    ASSET = "./assets/items/gems/gems2/gem10-darkred.png"
+    ASSET = "./assets/items/gems/gems2/gem7-darkred.png"
     TILE_WIDTH = 64
     TILE_HEIGHT = 64
     SIZE_MULTIPLIER = 0.75
@@ -275,7 +275,7 @@ class DamageGemSprite(Sprite):
 class DefenseGemSprite(Sprite):
     """A class representing the defense gem sprite."""
 
-    ASSET = "./assets/items/gems/gems2/gem11-color6.png"
+    ASSET = "./assets/items/gems/gems2/gem7-black.png"
     TILE_WIDTH = 64
     TILE_HEIGHT = 64
     SIZE_MULTIPLIER = 0.75
