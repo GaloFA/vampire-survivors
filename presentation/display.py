@@ -25,6 +25,11 @@ class Display(IDisplay):
 
         self.__ground_tileset = self.__load_ground_tileset()
         self.__world: GameWorld = None  # type: ignore
+        self.inventory_images = [
+            pygame.image.load('assets/items/gun/pistol.png'),
+            pygame.image.load('assets/items/gun/shotgun.png'),
+            pygame.image.load('assets/items/gun/minigun.png')
+        ]
 
     def __load_ground_tileset(self):
         return Tileset(
@@ -88,10 +93,19 @@ class Display(IDisplay):
             x_position = start_x + i * (slot_width + padding)
             slot_rect = pygame.Rect(
                 x_position, y_position, slot_width, slot_height)
+
             # Draw the slot background (a gray rectangle)
             pygame.draw.rect(self.__screen, (100, 100, 100), slot_rect)
             # Draw the border (a black outline)
             pygame.draw.rect(self.__screen, (0, 0, 0), slot_rect, 2)
+
+            # Automatically draw the corresponding image if it exists
+            if i < len(self.inventory_images):
+                # Scale the image to fit the slot dimensions
+                image = pygame.transform.scale(
+                    self.inventory_images[i], (slot_width, slot_height))
+                # Blit the image onto the screen at the position of the slot
+                self.__screen.blit(image, slot_rect.topleft)
 
     def __draw_monster_health_bar(self, monster: IMonster):
         # Get the monster's health

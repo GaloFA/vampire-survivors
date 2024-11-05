@@ -34,9 +34,8 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__experience = 0
 
         self.__multexperience = 1
-        self.__level = 100
         self.__experience_multiplier = 1
-        self.__level = 1
+        self.__level = 100
 
         self.__speed_base: int = 500
         self.__speed_increase: int = 0
