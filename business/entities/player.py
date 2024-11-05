@@ -33,10 +33,8 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
         self.__experience = 0
 
-        self.__multexperience = 1
-        self.__level = 100
-        self.__experience_multiplier = 1
         self.__level = 1
+        self.__experience_multiplier = 1
 
         self.__speed_base: int = 500
         self.__speed_increase: int = 0
@@ -196,10 +194,10 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         if self.__level == 1:
             self.__weapon = PistolWeapon()
             self.__weapon_type = "pistol"
-        if self.__level == 10:
+        if self.__level == 4:
             self.__weapon = MinigunWeapon()
             self.__weapon_type = "minigun"
-        if self.__level == 20:
+        if self.__level == 7:
             self.__weapon = ShotgunWeapon()
             self.__weapon_type = "shotgun"
 
