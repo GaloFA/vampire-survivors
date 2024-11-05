@@ -1,8 +1,5 @@
 import random
-import pygame
-import settings
 from business.entities.player import Player
-from presentation.sprite import PlayerSprite
 
 
 class Item:
@@ -64,7 +61,10 @@ class HealthItem(Item):
         )
 
     def apply_effect(self, player: Player):
-        player.set_max_health(self.get_effect_value())
+        if self._level < len(self._upgrades):
+            player.set_max_health(self.get_effect_value())
+        else:
+            print(f"{self._name} has reached maximum improvement.")
 
     @property
     def description(self):
@@ -85,12 +85,15 @@ class SpeedItem(Item):
             name="Speed Boots",
             description="Increases the player's movement speed.",
             effect_type="speed",
-            upgrades=[2, 4, 6, 8, 10],
+            upgrades=[10, 20, 30, 35, 40],
             image_path="./assets/items/sprite-items/item7.png"
         )
 
     def apply_effect(self, player: Player):
-        player.set_speed(self.get_effect_value())
+        if self._level < len(self._upgrades):
+            player.set_speed(self.get_effect_value())
+        else:
+            print(f"{self._name} has reached maximum improvement.")
 
     @property
     def description(self):
@@ -116,7 +119,10 @@ class DamageItem(Item):
         )
 
     def apply_effect(self, player: Player):
-        player.set_damage(self.get_effect_value())
+        if self._level < len(self._upgrades):
+            player.set_damage(self.get_effect_value())
+        else:
+            print(f"{self._name} has reached maximum improvement.")
 
     @property
     def description(self):
@@ -142,7 +148,10 @@ class DefenceItem(Item):
         )
 
     def apply_effect(self, player: Player):
-        player.set_defence(self.get_effect_value())
+        if self._level < len(self._upgrades):
+            player.set_defence(self.get_effect_value())
+        else:
+            print(f"{self._name} has reached maximum improvement.")
 
     @property
     def description(self):
@@ -168,7 +177,10 @@ class ExperienceItem(Item):
         )
 
     def apply_effect(self, player: Player):
-        player.set_experience_mult(self.get_effect_value())
+        if self._level < len(self._upgrades):
+            player.set_experience_mult(self.get_effect_value())
+        else:
+            print(f"{self._name} has reached maximum improvement.")
 
     @property
     def description(self):
@@ -194,7 +206,10 @@ class AutoHealItem(Item):
         )
 
     def apply_effect(self, player: Player):
-        player.set_autoheal(self.get_effect_value())
+        if self._level < len(self._upgrades):
+            player.set_autoheal(self.get_effect_value())
+        else:
+            print(f"{self._name} has reached maximum improvement.")
 
     @property
     def description(self):
@@ -205,6 +220,7 @@ class AutoHealItem(Item):
     def image_path(self):
         """Returns the image path of the item."""
         return self._image_path
+
 
 class DictionaryClass:
     def __init__(self):
@@ -227,8 +243,3 @@ class DictionaryClass:
         self._selected_items = {
             key: self.items_dict[key] for key in unique_keys}
         return self._selected_items
-
-    def apply_selected_items_to_player(self, player: Player):
-        """Selects 3 unique random items and applies their effects to the player."""
-        selected_items = self.select_random_items()
-        player.apply_items(selected_items)

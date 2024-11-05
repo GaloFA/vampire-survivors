@@ -9,16 +9,16 @@ class PlayerStatsContainer:
     def __init__(self, screen, estadisticas):
         self.screen = screen
         self.screen_width, self.screen_height = settings.SCREEN_WIDTH//2, settings.SCREEN_HEIGHT//2
-        self.container = Container(0, 100, 400, 700, (0, 0, 100))
+        self.container = Container(0, 200, 400, 500,  (100, 100, 100))
         # Configuración del título
         self.title = Title("Estadísticas del Jugador",
-                           self.screen_width // 4, 150, 40, (255, 255, 255))
+                           self.screen_width // 4, 250, 40, (255, 255, 255))
 
         self.background_color = (30, 30, 30)
         self.text_color = (255, 255, 255)
 
         self.start_x = 50
-        self.start_y = 200
+        self.start_y = 300
         self.line_spacing = 40
 
         # Cargar estadísticas del jugador

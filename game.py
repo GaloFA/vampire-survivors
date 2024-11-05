@@ -31,7 +31,7 @@ class Game:
         self.__player_stats = PlayerStatsContainer(
             display.screen, self.__world.player.mostrar_estadisticas())
         self.__pause_menu = PauseMenu(display.screen)
-        self.__level_menu = NivelMenu(display.screen)
+        self.__level_menu = NivelMenu(display.screen, game_world)
         self.__game_over = GameOverScreen(display.screen)
         self.__items_inicializados = False
         self.__is_game_over = False
@@ -101,28 +101,31 @@ class Game:
         if not self.__items_inicializados:
             self.initialize_items()
 
+        # Comprueba si se ha hecho clic con el botón izquierdo del mouse
         if pygame.mouse.get_pressed()[0]:
-            action = self.__level_menu.check_click(
-                pygame.mouse.get_pos())
+            action = self.__level_menu.check_click(pygame.mouse.get_pos())
 
+            # Verifica si la acción es un string válido
             if isinstance(action, str):
                 if action == "skip":
                     self.__items_inicializados = False
                     self.__is_level_up_menu_active = False
-                if action == "reroll":
+                elif action == "reroll":
                     self.reroll_items()
-
+                    self.__items_inicializados = False
+                    self.__is_level_up_menu_active = False
+                elif action == "item1":
+                    self.__items_inicializados = False
+                    self.__is_level_up_menu_active = False
+                elif action == "item2":
+                    self.__items_inicializados = False
+                    self.__is_level_up_menu_active = False
+                elif action == "item3":
+                    self.__items_inicializados = False
+                    self.__is_level_up_menu_active = False
             else:
-                self.__items_inicializados = False
-            if action == "item2":
-                self.__items_inicializados = False
-            if action == "item3":
-                self.__items_inicializados = False
-            if action == "skip":
-                self.__items_inicializados = False
-            if action == "reroll":
-                self.reroll_items()
-            self.__is_level_up_menu_active = False
+                # Si no se ha hecho clic en un elemento válido, el menú sigue activo
+                self.__is_level_up_menu_active = True
 
     def initialize_items(self):
         Diccionario_Clases = DictionaryClass()

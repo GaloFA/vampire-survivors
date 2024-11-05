@@ -19,7 +19,7 @@ class PauseMenu:
                             2, settings.SCREEN_HEIGHT//2-200, 150, (255, 255, 255))
 
         self.overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
-        self.overlay.fill((59, 31, 43))
+        self.overlay.fill((62, 62, 62))
         self.buttons = [self.resume_button,
                         self.quit_button, self.save_and_quit_button]
         self.titles = [self.titulo]

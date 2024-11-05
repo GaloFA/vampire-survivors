@@ -53,7 +53,7 @@ class GameOverScreen:
 
     def draw(self):
         """Dibuja toda la pantalla de Game Over."""
-        self.screen.fill((20, 20, 20))  # Fondo oscuro
+        self.screen.fill((62, 62, 62))  # Fondo oscuro
         self.draw_title()
         self.draw_buttons()
         pygame.display.flip()
