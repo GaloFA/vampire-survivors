@@ -33,8 +33,13 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self._last_autoheal_time = pygame.time.get_ticks()
 
         self.__experience = 0
+<<<<<<< HEAD
+        self.__multexperience = 1
+        self.__level = 100
+=======
         self.__experience_multiplier = 1
         self.__level = 1
+>>>>>>> d8426db44e375b577d0a8c3c3e7ab49979365f57
 
         self.__speed_base: int = 500
         self.__speed_increase: int = 0
@@ -53,7 +58,15 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
         self.__autoheal: int = 0
 
+<<<<<<< HEAD
+        self.__critical: int = 0
+
+        self.__attack_speed_increase: int = 0
+
+        self.__weapon = PistolWeapon()
+=======
         self.__weapon_type = "pistol"
+>>>>>>> d8426db44e375b577d0a8c3c3e7ab49979365f57
         self.__weapons = [
             {"weapon": PistolWeapon(), "type": "pistol"},
             {"weapon": MinigunWeapon(), "type": "minigun"},
@@ -202,13 +215,28 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             self.__weapon_type = "shotgun"
 
     def change_weapon(self, direction):
-        """Cambia el arma según la dirección proporcionada ('next' o 'previous')."""
+        """Cambia el arma según la dirección proporcionada ('next' o 'previous').
+
+        No permite cambiar a un arma que no ha sido desbloqueada por el nivel actual del jugador.
+        """
+        original_index = self.__current_weapon_index
+
         if direction == "next":
             self.__current_weapon_index = (
                 self.__current_weapon_index + 1) % len(self.__weapons)
         elif direction == "previous":
             self.__current_weapon_index = (
                 self.__current_weapon_index - 1) % len(self.__weapons)
+
+        # Verificar si el arma seleccionada está desbloqueada según el nivel del jugador
+        selected_weapon = self.__weapons[self.__current_weapon_index]["type"]
+        if (selected_weapon == "minigun" and self.__level < 10) or \
+                (selected_weapon == "shotgun" and self.__level < 20):
+            # Si el arma no está desbloqueada, volver al índice original
+            self.__current_weapon_index = original_index
+            print(f"El arma {
+                  selected_weapon} no está desbloqueada. Desbloquéala alcanzando un nivel más alto.")
+            return
 
         # Actualiza el arma y el tipo de arma
         self.__weapon = self.__weapons[self.__current_weapon_index]["weapon"]
