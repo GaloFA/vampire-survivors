@@ -54,7 +54,12 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__autoheal: int = 0
 
         self.__weapon_type = "pistol"
-        self.__weapon = PistolWeapon()
+        self.__weapons = [
+            {"weapon": PistolWeapon(), "type": "pistol"},
+            {"weapon": MinigunWeapon(), "type": "minigun"},
+            {"weapon": ShotgunWeapon(), "type": "shotgun"},
+        ]
+        self.__current_weapon_index = 0
 
         self.__damage_boost_cooldown = CooldownHandler(5000)
         self.__speed_boost_cooldown = CooldownHandler(5000)
@@ -195,6 +200,19 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         if self.__level == 20:
             self.__weapon = ShotgunWeapon()
             self.__weapon_type = "shotgun"
+
+    def change_weapon(self, direction):
+        """Cambia el arma según la dirección proporcionada ('next' o 'previous')."""
+        if direction == "next":
+            self.__current_weapon_index = (
+                self.__current_weapon_index + 1) % len(self.__weapons)
+        elif direction == "previous":
+            self.__current_weapon_index = (
+                self.__current_weapon_index - 1) % len(self.__weapons)
+
+        # Actualiza el arma y el tipo de arma
+        self.__weapon = self.__weapons[self.__current_weapon_index]["weapon"]
+        self.__weapon_type = self.__weapons[self.__current_weapon_index]["type"]
 
     def __heal(self, amount: int):
         self.__health = min(self.__max_health, self.__health + amount)

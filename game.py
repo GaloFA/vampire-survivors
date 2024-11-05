@@ -11,7 +11,6 @@ from presentation.pause_menu import PauseMenu
 from presentation.level_menu import NivelMenu
 from presentation.game_over_screen import GameOverScreen
 from presentation.player_stats import PlayerStatsContainer
-from business.entities.player import Player
 from business.entities.items import DictionaryClass
 from persistence.gamejsondao import GameWorldJsonDAO
 
@@ -29,7 +28,8 @@ class Game:
         self.__world = game_world
         self.__input_handler = input_handler
         self.__running = True
-        self.__player_stats = PlayerStatsContainer(display.screen, self.__world.player.mostrar_estadisticas())
+        self.__player_stats = PlayerStatsContainer(
+            display.screen, self.__world.player.mostrar_estadisticas())
         self.__pause_menu = PauseMenu(display.screen)
         self.__level_menu = NivelMenu(display.screen)
         self.__game_over = GameOverScreen(display.screen)
@@ -50,8 +50,10 @@ class Game:
                 self.__running = False
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 self.__is_paused = not self.__is_paused
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                self.__is_paused = not self.__is_paused
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_q:
+                self.__world.player.change_weapon('next')
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_e:
+                self.__world.player.change_weapon('previous')
 
     def save_game(self):
         """Saves the current game state using the DAO."""
@@ -74,7 +76,8 @@ class Game:
                 self.__running = False
 
     def __handle_pause_menu(self, display: IDisplay):
-        self.__player_stats = PlayerStatsContainer(display.screen, self.__world.player.mostrar_estadisticas())
+        self.__player_stats = PlayerStatsContainer(
+            display.screen, self.__world.player.mostrar_estadisticas())
         self.__pause_menu.draw()
         self.__player_stats.draw()
         pygame.display.flip()
@@ -110,8 +113,6 @@ class Game:
                     self.reroll_items()
 
             else:
-                #  item_selecionado= action
-                #    item_selecionado.
                 self.__items_inicializados = False
             if action == "item2":
                 self.__items_inicializados = False

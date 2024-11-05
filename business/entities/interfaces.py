@@ -329,3 +329,8 @@ class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
         Args:
             autoheal (int): autoheal amount to be added
         """
+    @abstractmethod
+    def change_weapon(self, direction):
+        """Cambia el arma del jugador
+
+        """
