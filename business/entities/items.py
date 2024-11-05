@@ -6,191 +6,191 @@ from presentation.sprite import PlayerSprite
 
 
 class Item:
-    """Clase base que representa un ítem genérico con niveles y efectos."""
+    """Base class representing a generic item with levels and effects."""
 
-    def __init__(self, nombre, descripcion, tipo_efecto, mejoras, imagen_path):
+    def __init__(self, name, description, effect_type, upgrades, image_path):
         """
-        Inicializa un ítem con nombre, descripción, tipo de efecto, mejoras por nivel,
-        y opcionalmente una imagen o sprite con configuración.
+        Initializes an item with a name, description, effect type, level upgrades,
+        and optionally an image or sprite with configuration.
         """
-        self._nombre = nombre
-        self._descripcion = descripcion
-        self._tipo_efecto = tipo_efecto
-        self._mejoras = mejoras
-        self._nivel = 1
-        self._imagen_path = imagen_path
-        x, y = settings.WORLD_WIDTH//2, settings.WORLD_HEIGHT//2
+        self._name = name
+        self._description = description
+        self._effect_type = effect_type
+        self._upgrades = upgrades
+        self._level = 1
+        self._image_path = image_path
+        x, y = settings.WORLD_WIDTH // 2, settings.WORLD_HEIGHT // 2
         self._player = Player(x, y, PlayerSprite(x, y), 100)
 
-    def subir_nivel(self, jugador):
-        """Sube el nivel del ítem si no ha alcanzado el nivel máximo y aplica la mejora."""
-        if self._nivel < len(self._mejoras):
-            self._nivel += 1  # Incrementa el nivel
-            self.aplicar_efecto(jugador)  # Aplica el efecto del nuevo nivel
-            return f"{self._nombre} ha subido al nivel {self._nivel} y ahora otorga {self.obtener_valor_efecto()} de efecto!"
+    def level_up(self, player):
+        """Increases the item's level if it hasn't reached the maximum level and applies the upgrade."""
+        if self._level < len(self._upgrades):
+            self._level += 1  # Increment the level
+            self.apply_effect(player)  # Apply the new level's effect
+            return f"{self._name} has leveled up to level {self._level} and now grants {self.get_effect_value()} effect!"
         else:
-            return f"{self._nombre} ya está en el nivel máximo."
+            return f"{self._name} is already at the maximum level."
 
-    def obtener_valor_efecto(self):
-        return self._mejoras[self._nivel - 1]
+    def get_effect_value(self):
+        return self._upgrades[self._level - 1]
 
-    def aplicar_efecto(self, jugador):
-        """Método a implementar en las subclases para aplicar el efecto específico al jugador."""
+    def apply_effect(self, player):
+        """Method to be implemented in subclasses to apply the specific effect to the player."""
         pass
 
     def __str__(self):
-        """Devuelve una representación en cadena del ítem."""
-        return f"{self._nombre} - Nivel {self._nivel}"
+        """Returns a string representation of the item."""
+        return f"{self._name} - Level {self._level}"
 
 
-class ItemSalud(Item):
-    """Ítem que proporciona mejoras en salud."""
-
-    def __init__(self):
-        super().__init__(
-            nombre="Amuleto de Salud",
-            descripcion="Aumenta la salud del jugador.",
-            tipo_efecto="salud",
-            mejoras=[20, 40, 60, 80, 100],
-            imagen_path="./assets/items/sprite-items/item2.png"
-        )
-
-    def aplicar_efecto(self, player):
-        player.__max_health += self.obtener_valor_efecto()
-
-
-class ItemVelocidad(Item):
-    """Ítem que proporciona mejoras en velocidad."""
+class HealthItem(Item):
+    """Item that provides health upgrades."""
 
     def __init__(self):
         super().__init__(
-            nombre="Bota de Velocidad",
-            descripcion="Aumenta la velocidad de movimiento del jugador.",
-            tipo_efecto="velocidad",
-            mejoras=[2, 4, 6, 8, 10],
-            imagen_path="./assets/items/sprite-items/item7.png"
+            name="Health Amulet",
+            description="Increases the player's health.",
+            effect_type="health",
+            upgrades=[20, 40, 60, 80, 100],
+            image_path="./assets/items/sprite-items/item2.png"
         )
 
-    def aplicar_efecto(self):
-        self._player.__velocidad_incrementada += self.obtener_valor_efecto()
+    def apply_effect(self, player):
+        player.__max_health += self.get_effect_value()
 
 
-class ItemDaño(Item):
-    """Ítem que proporciona mejoras en damage."""
+class SpeedItem(Item):
+    """Item that provides speed upgrades."""
 
     def __init__(self):
         super().__init__(
-            nombre="Espada del Guerrero",
-            descripcion="Aumenta el daño infligido por el jugador.",
-            tipo_efecto="damage",
-            mejoras=[5, 10, 15, 20, 25],
-            imagen_path="./assets/items/sprite-items/item5.png"
+            name="Speed Boots",
+            description="Increases the player's movement speed.",
+            effect_type="speed",
+            upgrades=[2, 4, 6, 8, 10],
+            image_path="./assets/items/sprite-items/item7.png"
         )
 
-    def aplicar_efecto(self):
-        self._player.__damage_incrementada += self.obtener_valor_efecto()
+    def apply_effect(self):
+        self._player.__speed_increase += self.get_effect_value()
 
 
-class ItemDefensa(Item):
-    """Ítem que proporciona mejoras en defensa."""
+class DamageItem(Item):
+    """Item that provides damage upgrades."""
 
     def __init__(self):
         super().__init__(
-            nombre="Escudo del Valiente",
-            descripcion="Aumenta la defensa del jugador.",
-            tipo_efecto="defensa",
-            mejoras=[3, 6, 9, 12, 15],
-            imagen_path="./assets/items/sprite-items/item8.png"
+            name="Warrior's Sword",
+            description="Increases the damage dealt by the player.",
+            effect_type="damage",
+            upgrades=[5, 10, 15, 20, 25],
+            image_path="./assets/items/sprite-items/item5.png"
         )
 
-    def aplicar_efecto(self):
-        self._player.__defensa_incrementada += self.obtener_valor_efecto()
+    def apply_effect(self):
+        self._player.__damage_increment += self.get_effect_value()
 
 
-class ItemExperiencia(Item):
-    """Ítem que proporciona mejoras en experiencia ganada."""
+class DefenseItem(Item):
+    """Item that provides defense upgrades."""
 
     def __init__(self):
         super().__init__(
-            nombre="Libro de Sabiduría",
-            descripcion="Aumenta la experiencia ganada por el jugador.",
-            tipo_efecto="experiencia",
-            mejoras=[2, 3, 4, 5, 10],
-            imagen_path="./assets/items/sprite-items/item9.png"
+            name="Shield of the Brave",
+            description="Increases the player's defense.",
+            effect_type="defense",
+            upgrades=[3, 6, 9, 12, 15],
+            image_path="./assets/items/sprite-items/item8.png"
         )
 
-    def aplicar_efecto(self):
-        self._player.__multexperience += self.obtener_valor_efecto()
+    def apply_effect(self):
+        self._player.__defense_increase += self.get_effect_value()
 
 
-class ItemAutocuracion(Item):
-    """Ítem que mejora la autocuración del jugador."""
+class ExperienceItem(Item):
+    """Item that provides experience gain upgrades."""
 
     def __init__(self):
         super().__init__(
-            nombre="Petalos de Luz",
-            descripcion="Aumenta la cantidad de salud recuperada automáticamente.",
-            tipo_efecto="autocuracion",
-            mejoras=[1, 2, 3, 4, 5],
-            imagen_path="./assets/items/sprite-items/item11.png"
+            name="Book of Wisdom",
+            description="Increases experience gained by the player.",
+            effect_type="experience",
+            upgrades=[2, 3, 4, 5, 10],
+            image_path="./assets/items/sprite-items/item9.png"
         )
 
-    def aplicar_efecto(self, player):
-        player.__autocuracion += self.obtener_valor_efecto()
+    def apply_effect(self):
+        self._player.__multexperience += self.get_effect_value()
 
-class ItemCriticos(Item):
-    """Ítem que aumenta la probabilidad de ataques críticos."""
+
+class AutoHealItem(Item):
+    """Item that improves the player's self-healing."""
 
     def __init__(self):
         super().__init__(
-            nombre="Anillo de Juicio",
-            descripcion="Aumenta la probabilidad de infligir daño crítico.",
-            tipo_efecto="critico",
-            mejoras=[1, 2, 3, 4, 5],  # Porcentaje o puntos de probabilidad
-            imagen_path="./assets/items/sprite-items/item1.png"
+            name="Petals of Light",
+            description="Increases the amount of health automatically restored.",
+            effect_type="autoheal",
+            upgrades=[1, 2, 3, 4, 5],
+            image_path="./assets/items/sprite-items/item11.png"
         )
 
-    def aplicar_efecto(self):
-        self._player.__probabilidad_critico += self.obtener_valor_efecto()
+    def apply_effect(self, player):
+        player.__autoheal += self.get_effect_value()
 
 
-class ItemVelocidadAtaque(Item):
-    """Ítem que mejora la velocidad de ataque del jugador."""
+class CriticalItem(Item):
+    """Item that increases the probability of critical hits."""
 
     def __init__(self):
         super().__init__(
-            nombre="Elixir de Asalto Rápido",
-            descripcion="Aumenta la velocidad de ataque del jugador.",
-            tipo_efecto="velocidad_ataque",
-            mejoras=[1, 2, 3, 4, 5],
-            imagen_path="./assets/items/sprite-items/item10.png"
+            name="Ring of Judgment",
+            description="Increases the probability of dealing critical damage.",
+            effect_type="critical",
+            upgrades=[1, 2, 3, 4, 5],
+            image_path="./assets/items/sprite-items/item1.png"
         )
 
-    def aplicar_efecto(self, player):
-        player.__velocidad_ataque_incrementada += self.obtener_valor_efecto()
+    def apply_effect(self):
+        self._player.__critical += self.get_effect_value()
 
 
-class DiccionarioClass:
+class AttackSpeedItem(Item):
+    """Item that improves the player's attack speed."""
+
     def __init__(self):
-        # Asegúrate de que estos ítems sean instancias correctas de tus clases
+        super().__init__(
+            name="Elixir of Rapid Assault",
+            description="Increases the player's attack speed.",
+            effect_type="attack_speed",
+            upgrades=[1, 2, 3, 4, 5],
+            image_path="./assets/items/sprite-items/item10.png"
+        )
+
+    def apply_effect(self, player):
+        player.__attack_speed_increase += self.get_effect_value()
+
+
+class DictionaryClass:
+    def __init__(self):
+        # Ensure these items are correct instances of your classes
         self.items_dict = {
-            "item_salud": ItemSalud(),
-            "item_velocidad": ItemVelocidad(),
-            "item_danio": ItemDaño(),
-            "item_defensa": ItemDefensa(),
-            "item_experiencia": ItemExperiencia(),
-            "item_autocuracion": ItemAutocuracion(),
-            "item_criticos": ItemCriticos(),
-            "item_velocidad_ataque": ItemVelocidadAtaque(),
+            "health_item": HealthItem(),
+            "speed_item": SpeedItem(),
+            "damage_item": DamageItem(),
+            "defense_item": DefenseItem(),
+            "experience_item": ExperienceItem(),
+            "autoheal_item": AutoHealItem(),
+            "critical_item": CriticalItem(),
+            "attack_speed_item": AttackSpeedItem(),
         }
-        self._selected_items = {}  # Diccionario para almacenar ítems seleccionados
+        self._selected_items = {}  # Dictionary to store selected items
 
     def select_random_items(self):
-        """Selecciona 3 ítems únicos aleatorios del diccionario de ítems."""
-        # Selecciona 3 claves únicas aleatorias del diccionario
+        """Selects 3 unique random items from the items dictionary."""
+        # Select 3 unique random keys from the dictionary
         unique_keys = random.sample(list(self.items_dict.keys()), 3)
 
-        # Crear el diccionario con los ítems seleccionados
-        self._selected_items = {
-            key: self.items_dict[key] for key in unique_keys}
+        # Create the dictionary with the selected items
+        self._selected_items = {key: self.items_dict[key] for key in unique_keys}
         return self._selected_items

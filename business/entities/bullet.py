@@ -16,6 +16,7 @@ class Bullet(MovableEntity, IBullet):
         self.__dir_x, self.__dir_y = self.__calculate_direction(dst_x - src_x, dst_y - src_y)
         self.__health: int = 1
         self.__damage_amount: int = 5
+        self.__final_damage_amount: int = 0
 
     def __calculate_direction(self, dx, dy):
         distance = math.hypot(dx, dy)
@@ -27,8 +28,10 @@ class Bullet(MovableEntity, IBullet):
         self.__health = max(0, self.__health - amount)
         self.sprite.take_damage()
 
-    def update(self, _: IGameWorld):
+    def update(self, world: IGameWorld):
         self.move(self.__dir_x, self.__dir_y)
+
+        self.__final_damage_amount = self.__damage_amount * world.player.damage_amount
 
     def __str__(self):
         return f"Bullet(pos=({self._pos_x, self._pos_y}), dir=({self.__dir_x, self.__dir_y}))"
@@ -57,7 +60,7 @@ class Bullet(MovableEntity, IBullet):
 
     @property
     def damage_amount(self):
-        return self.__damage_amount
+        return self.__final_damage_amount
 
     @property
     def health(self) -> int:

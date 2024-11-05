@@ -57,7 +57,7 @@ class GameWorld(IGameWorld):
         self.__monsters.remove(monster)
 
         # Genera un número aleatorio entre 0 y 100
-        probability = random.uniform(0, 100)
+        probability = 87#random.uniform(0, 100)
         if probability <= 20:
             pass  # Esto se puede modificar es un posibilidad de que algunos enemigos no suelten gema al matarlos
         elif 20 < probability <= 75:

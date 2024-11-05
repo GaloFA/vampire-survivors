@@ -7,7 +7,6 @@ class PlayerStatsContainer:
     """Clase que muestra todas las estadísticas del jugador en un contenedor estilizado."""
 
     def __init__(self, screen, estadisticas):
-        print(estadisticas)
         self.screen = screen
         self.screen_width, self.screen_height = settings.SCREEN_WIDTH//2, settings.SCREEN_HEIGHT//2
         self.container = Container(0, 100, 400, 700, (0, 0, 100))

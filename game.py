@@ -12,7 +12,7 @@ from presentation.level_menu import NivelMenu
 from presentation.game_over_screen import GameOverScreen
 from presentation.player_stats import PlayerStatsContainer
 from business.entities.player import Player
-from business.entities.items import DiccionarioClass
+from business.entities.items import DictionaryClass
 from persistence.gamejsondao import GameWorldJsonDAO
 
 
@@ -29,8 +29,7 @@ class Game:
         self.__world = game_world
         self.__input_handler = input_handler
         self.__running = True
-        self.__player_stats = PlayerStatsContainer(
-            display.screen, self.__world.player.mostrar_estadisticas())
+        self.__player_stats = PlayerStatsContainer(display.screen, self.__world.player.mostrar_estadisticas())
         self.__pause_menu = PauseMenu(display.screen)
         self.__level_menu = NivelMenu(display.screen)
         self.__game_over = GameOverScreen(display.screen)
@@ -122,7 +121,7 @@ class Game:
             self.__is_level_up_menu_active = False
 
     def initialize_items(self):
-        Diccionario_Clases = DiccionarioClass()
+        Diccionario_Clases = DictionaryClass()
         diccionario_items = Diccionario_Clases.select_random_items()
         item_cards = self.__level_menu.colocar_items(diccionario_items)
         self.__level_menu.draw(item_cards)
