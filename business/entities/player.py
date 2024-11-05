@@ -16,7 +16,7 @@ from business.handlers.cooldown_handler import CooldownHandler
 class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     """Player entity.
 
-    The player is the main character of the game. 
+    The player is the main character of the game.
     It can move around the game world and shoot at monsters.
     """
     AUTOHEAL_INTERVAL = 1000
@@ -33,6 +33,9 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self._last_autoheal_time = pygame.time.get_ticks()
 
         self.__experience = 0
+
+        self.__multexperience = 1
+        self.__level = 100
         self.__experience_multiplier = 1
         self.__level = 1
 
@@ -50,9 +53,8 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__defence_increase: int = 0
         self.__defence_temp_increase: int = 0
         self.__defence: int = 0
-
         self.__autoheal: int = 0
-
+        self.__weapon = PistolWeapon()
         self.__weapon_type = "pistol"
         self.__weapons = [
             {"weapon": PistolWeapon(), "type": "pistol"},
@@ -191,16 +193,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     def __levelup_perks(self):
         self.__health *= self.__level
         self.__max_health *= self.__level
-
-        if self.__level == 1:
-            self.__weapon = PistolWeapon()
-            self.__weapon_type = "pistol"
-        if self.__level == 10:
-            self.__weapon = MinigunWeapon()
-            self.__weapon_type = "minigun"
-        if self.__level == 20:
-            self.__weapon = ShotgunWeapon()
-            self.__weapon_type = "shotgun"
 
     def change_weapon(self, direction):
         """Cambia el arma según la dirección proporcionada ('next' o 'previous').
