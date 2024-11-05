@@ -194,6 +194,16 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__health *= self.__level
         self.__max_health *= self.__level
 
+        if self.__level == 1:
+            self.__weapon = PistolWeapon()
+            self.__weapon_type = "pistol"
+        if self.__level == 10:
+            self.__weapon = MinigunWeapon()
+            self.__weapon_type = "minigun"
+        if self.__level == 20:
+            self.__weapon = ShotgunWeapon()
+            self.__weapon_type = "shotgun"
+
     def change_weapon(self, direction):
         """Cambia el arma según la dirección proporcionada ('next' o 'previous').
 
