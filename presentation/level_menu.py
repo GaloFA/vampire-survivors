@@ -28,11 +28,11 @@ class NivelMenu:
         )
 
         self.item_card1 = ItemCard(settings.SCREEN_WIDTH//2-250, settings.SCREEN_HEIGHT//2-125, 500, 100, "Ebony Wings",
-                                   "Bombards in a circling zone.", "./assets/experience_gems.png", is_new=True)
+                                   "Bombards in a circling zone.", "./assets/items/gems/health_gem.png", is_new=True)
         self.item_card2 = ItemCard(settings.SCREEN_WIDTH//2-250, settings.SCREEN_HEIGHT//2, 500, 100, "Ebony Wings",
-                                   "Bombards in a circling zone.", "./assets/experience_gems.png", is_new=True)
+                                   "Bombards in a circling zone.", "./assets/items/gems/health_gem.png", is_new=True)
         self.item_card3 = ItemCard(settings.SCREEN_WIDTH//2-250, settings.SCREEN_HEIGHT//2+125, 500, 100, "Ebony Wings",
-                                   "Bombards in a circling zone.", "./assets/experience_gems.png", is_new=True)
+                                   "Bombards in a circling zone.", "./assets/items/gems/health_gem.png", is_new=True)
         self.overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
         self.overlay.fill((42, 42, 42))
 

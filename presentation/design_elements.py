@@ -93,9 +93,9 @@ class ItemCard:
         """Dibuja la tarjeta de ítem en la pantalla."""
         # Dibujar el fondo y el borde
         pygame.draw.rect(screen, self.border_color, (self.x - 2,
-                         self.y - 2, self.width + 4, self.height + 4))  # Borde
+                         self.y - 2, self.width + 4, self.height + 4)) 
         pygame.draw.rect(screen, self.background_color,
-                         (self.x, self.y, self.width, self.height))  # Fondo
+                         (self.x, self.y, self.width, self.height))  
 
         # Dibujar la imagen
         screen.blit(self.image, (self.x + 10, self.y + 10))
