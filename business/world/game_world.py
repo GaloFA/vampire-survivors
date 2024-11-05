@@ -57,7 +57,7 @@ class GameWorld(IGameWorld):
         self.__monsters.remove(monster)
 
         # Genera un número aleatorio entre 0 y 100
-        probability = 87#random.uniform(0, 100)
+        probability = random.uniform(0, 100)
         if probability <= 20:
             pass  # Esto se puede modificar es un posibilidad de que algunos enemigos no suelten gema al matarlos
         elif 20 < probability <= 75:
@@ -69,7 +69,7 @@ class GameWorld(IGameWorld):
         elif 85 < probability <= 90:
             self.add_experience_gem(DefenseGem(monster.pos_x, monster.pos_y, 1, defense_boost=3, duration=5))
         else:
-            self.add_experience_gem(HealthGem(monster.pos_x, monster.pos_y, 1, health_boost=25, duration=0))
+            self.add_experience_gem(HealthGem(monster.pos_x, monster.pos_y, 1, health_boost=25, duration=5))
 
     def add_experience_gem(self, gem: IExperienceGem):
         self.__experience_gems.append(gem)
