@@ -38,8 +38,8 @@ def main():
     pygame.init()  # pylint: disable=E1101
 
     # Initialize the game objects
-    display = Display()
     world = initialize_game_world()
+    display = Display(world)
     display.load_world(world)
     input_handler = InputHandler(world)
 
@@ -47,7 +47,7 @@ def main():
     game = Game(display, world, input_handler, restart_game)
     game.run()
 
-    # Properly quit Pygame 
+    # Properly quit Pygame
     pygame.quit()  # pylint: disable=E1101
 
 

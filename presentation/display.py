@@ -7,6 +7,7 @@ from presentation.camera import Camera
 from presentation.interfaces import IDisplay
 from presentation.tileset import Tileset
 from business.entities.interfaces import IMonster
+from business.entities.weapons import PistolWeapon, ShotgunWeapon, MinigunWeapon
 from presentation.design_elements import *
 
 
@@ -25,10 +26,14 @@ class Display(IDisplay):
 
         self.__ground_tileset = self.__load_ground_tileset()
         self.__world: GameWorld = None  # type: ignore
-        self.inventory_images = [
-            pygame.image.load('assets/items/gun/pistol.png'),
-            pygame.image.load('assets/items/gun/shotgun.png'),
-            pygame.image.load('assets/items/gun/minigun.png')
+        self.weapons = self.__initialize_weapons()
+
+    def __initialize_weapons(self):
+        """Load and return the available weapons."""
+        return [
+            PistolWeapon(),
+            ShotgunWeapon(),
+            MinigunWeapon()
         ]
 
     def __load_ground_tileset(self):
@@ -81,31 +86,38 @@ class Display(IDisplay):
         health_rect = pygame.Rect(bar_x, bar_y, health_width, bar_height)
         pygame.draw.rect(self.__screen, (0, 255, 0), health_rect)
 
-    def __draw_inventory_slots(self):
-        # Define the size and position of the inventory slots
+    def __draw_inventory_slots(self, player_level):
+        # Define el tamaño y la posición de los slots de inventario
         slot_width = 64
         slot_height = 64
         padding = 10
         start_x = (settings.SCREEN_WIDTH - (3 * slot_width + 2 * padding)) // 2
         y_position = settings.SCREEN_HEIGHT - slot_height - 100
 
-        for i in range(3):
-            x_position = start_x + i * (slot_width + padding)
-            slot_rect = pygame.Rect(
-                x_position, y_position, slot_width, slot_height)
+        # Cargar el icono de bloqueo una vez y escalarlo
+        lock_icon_path = "assets/items/gun/candado.png"
+        lock_icon = pygame.image.load(lock_icon_path).convert_alpha()
+        lock_icon = pygame.transform.scale(
+            lock_icon, (slot_width, slot_height))
 
-            # Draw the slot background (a gray rectangle)
+        for i in range(len(self.weapons)):  # Iterar según la cantidad de armas
+            x_position = start_x + i * (slot_width + padding)
+            slot_rect = pygame.Rect(x_position, y_position,
+                                    slot_width, slot_height)
+
             pygame.draw.rect(self.__screen, (100, 100, 100), slot_rect)
-            # Draw the border (a black outline)
             pygame.draw.rect(self.__screen, (0, 0, 0), slot_rect, 2)
 
-            # Automatically draw the corresponding image if it exists
-            if i < len(self.inventory_images):
-                # Scale the image to fit the slot dimensions
+            # Verificar si el arma tiene el atributo 'required_level
+            if player_level >= self.weapons[i].required_level:
+                # Escalar la imagen del arma para ajustarse al tamaño del slot
                 image = pygame.transform.scale(
-                    self.inventory_images[i], (slot_width, slot_height))
-                # Blit the image onto the screen at the position of the slot
+                    self.weapons[i].image_path, (slot_width, slot_height))
+                # Dibujar la imagen del arma en el slot
                 self.__screen.blit(image, slot_rect.topleft)
+            else:
+                # Dibujar el icono de bloqueo si el nivel del jugador es insuficiente
+                self.__screen.blit(lock_icon, slot_rect.topleft)
 
     def __draw_monster_health_bar(self, monster: IMonster):
         # Get the monster's health
@@ -202,7 +214,7 @@ class Display(IDisplay):
         # Draw timer
         self.__draw_timer()
 
-        self.__draw_inventory_slots()
+        self.__draw_inventory_slots(1)
         # Update the display
         pygame.display.flip()
 
