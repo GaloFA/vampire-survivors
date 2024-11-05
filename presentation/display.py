@@ -76,6 +76,23 @@ class Display(IDisplay):
         health_rect = pygame.Rect(bar_x, bar_y, health_width, bar_height)
         pygame.draw.rect(self.__screen, (0, 255, 0), health_rect)
 
+    def __draw_inventory_slots(self):
+        # Define the size and position of the inventory slots
+        slot_width = 64
+        slot_height = 64
+        padding = 10
+        start_x = (settings.SCREEN_WIDTH - (3 * slot_width + 2 * padding)) // 2
+        y_position = settings.SCREEN_HEIGHT - slot_height - 100
+
+        for i in range(3):
+            x_position = start_x + i * (slot_width + padding)
+            slot_rect = pygame.Rect(
+                x_position, y_position, slot_width, slot_height)
+            # Draw the slot background (a gray rectangle)
+            pygame.draw.rect(self.__screen, (100, 100, 100), slot_rect)
+            # Draw the border (a black outline)
+            pygame.draw.rect(self.__screen, (0, 0, 0), slot_rect, 2)
+
     def __draw_monster_health_bar(self, monster: IMonster):
         # Get the monster's health
         if monster.health < monster.max_health:
@@ -171,6 +188,7 @@ class Display(IDisplay):
         # Draw timer
         self.__draw_timer()
 
+        self.__draw_inventory_slots()
         # Update the display
         pygame.display.flip()
 

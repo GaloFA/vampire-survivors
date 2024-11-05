@@ -10,7 +10,6 @@ from business.world.interfaces import IGameWorld
 from presentation.sprite import Sprite, PlayerSprite
 from business.entities.weapons import PistolWeapon, ShotgunWeapon, MinigunWeapon
 from business.handlers.cooldown_handler import CooldownHandler
-# from game import Game
 
 
 class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
