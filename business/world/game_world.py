@@ -61,15 +61,20 @@ class GameWorld(IGameWorld):
         if probability <= 20:
             pass  # Esto se puede modificar es un posibilidad de que algunos enemigos no suelten gema al matarlos
         elif 20 < probability <= 75:
-            self.add_experience_gem(ExperienceGem(monster.pos_x, monster.pos_y, 1))
+            self.add_experience_gem(ExperienceGem(
+                monster.pos_x, monster.pos_y, 1))
         elif 75 < probability <= 80:
-            self.add_experience_gem(SpeedGem(monster.pos_x, monster.pos_y, 1, speed_boost=10, duration=5))
+            self.add_experience_gem(
+                SpeedGem(monster.pos_x, monster.pos_y, 1, speed_boost=10, duration=5))
         elif 80 < probability <= 85:
-            self.add_experience_gem(DamageGem(monster.pos_x, monster.pos_y, 1, damage_boost=5, duration=5))
+            self.add_experience_gem(
+                DamageGem(monster.pos_x, monster.pos_y, 1, damage_boost=5, duration=5))
         elif 85 < probability <= 90:
-            self.add_experience_gem(DefenseGem(monster.pos_x, monster.pos_y, 1, defense_boost=3, duration=5))
+            self.add_experience_gem(DefenceGem(
+                monster.pos_x, monster.pos_y, 1, defence_boost=3, duration=5))
         else:
-            self.add_experience_gem(HealthGem(monster.pos_x, monster.pos_y, 1, health_boost=25, duration=5))
+            self.add_experience_gem(
+                HealthGem(monster.pos_x, monster.pos_y, 1, health_boost=25, duration=5))
 
     def add_experience_gem(self, gem: IExperienceGem):
         self.__experience_gems.append(gem)
@@ -98,13 +103,11 @@ class GameWorld(IGameWorld):
         player_data = game_data['player']
         timer_data = game_data['timer']
         self.__player = Player.load_player_from_json(player_data)
-        self.__player.set_timer(timer_data)
 
         # Load monsters
         for monster_type, monster_list in game_data.get('monsters', {}).items():
             for monster_data in monster_list:
                 monster = Monster.load_monster_from_json(monster_data)
-                # print("Monster data:", monster_data)
                 self.add_monster(monster)
 
         # Load bullets
@@ -116,8 +119,8 @@ class GameWorld(IGameWorld):
         # Load experience gems
         for gem_type, gem_list in game_data.get('gems', {}).items():
             for gem_data in gem_list:
-                if gem_type == 'DefenseGem':
-                    gem = DefenseGem.load_experience_gem_from_json(gem_data)
+                if gem_type == 'DefenceGem':
+                    gem = DefenceGem.load_experience_gem_from_json(gem_data)
                 elif gem_type == 'SpeedGem':
                     gem = SpeedGem.load_experience_gem_from_json(gem_data)
                 elif gem_type == 'DamageGem':
