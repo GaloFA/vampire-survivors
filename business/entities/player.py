@@ -54,15 +54,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__defence_temp_increase: int = 0
         self.__defence: int = 0
         self.__autoheal: int = 0
-
-
-<< << << < HEAD
-        self.__critical: int = 0
-
-        self.__attack_speed_increase: int = 0
-
         self.__weapon = PistolWeapon()
-== == == =
         self.__weapon_type = "pistol"
         self.__weapons = [
             {"weapon": PistolWeapon(), "type": "pistol"},
