@@ -33,7 +33,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
         self.__experience = 0
 
-        self.__multexperience = 1
         self.__experience_multiplier = 1
         self.__level = 100
 
