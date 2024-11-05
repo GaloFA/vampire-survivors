@@ -206,7 +206,6 @@ class AutoHealItem(Item):
         """Returns the image path of the item."""
         return self._image_path
 
-
 class DictionaryClass:
     def __init__(self):
         # Ensure these items are correct instances of your classes

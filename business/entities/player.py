@@ -33,9 +33,9 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self._last_autoheal_time = pygame.time.get_ticks()
 
         self.__experience = 0
+
         self.__multexperience = 1
         self.__level = 100
-
         self.__experience_multiplier = 1
         self.__level = 1
 
@@ -54,8 +54,15 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__defence_temp_increase: int = 0
         self.__defence: int = 0
         self.__autoheal: int = 0
-        self.__weapon = PistolWeapon()
 
+
+<< << << < HEAD
+        self.__critical: int = 0
+
+        self.__attack_speed_increase: int = 0
+
+        self.__weapon = PistolWeapon()
+== == == =
         self.__weapon_type = "pistol"
         self.__weapons = [
             {"weapon": PistolWeapon(), "type": "pistol"},
@@ -246,6 +253,15 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
         self.__weapon.shoot(world, self.pos_x, self.pos_y,
                             monster.pos_x, monster.pos_y)
+
+    def apply_item(self, item):
+        """Applies an item's effect on the player."""
+        item.apply_effect(self)
+
+    def apply_items(self, items):
+        """Applies multiple items' effects on the player."""
+        for item in items.values():
+            self.apply_item(item)
 
     def update_stats(self):
         """Update all stats."""
