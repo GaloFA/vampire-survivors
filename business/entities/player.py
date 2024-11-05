@@ -20,7 +20,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
     It can move around the game world and shoot at monsters.
     """
     AUTOHEAL_INTERVAL = 1000
-    BASE_DAMAGE = 1
+    BASE_DAMAGE = 1000
     BASE_SHOOT_COOLDOWN = 200
 
     def __init__(self, pos_x: int, pos_y: int, sprite: Sprite, health: int):
@@ -37,7 +37,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__level = 1
 
         self.__speed_base: int = 500
-        self.__speed_increase: int = 1
+        self.__speed_increase: int = 0
         self.__speed: int = 0
 
         self.__damage_base: int = 1
@@ -173,7 +173,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
 
     def move(self, dx: int, dy: int):
         """Mueve al jugador, ajustando la distancia según la velocidad actual."""
-        super().move(dx * 4000, dy * 4000)
+        super().move(dx * self.__speed, dy * self.__speed)
 
     def take_damage(self, amount):
         if self.__defence_base >= amount:
@@ -186,22 +186,22 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__health = max(0, self.__health - amount)
         self.sprite.take_damage()
 
-    def pickup_gem(self, gem: IExperienceGem):
+    def pickup_gem(self, gem):
         if isinstance(gem, ExperienceGem):
             amount = gem.amount * self.__multexperience
             self.__gain_experience(amount)
-        if isinstance(gem, SpeedGem) and self.__speed_boost_cooldown.is_action_ready():
+        if isinstance(gem, SpeedGem) and self.__speed_boost_cooldown.is_action_ready(): #no Funciona
             self.__speed_increase += 10
-            self.increase_speed()
             self.__speed_boost_cooldown.put_on_cooldown()
-        if isinstance(gem, DamageGem) and self.__damage_boost_cooldown.is_action_ready():
-            self.__damage_increase += 5
+        if isinstance(gem, DamageGem) and self.__damage_boost_cooldown.is_action_ready(): #Funciona pero no suma el daño
+            self.__damage_increase += 1
             self.__damage_boost_cooldown.put_on_cooldown()
-        if isinstance(gem, DefenseGem) and self.__defence_boost_cooldown.is_action_ready():
+        if isinstance(gem, DefenseGem) and self.__defence_boost_cooldown.is_action_ready(): #no Funciona
             self.__defence_increase += 10
             self.__defence_boost_cooldown.put_on_cooldown()
-        if isinstance(gem, HealthGem):
-            self.__health += 25
+        if isinstance(gem, HealthGem): #Funciona
+            self.__health = min(self.__max_health, self.__health + 25)
+
 
     def __levelup_perks(self):
         self.__health *= self.__level
@@ -210,12 +210,12 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         if self.__level == 1:
             self.__weapon = PistolWeapon()
             self.__weapon_type = "pistol"
-        if self.__level == 3:
-            self.__weapon = ShotgunWeapon()
-            self.__weapon_type = "shotgun"
-        if self.__level == 6:
+        if self.__level == 10:
             self.__weapon = MinigunWeapon()
             self.__weapon_type = "minigun"
+        if self.__level == 20:
+            self.__weapon = ShotgunWeapon()
+            self.__weapon_type = "shotgun"
 
     def __heal(self, amount: int):
         self.__health = min(self.__max_health, self.__health + amount)
@@ -247,18 +247,18 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__health = min(self.__max_health, self.__health)
 
         self.__damage = self.__damage_base + self.__damage_increase
-        self.__speed_base += self.__speed_increase
-        self.__defence_base += self.__defence_increase
+        self.__speed = self.__speed_base + self.__speed_increase
+        self.__defence = self.__defence_base + self.__defence_increase
 
         if self.__critical_boost_cooldown.is_action_ready():
             self.__critical = max(0, self.__critical)
 
         if self.__speed_boost_cooldown.is_action_ready() and self.__speed_increase > 0:
             self.__speed_increase -= 10
-            
+
         if self.__damage_boost_cooldown.is_action_ready() and self.__damage_increase > 0:
-            self.__damage_increase -= 5
-        
+            self.__damage_increase -= 1
+
         if self.__defence_boost_cooldown.is_action_ready() and self.__defence_increase > 0:
             self.__defence_increase -= 10
 
@@ -274,7 +274,6 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             # Actualizar el tiempo del último autoheal
             self._last_autoheal_time = current_time
 
-        # if current_time - self.__last_shot_time >= self.__shoot_cooldown:
         self.__shoot_at_nearest_enemy(world)
         self.__last_shot_time = current_time
 

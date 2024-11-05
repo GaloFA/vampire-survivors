@@ -59,15 +59,12 @@ class Monster(MovableEntity, IMonster):
 
         return Monster(src_x, src_y, sprite, health, max_health, damage, attack_range, monster_type)
 
-    def attack(self, target: IPlayer):
+    def attack(self, target: IPlayer, attack_cooldown: CooldownHandler):
         """Attacks the target."""
 
-        if not self.__attack_cooldown.is_action_ready():
-            return
-
-        if self._get_distance_to(target) < self.__attack_range:
+        if attack_cooldown.is_action_ready() and self._get_distance_to(target) < self.__attack_range:
             target.take_damage(self.damage_amount)
-            self.__attack_cooldown.put_on_cooldown()
+            attack_cooldown.put_on_cooldown()
 
     def __get_direction_towards_the_player(self, world: IGameWorld):
         direction_x = world.player.pos_x - self.pos_x
@@ -103,7 +100,8 @@ class Monster(MovableEntity, IMonster):
         if self.__health <= 0:
             world.remove_monster(self)
 
-        self.attack(world.player)
+        if self.__attack_cooldown.is_action_ready():
+            self.attack(world.player, self.__attack_cooldown)
 
         super().update(world)
 

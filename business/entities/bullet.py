@@ -29,9 +29,8 @@ class Bullet(MovableEntity, IBullet):
         self.sprite.take_damage()
 
     def update(self, world: IGameWorld):
-        self.move(self.__dir_x, self.__dir_y)
-
         self.__final_damage_amount = self.__damage_amount * world.player.damage_amount
+        self.move(self.__dir_x, self.__dir_y)
 
     def __str__(self):
         return f"Bullet(pos=({self._pos_x, self._pos_y}), dir=({self.__dir_x, self.__dir_y}))"

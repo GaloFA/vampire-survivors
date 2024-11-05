@@ -25,8 +25,8 @@ class Item:
     def level_up(self, player):
         """Increases the item's level if it hasn't reached the maximum level and applies the upgrade."""
         if self._level < len(self._upgrades):
-            self._level += 1  # Increment the level
-            self.apply_effect(player)  # Apply the new level's effect
+            self._level += 1
+            self.apply_effect(player)
             return f"{self._name} has leveled up to level {self._level} and now grants {self.get_effect_value()} effect!"
         else:
             return f"{self._name} is already at the maximum level."
@@ -42,6 +42,15 @@ class Item:
         """Returns a string representation of the item."""
         return f"{self._name} - Level {self._level}"
 
+    @property
+    def description(self):
+        """Returns the description of the item."""
+        return self._description
+
+    @property
+    def image_path(self):
+        """Returns the image path of the item."""
+        return self._image_path
 
 class HealthItem(Item):
     """Item that provides health upgrades."""
@@ -58,6 +67,15 @@ class HealthItem(Item):
     def apply_effect(self, player):
         player.__max_health += self.get_effect_value()
 
+    @property
+    def description(self):
+        """Returns the description of the item."""
+        return self._description
+
+    @property
+    def image_path(self):
+        """Returns the image path of the item."""
+        return self._image_path
 
 class SpeedItem(Item):
     """Item that provides speed upgrades."""
@@ -74,6 +92,15 @@ class SpeedItem(Item):
     def apply_effect(self):
         self._player.__speed_increase += self.get_effect_value()
 
+    @property
+    def description(self):
+        """Returns the description of the item."""
+        return self._description
+
+    @property
+    def image_path(self):
+        """Returns the image path of the item."""
+        return self._image_path
 
 class DamageItem(Item):
     """Item that provides damage upgrades."""
@@ -90,6 +117,15 @@ class DamageItem(Item):
     def apply_effect(self):
         self._player.__damage_increment += self.get_effect_value()
 
+    @property
+    def description(self):
+        """Returns the description of the item."""
+        return self._description
+
+    @property
+    def image_path(self):
+        """Returns the image path of the item."""
+        return self._image_path
 
 class DefenseItem(Item):
     """Item that provides defense upgrades."""
@@ -106,6 +142,15 @@ class DefenseItem(Item):
     def apply_effect(self):
         self._player.__defense_increase += self.get_effect_value()
 
+    @property
+    def description(self):
+        """Returns the description of the item."""
+        return self._description
+
+    @property
+    def image_path(self):
+        """Returns the image path of the item."""
+        return self._image_path
 
 class ExperienceItem(Item):
     """Item that provides experience gain upgrades."""
@@ -122,6 +167,15 @@ class ExperienceItem(Item):
     def apply_effect(self):
         self._player.__multexperience += self.get_effect_value()
 
+    @property
+    def description(self):
+        """Returns the description of the item."""
+        return self._description
+
+    @property
+    def image_path(self):
+        """Returns the image path of the item."""
+        return self._image_path
 
 class AutoHealItem(Item):
     """Item that improves the player's self-healing."""
@@ -138,6 +192,15 @@ class AutoHealItem(Item):
     def apply_effect(self, player):
         player.__autoheal += self.get_effect_value()
 
+    @property
+    def description(self):
+        """Returns the description of the item."""
+        return self._description
+
+    @property
+    def image_path(self):
+        """Returns the image path of the item."""
+        return self._image_path
 
 class CriticalItem(Item):
     """Item that increases the probability of critical hits."""
@@ -154,6 +217,15 @@ class CriticalItem(Item):
     def apply_effect(self):
         self._player.__critical += self.get_effect_value()
 
+    @property
+    def description(self):
+        """Returns the description of the item."""
+        return self._description
+
+    @property
+    def image_path(self):
+        """Returns the image path of the item."""
+        return self._image_path
 
 class AttackSpeedItem(Item):
     """Item that improves the player's attack speed."""
@@ -170,6 +242,15 @@ class AttackSpeedItem(Item):
     def apply_effect(self, player):
         player.__attack_speed_increase += self.get_effect_value()
 
+    @property
+    def description(self):
+        """Returns the description of the item."""
+        return self._description
+
+    @property
+    def image_path(self):
+        """Returns the image path of the item."""
+        return self._image_path
 
 class DictionaryClass:
     def __init__(self):
@@ -188,9 +269,7 @@ class DictionaryClass:
 
     def select_random_items(self):
         """Selects 3 unique random items from the items dictionary."""
-        # Select 3 unique random keys from the dictionary
         unique_keys = random.sample(list(self.items_dict.keys()), 3)
 
-        # Create the dictionary with the selected items
         self._selected_items = {key: self.items_dict[key] for key in unique_keys}
         return self._selected_items
