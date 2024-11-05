@@ -334,3 +334,15 @@ class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
         """Cambia el arma del jugador
 
         """
+
+    @abstractmethod
+    def apply_item(self, item):
+        """ applies item effect
+
+        """
+
+    @abstractmethod
+    def apply_items(self, items):
+        """ applies item effect
+
+        """

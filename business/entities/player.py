@@ -239,6 +239,15 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__weapon.shoot(world, self.pos_x, self.pos_y,
                             monster.pos_x, monster.pos_y)
 
+    def apply_item(self, item):
+        """Applies an item's effect on the player."""
+        item.apply_effect(self)
+
+    def apply_items(self, items):
+        """Applies multiple items' effects on the player."""
+        for item in items.values():
+            self.apply_item(item)
+
     def update_stats(self):
         """Update all stats."""
         self.__health = min(self.__max_health, self.__health)
