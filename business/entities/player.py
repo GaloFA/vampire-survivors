@@ -61,6 +61,7 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
             {"weapon": ShotgunWeapon(), "type": "shotgun"},
         ]
         self.__current_weapon_index = 0
+        self.__weapon = self.__weapons[self.__current_weapon_index]["weapon"]
 
         self.__damage_boost_cooldown = CooldownHandler(5000)
         self.__speed_boost_cooldown = CooldownHandler(5000)
@@ -192,6 +193,16 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__health *= self.__level
         self.__max_health *= self.__level
 
+        if self.__level == 1:
+            self.__weapon = PistolWeapon()
+            self.__weapon_type = "pistol"
+        if self.__level == 10:
+            self.__weapon = MinigunWeapon()
+            self.__weapon_type = "minigun"
+        if self.__level == 20:
+            self.__weapon = ShotgunWeapon()
+            self.__weapon_type = "shotgun"
+
     def change_weapon(self, direction):
         """Cambia el arma según la dirección proporcionada ('next' o 'previous').
 
@@ -245,14 +256,10 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__weapon.shoot(world, self.pos_x, self.pos_y,
                             monster.pos_x, monster.pos_y)
 
-    def apply_item(self, item):
-        """Applies an item's effect on the player."""
-        item.apply_effect(self)
-
     def apply_items(self, items):
         """Applies multiple items' effects on the player."""
         for item in items.values():
-            self.apply_item(item)
+            item.apply_effect(self)
 
     def update_stats(self):
         """Update all stats."""

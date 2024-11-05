@@ -336,12 +336,6 @@ class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
         """
 
     @abstractmethod
-    def apply_item(self, item):
-        """ applies item effect
-
-        """
-
-    @abstractmethod
     def apply_items(self, items):
         """ applies item effect
 
