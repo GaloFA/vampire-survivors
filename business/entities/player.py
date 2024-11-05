@@ -55,7 +55,12 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__attack_speed_increase: int = 0
 
         self.__weapon_type = "pistol"
-        self.__weapon = PistolWeapon()
+        self.__weapons = [
+            {"weapon": PistolWeapon(), "type": "pistol"},
+            {"weapon": MinigunWeapon(), "type": "minigun"},
+            {"weapon": ShotgunWeapon(), "type": "shotgun"},
+        ]
+        self.__current_weapon_index = 0
 
         self.__damage_boost_cooldown = CooldownHandler(5000)
         self.__speed_boost_cooldown = CooldownHandler(5000)
@@ -91,22 +96,32 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         player = Player(src_x, src_y, sprite, health)
 
         # Load player attributes
-        player.__max_health = player_data.get('max_health', player.__max_health)
-        player.__last_shot_time = player_data.get('last_shot_time', player.__last_shot_time)
-        player.__experience = player_data.get('experience', player.__experience)
-        player.__multexperience = player_data.get('multexperience', player.__multexperience)
-        player.__max_health = player_data.get('max_health', player.__max_health)
-        player.__last_shot_time = player_data.get('last_shot_time', player.__last_shot_time)
-        player.__experience = player_data.get('experience', player.__experience)
-        player.__multexperience = player_data.get('multexperience', player.__multexperience)
+        player.__max_health = player_data.get(
+            'max_health', player.__max_health)
+        player.__last_shot_time = player_data.get(
+            'last_shot_time', player.__last_shot_time)
+        player.__experience = player_data.get(
+            'experience', player.__experience)
+        player.__multexperience = player_data.get(
+            'multexperience', player.__multexperience)
+        player.__max_health = player_data.get(
+            'max_health', player.__max_health)
+        player.__last_shot_time = player_data.get(
+            'last_shot_time', player.__last_shot_time)
+        player.__experience = player_data.get(
+            'experience', player.__experience)
+        player.__multexperience = player_data.get(
+            'multexperience', player.__multexperience)
         player.__level = player_data.get('level', player.__level)
         player.__speed = player_data.get('speed', player.__speed)
         player.__damage = player_data.get('damage', player.__damage)
         player.__defence = player_data.get('defence', player.__defence)
         player.__autoheal = player_data.get('autoheal', player.__autoheal)
         player.__critical = player_data.get('critical', player.__critical)
-        player.__attack_speed_increase = player_data.get('velocidad_ataque', player.__attack_speed_increase)
-        player.__weapon_type = player_data.get('weapon_type', player.__weapon_type)
+        player.__attack_speed_increase = player_data.get(
+            'velocidad_ataque', player.__attack_speed_increase)
+        player.__weapon_type = player_data.get(
+            'weapon_type', player.__weapon_type)
 
         if player.__weapon_type == "pistol":
             player.__weapon = PistolWeapon()
@@ -190,18 +205,17 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         if isinstance(gem, ExperienceGem):
             amount = gem.amount * self.__multexperience
             self.__gain_experience(amount)
-        if isinstance(gem, SpeedGem) and self.__speed_boost_cooldown.is_action_ready(): #no Funciona
+        if isinstance(gem, SpeedGem) and self.__speed_boost_cooldown.is_action_ready():  # no Funciona
             self.__speed_increase += 10
             self.__speed_boost_cooldown.put_on_cooldown()
-        if isinstance(gem, DamageGem) and self.__damage_boost_cooldown.is_action_ready(): #Funciona pero no suma el daño
+        if isinstance(gem, DamageGem) and self.__damage_boost_cooldown.is_action_ready():
             self.__damage_increase += 1
             self.__damage_boost_cooldown.put_on_cooldown()
-        if isinstance(gem, DefenseGem) and self.__defence_boost_cooldown.is_action_ready(): #no Funciona
+        if isinstance(gem, DefenseGem) and self.__defence_boost_cooldown.is_action_ready():  # no Funciona
             self.__defence_increase += 10
             self.__defence_boost_cooldown.put_on_cooldown()
-        if isinstance(gem, HealthGem): #Funciona
+        if isinstance(gem, HealthGem):  # Funciona
             self.__health = min(self.__max_health, self.__health + 25)
-
 
     def __levelup_perks(self):
         self.__health *= self.__level
@@ -216,6 +230,19 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         if self.__level == 20:
             self.__weapon = ShotgunWeapon()
             self.__weapon_type = "shotgun"
+
+    def change_weapon(self, direction):
+        """Cambia el arma según la dirección proporcionada ('next' o 'previous')."""
+        if direction == "next":
+            self.__current_weapon_index = (
+                self.__current_weapon_index + 1) % len(self.__weapons)
+        elif direction == "previous":
+            self.__current_weapon_index = (
+                self.__current_weapon_index - 1) % len(self.__weapons)
+
+        # Actualiza el arma y el tipo de arma
+        self.__weapon = self.__weapons[self.__current_weapon_index]["weapon"]
+        self.__weapon_type = self.__weapons[self.__current_weapon_index]["type"]
 
     def __heal(self, amount: int):
         self.__health = min(self.__max_health, self.__health + amount)

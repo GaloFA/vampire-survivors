@@ -289,3 +289,8 @@ class IPlayer(IUpdatable, ICanMove, IDamageable, ICanDealDamage):
         Returns:
             dict: Un diccionario con las estadísticas del jugador, como salud, nivel, experiencia, etc.
         """
+    @abstractmethod
+    def change_weapon(self, direction):
+        """Cambia el arma del jugador
+
+        """
