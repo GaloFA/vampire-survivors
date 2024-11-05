@@ -115,19 +115,19 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         if item.tipo_efecto == "salud":
             self.__max_health += item_autocuracion.amount
         if item.tipo_efecto == "velocidad":
-            self.__velocidad_base += item_autocuracion.amount
+            self.__velocidad_incrementada += item_autocuracion.amount
         if item.tipo_efecto == "damage":
-            self.__health += item_autocuracion.amount
+            self.__damage_incrementada += item_autocuracion.amount
         if item.tipo_efecto == "defensa":
-            self.__health += item_autocuracion.amount
+            self.__defensa_incrementada += item_autocuracion.amount
         if item.tipo_efecto == "experiencia":
-            self.__health += item_autocuracion.amount
+            self.__experience += item_autocuracion.amount
         if item.tipo_efecto == "autocuracion":
-            self.__health += item_autocuracion.amount
+            self.__health_base += item_autocuracion.amount
         if item.tipo_efecto == "critico":
-            self.__health += item_autocuracion.amount
+            self.__probabilidad_critico += item_autocuracion.amount
         if item.tipo_efecto == "velocidad_ataque":
-            self.__health += item_autocuracion.amount
+            self.__velocidad_ataque_incrementada += item_autocuracion.amount
             
     
     def set_timer(self, timer):
@@ -186,9 +186,23 @@ class Player(MovableEntity, IPlayer, IDamageable, ICanDealDamage):
         self.__health_base = max(0, self.__health_base - amount)
         self.sprite.take_damage()
 
-    def pickup_gem(self, gem: ExperienceGem):  # SKIBIDI
-        amount = gem.amount*self.__multexperience
-        self.__gain_experience(amount)
+    def pickup_gem(self, gem: IExperienceGem):
+        if isinstance(gem, ExperienceGem):
+            amount = gem.amount * self.__multexperience
+            self.__gain_experience(amount)
+        if isinstance(gem, SpeedGem):
+            self.__velocidad_incrementada += 10
+            self.increase_speed()
+        if isinstance(gem, DamageGem):
+            self.__damage_incrementada += 5
+        if isinstance(gem, DefenseGem):
+            self.__defensa_incrementada += 10
+        if isinstance(gem, HealthGem):
+            if self.__health_base + 25 >= self.__max_health:
+                self.__health_base = self.__max_health
+            else:
+                self.__health_base += 25
+
 
     def __levelup_perks(self):
         self.__health_base *= self.__level

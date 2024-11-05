@@ -35,7 +35,6 @@ class ExperienceGem(Entity, IExperienceGem):
     def __str__(self):
         return f"ExperienceGem(amount={self.__amount}, pos=({self.pos_x}, {self.pos_y}))"
 
-
 class SpeedGem(Entity, IExperienceGem):
     """Gema temporal que incrementa la velocidad del jugador"""
 
@@ -77,8 +76,6 @@ class SpeedGem(Entity, IExperienceGem):
         return (f"SpeedGem(amount={self.amount}, pos=({self.pos_x}, {self.pos_y}), "
                 f"speed_boost={self.__speed_boost}, duration={self.__duration})")
 
-
-# Subclass for a DamageGem
 class DamageGem(Entity, IExperienceGem):
     """Gema temporal que incrementa el daño del jugador"""
 
@@ -120,8 +117,6 @@ class DamageGem(Entity, IExperienceGem):
         return (f"DamageGem(amount={self.amount}, pos=({self.pos_x}, {self.pos_y}), "
                 f"damage_boost={self.__damage_boost}, duration={self.__duration})")
 
-
-# Subclass for a DefenseGem
 class DefenseGem(Entity, IExperienceGem):
     """Gema temporal que incrementa la defensa del jugador"""
 
@@ -163,7 +158,6 @@ class DefenseGem(Entity, IExperienceGem):
         return (f"DefenseGem(amount={self.amount}, pos=({self.pos_x}, {self.pos_y}), "
                 f"defense_boost={self.__defense_boost}, duration={self.__duration})")
 
-# Subclass for a HealthGem
 class HealthGem(Entity, IExperienceGem):
     """Gema que incrementa la vida del jugador"""
 

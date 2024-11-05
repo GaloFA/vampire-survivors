@@ -13,26 +13,26 @@ class Item:
         Inicializa un ítem con nombre, descripción, tipo de efecto, mejoras por nivel,
         y opcionalmente una imagen o sprite con configuración.
         """
-        self.nombre = nombre
-        self.descripcion = descripcion
-        self.tipo_efecto = tipo_efecto
-        self.mejoras = mejoras
-        self.nivel = 1
-        self.imagen_path = imagen_path
+        self._nombre = nombre
+        self._descripcion = descripcion
+        self._tipo_efecto = tipo_efecto
+        self._mejoras = mejoras
+        self._nivel = 1
+        self._imagen_path = imagen_path
         x, y = settings.WORLD_WIDTH//2, settings.WORLD_HEIGHT//2
-        self.player = Player(x, y, PlayerSprite(x, y), 100)
+        self._player = Player(x, y, PlayerSprite(x, y), 100)
 
     def subir_nivel(self, jugador):
         """Sube el nivel del ítem si no ha alcanzado el nivel máximo y aplica la mejora."""
-        if self.nivel < len(self.mejoras):
-            self.nivel += 1  # Incrementa el nivel
+        if self._nivel < len(self._mejoras):
+            self._nivel += 1  # Incrementa el nivel
             self.aplicar_efecto(jugador)  # Aplica el efecto del nuevo nivel
-            return f"{self.nombre} ha subido al nivel {self.nivel} y ahora otorga {self.obtener_valor_efecto()} de efecto!"
+            return f"{self._nombre} ha subido al nivel {self._nivel} y ahora otorga {self.obtener_valor_efecto()} de efecto!"
         else:
-            return f"{self.nombre} ya está en el nivel máximo."
+            return f"{self._nombre} ya está en el nivel máximo."
 
     def obtener_valor_efecto(self):
-        return self.mejoras[self.nivel - 1]
+        return self._mejoras[self._nivel - 1]
 
     def aplicar_efecto(self, jugador):
         """Método a implementar en las subclases para aplicar el efecto específico al jugador."""
@@ -40,7 +40,7 @@ class Item:
 
     def __str__(self):
         """Devuelve una representación en cadena del ítem."""
-        return f"{self.nombre} - Nivel {self.nivel}"
+        return f"{self._nombre} - Nivel {self._nivel}"
 
 
 class ItemSalud(Item):
@@ -55,8 +55,8 @@ class ItemSalud(Item):
             imagen_path="./assets/items/sprite-items/item2.png"
         )
 
-    def aplicar_efecto(self):
-        self.player.__max_health += self.obtener_valor_efecto()
+    def aplicar_efecto(self, player):
+        player.__max_health += self.obtener_valor_efecto()
 
 
 class ItemVelocidad(Item):
@@ -72,7 +72,7 @@ class ItemVelocidad(Item):
         )
 
     def aplicar_efecto(self):
-        self.player.__velocidad_incrementada += self.obtener_valor_efecto()
+        self._player.__velocidad_incrementada += self.obtener_valor_efecto()
 
 
 class ItemDaño(Item):
@@ -88,7 +88,7 @@ class ItemDaño(Item):
         )
 
     def aplicar_efecto(self):
-        self.player.__damage_incrementada += self.obtener_valor_efecto()
+        self._player.__damage_incrementada += self.obtener_valor_efecto()
 
 
 class ItemDefensa(Item):
@@ -104,7 +104,7 @@ class ItemDefensa(Item):
         )
 
     def aplicar_efecto(self):
-        self.player.__defensa_incrementada += self.obtener_valor_efecto()
+        self._player.__defensa_incrementada += self.obtener_valor_efecto()
 
 
 class ItemExperiencia(Item):
@@ -120,7 +120,7 @@ class ItemExperiencia(Item):
         )
 
     def aplicar_efecto(self):
-        self.player.__multexperience += self.obtener_valor_efecto()
+        self._player.__multexperience += self.obtener_valor_efecto()
 
 
 class ItemAutocuracion(Item):
@@ -135,10 +135,8 @@ class ItemAutocuracion(Item):
             imagen_path="./assets/items/sprite-items/item11.png"
         )
 
-    def aplicar_efecto(self):
-        self.player.aplicar_efecto()
-        self.player.__autocuracion += self.obtener_valor_efecto()
-
+    def aplicar_efecto(self, player):
+        player.__autocuracion += self.obtener_valor_efecto()
 
 class ItemCriticos(Item):
     """Ítem que aumenta la probabilidad de ataques críticos."""
@@ -153,7 +151,7 @@ class ItemCriticos(Item):
         )
 
     def aplicar_efecto(self):
-        self.player.__probabilidad_critico += self.obtener_valor_efecto()
+        self._player.__probabilidad_critico += self.obtener_valor_efecto()
 
 
 class ItemVelocidadAtaque(Item):
@@ -168,8 +166,8 @@ class ItemVelocidadAtaque(Item):
             imagen_path="./assets/items/sprite-items/item10.png"
         )
 
-    def aplicar_efecto(self,item):
-        self.player.__velocidad_ataque_incrementada += self.obtener_valor_efecto()
+    def aplicar_efecto(self, player):
+        player.__velocidad_ataque_incrementada += self.obtener_valor_efecto()
 
 
 class DiccionarioClass:
@@ -185,7 +183,7 @@ class DiccionarioClass:
             "item_criticos": ItemCriticos(),
             "item_velocidad_ataque": ItemVelocidadAtaque(),
         }
-        self.selected_items = {}  # Diccionario para almacenar ítems seleccionados
+        self._selected_items = {}  # Diccionario para almacenar ítems seleccionados
 
     def select_random_items(self):
         """Selecciona 3 ítems únicos aleatorios del diccionario de ítems."""
@@ -193,6 +191,6 @@ class DiccionarioClass:
         unique_keys = random.sample(list(self.items_dict.keys()), 3)
 
         # Crear el diccionario con los ítems seleccionados
-        self.selected_items = {
+        self._selected_items = {
             key: self.items_dict[key] for key in unique_keys}
-        return self.selected_items
+        return self._selected_items
