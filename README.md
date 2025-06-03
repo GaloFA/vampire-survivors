@@ -12,7 +12,7 @@ You need to have Python installed. Then, install the dependencies with:
 
 ```bash
 pip install -r requirements.txt
-
+```
 > **How to run the game?**  
 > ```bash
 > python runner.py
